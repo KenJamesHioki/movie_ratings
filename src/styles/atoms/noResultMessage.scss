@@ -1,0 +1,7 @@
+@use '../global/index' as *;
+
+.no-result {
+  padding-top: 80px;
+  color: $cLightGray;
+  text-align: center;
+}

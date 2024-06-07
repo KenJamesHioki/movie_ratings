@@ -1,0 +1,161 @@
+@use '../global/index' as *;
+
+.login {
+  &_wrapper{
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    background-image: url('/images/login-background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+  &_container {
+    background-color: rgba(17, 25, 40, 0.75);
+    backdrop-filter: blur(19px) saturate(180%);
+    width: 400px;
+    padding: 100px 50px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    @include mq(md) {
+      width: 90%;
+      padding: 100px 20px;
+    }
+  }
+
+  &_logo {
+    width: 80%;
+  }
+
+  &_user-icon-label{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 4px;
+
+    &>p {
+      color: $cWhite;
+      text-decoration: underline;
+      font-size: 0.7rem;
+      padding-top: 4px;
+    }
+
+    &>img{
+      width: 40px;
+      height: 40px;
+      padding: 5px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+
+  &_upload-icon {
+    display: none;
+  }
+
+  &_user-icon {
+    color: $cWhite;
+    font-size: 2rem;
+  }
+
+  &_form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+
+    &>input {
+      background-color: rgba(17, 25, 40, 0.6);
+      border: none;
+      padding: 20px;
+      border-radius: 4px;
+      outline: none;
+      color: $cWhite;
+    }
+  }
+
+  &_signin {
+    background-color: #1f8ef1;
+    border: none;
+    border-radius: 4px;
+    padding: 20px;
+    color: $cWhite;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      background-color: rgb(149, 149, 149);
+    }
+  }
+
+  &_separator {
+    height: 1px;
+    width: 100%;
+    background-color: rgba(164, 164, 164, 0.598);
+    margin: 4px 0;
+  }
+
+  &_google-signin {
+    width: 100%;
+    background-color: $cWhite;
+    border: none;
+    border-radius: 4px;
+    padding: 20px;
+    color: black;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  &_password-and-account {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &>p {
+      font-size: 12px;
+      text-decoration: underline;
+      color: $cWhite;
+      cursor: pointer;
+    }
+  }
+
+  &_password-reset-modal{
+    background-color: rgba(17, 25, 40, 1);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 80px;
+    border-radius: 8px;
+    display: flex;
+    gap: 8px;
+  }
+
+  &_modal-close {
+    color: $cWhite;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+  }
+}

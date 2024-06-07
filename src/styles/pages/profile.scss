@@ -1,0 +1,80 @@
+@use '../global/index' as *;
+
+.profile {
+  &_wrapper {
+    max-width: 1200px;
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  &_info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &_icon {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 8px;
+
+    @include mq(md) {
+      width: 80px;
+      height: 80px;
+    }
+
+    &>img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  }
+
+  &_display-name {
+    color: $cWhite;
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+
+  &_introduction {
+    color: $cWhite;
+    text-align: center;
+  }
+
+  &_introduction-edit-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+    width: 400px;
+    margin-bottom: 8px;
+
+    & textarea {
+      width: 100%;
+      box-sizing: border-box;
+      resize: vertical;
+    }
+  }
+
+  &_button-container {
+    display: flex;
+    gap: 8px;
+  }
+
+  &_movies-watched {
+    color: $cWhite;
+    margin-bottom: 8px;
+  }
+
+  &_logout {
+    color: rgb(197, 7, 7);
+    cursor: pointer;
+    margin-top: 12px;
+  }
+}

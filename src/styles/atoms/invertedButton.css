@@ -1,0 +1,27 @@
+.primary-button, .inverted-button {
+  background-color: #1f8ef1;
+  border: none;
+  border-radius: 4px;
+  padding: 14px 20px;
+  color: white;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.primary-button:hover, .inverted-button:hover {
+  opacity: 0.8;
+}
+.primary-button:disabled, .inverted-button:disabled {
+  cursor: not-allowed;
+  background-color: rgb(149, 149, 149);
+}
+
+.inverted-button {
+  background-color: transparent;
+  border: #1f8ef1 solid 1px;
+  color: #1f8ef1;
+}
+.inverted-button:disabled {
+  cursor: not-allowed;
+  border: rgb(149, 149, 149) solid 1px;
+  color: rgb(149, 149, 149);
+}/*# sourceMappingURL=invertedButton.css.map */

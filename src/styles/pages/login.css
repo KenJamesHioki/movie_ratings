@@ -1,0 +1,141 @@
+.login_wrapper {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background-image: url("/images/login-background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+.login_container {
+  background-color: rgba(17, 25, 40, 0.75);
+  -webkit-backdrop-filter: blur(19px) saturate(180%);
+          backdrop-filter: blur(19px) saturate(180%);
+  width: 400px;
+  padding: 100px 50px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+@media screen and (max-width: 599px) {
+  .login_container {
+    width: 90%;
+    padding: 100px 20px;
+  }
+}
+.login_logo {
+  width: 80%;
+}
+.login_user-icon-label {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 4px;
+}
+.login_user-icon-label > p {
+  color: white;
+  text-decoration: underline;
+  font-size: 0.7rem;
+  padding-top: 4px;
+}
+.login_user-icon-label > img {
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.login_upload-icon {
+  display: none;
+}
+.login_user-icon {
+  color: white;
+  font-size: 2rem;
+}
+.login_form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+.login_form > input {
+  background-color: rgba(17, 25, 40, 0.6);
+  border: none;
+  padding: 20px;
+  border-radius: 4px;
+  outline: none;
+  color: white;
+}
+.login_signin {
+  background-color: #1f8ef1;
+  border: none;
+  border-radius: 4px;
+  padding: 20px;
+  color: white;
+  cursor: pointer;
+}
+.login_signin:hover {
+  opacity: 0.8;
+}
+.login_signin:disabled {
+  cursor: not-allowed;
+  background-color: rgb(149, 149, 149);
+}
+.login_separator {
+  height: 1px;
+  width: 100%;
+  background-color: rgba(164, 164, 164, 0.598);
+  margin: 4px 0;
+}
+.login_google-signin {
+  width: 100%;
+  background-color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 20px;
+  color: black;
+  cursor: pointer;
+}
+.login_google-signin:hover {
+  opacity: 0.8;
+}
+.login_password-and-account {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.login_password-and-account > p {
+  font-size: 12px;
+  text-decoration: underline;
+  color: white;
+  cursor: pointer;
+}
+.login_password-reset-modal {
+  background-color: rgb(17, 25, 40);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 80px;
+  border-radius: 8px;
+  display: flex;
+  gap: 8px;
+}
+.login_modal-close {
+  color: white;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  cursor: pointer;
+}/*# sourceMappingURL=login.css.map */

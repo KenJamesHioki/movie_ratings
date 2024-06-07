@@ -1,0 +1,142 @@
+.rating_wrapper {
+  max-width: 1200px;
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+.rating_movie-info-cotainer {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  align-items: flex-start;
+}
+.rating_poster {
+  max-width: 500px;
+  height: auto;
+  aspect-ratio: 2/3;
+  flex: 1;
+}
+@media screen and (max-width: 599px) {
+  .rating_poster {
+    flex: 2;
+  }
+}
+.rating_poster > img {
+  border-radius: 8px;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.rating_infos {
+  padding-top: 16px;
+  flex: 4;
+}
+@media screen and (max-width: 599px) {
+  .rating_infos {
+    flex: 3;
+  }
+}
+.rating_title {
+  font-size: 2rem;
+  color: white;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+@media screen and (max-width: 599px) {
+  .rating_title {
+    font-size: 1.5rem;
+  }
+}
+.rating_title > span {
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+.rating_score {
+  font-size: 1.2rem;
+  color: white;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.rating_overview {
+  font-size: 1.2rem;
+  color: white;
+  line-height: 1.4rem;
+}
+@media screen and (max-width: 599px) {
+  .rating_overview {
+    font-size: 1rem;
+  }
+}
+.rating_post-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 640px;
+}
+@media screen and (max-width: 959px) {
+  .rating_post-form {
+    width: 100%;
+  }
+}
+.rating_set-score {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  width: 500px;
+}
+@media screen and (max-width: 959px) {
+  .rating_set-score {
+    width: 100%;
+  }
+}
+.rating_set-score > input {
+  flex: 1;
+}
+.rating_comment-and-button {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  justify-content: center;
+}
+@media screen and (max-width: 959px) {
+  .rating_comment-and-button {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+.rating_comment-and-button > textarea {
+  width: 516px;
+  height: 120px;
+  resize: none;
+  box-sizing: border-box;
+}
+@media screen and (max-width: 959px) {
+  .rating_comment-and-button > textarea {
+    width: 100%;
+  }
+}
+.rating_comment-and-button > button {
+  align-self: flex-end;
+}
+@media screen and (max-width: 959px) {
+  .rating_comment-and-button > button {
+    width: 100%;
+  }
+}
+.rating_no-comments {
+  padding-top: 80px;
+  color: rgb(191, 191, 191);
+  text-align: center;
+}
+.rating_comments {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}/*# sourceMappingURL=rating.css.map */
