@@ -1,10 +1,14 @@
 .input, .textarea {
   background-color: rgba(17, 25, 40, 0.6);
+  border: 1px rgba(128, 128, 128, 0.345) solid;
   border: none;
   padding: 20px;
   border-radius: 4px;
   outline: none;
   color: white;
   font-size: 1rem;
-  border: 1px rgba(128, 128, 128, 0.345) solid;
+}
+.light .input, .light .textarea {
+  color: rgb(39, 37, 54);
+  background-color: rgba(17, 25, 40, 0.05);
 }/*# sourceMappingURL=textarea.css.map */

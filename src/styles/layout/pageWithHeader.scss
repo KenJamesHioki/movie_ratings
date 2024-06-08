@@ -8,6 +8,10 @@
   height: fit-content;
   min-height: calc(100vh - 60px);
 
+  .light & {
+    background-color: $lightModeBg;
+  }
+
   @include mq(lg) {
     padding: 80px 0;
   }

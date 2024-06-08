@@ -1,12 +1,11 @@
-import React, { memo, useContext, useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import "../../styles/molecules/movieCard.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../lib/firebase";
-import { Post, RatingPost } from "../../types/types";
-import { Rating } from "@mui/material";
-import StarIcon from '@mui/icons-material/Star';
+import { RatingPost } from "../../types/types";
+import { PlaylistAdd, Star } from "@mui/icons-material";
 
 type Props = {
   movieId: string;
@@ -82,7 +81,16 @@ export const MovieCard: React.FC<Props> = memo(
             <p className="movieCard_title">{title || movieInfo?.title}</p>
           </div>
         </Link>
-        <p className="movieCard_rating">
+        <div className="movieCard_button-container">
+          <div className="movieCard_button rating">
+            <Star />
+            <p className="movieCard_average-score">{averageScore}</p>
+          </div>
+          <div className="movieCard_button wish-list">
+            <PlaylistAdd/>
+          </div>
+        </div>
+        {/* <p className="movieCard_rating">
           {averageScore}{" "}
           <Rating
             precision={0.1}
@@ -91,7 +99,7 @@ export const MovieCard: React.FC<Props> = memo(
             size="small"
             emptyIcon={<StarIcon style={{ opacity: 0.5, color:"gray" }} fontSize="inherit" />}
           />
-        </p>
+        </p> */}
       </div>
     );
   }

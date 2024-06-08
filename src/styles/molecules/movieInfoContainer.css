@@ -37,6 +37,9 @@
   font-weight: 700;
   margin-bottom: 8px;
 }
+.light .movieInfoCotainer_title {
+  color: rgb(39, 37, 54);
+}
 @media screen and (max-width: 599px) {
   .movieInfoCotainer_title {
     font-size: 1.5rem;
@@ -55,9 +58,15 @@
   font-weight: 700;
   margin-bottom: 16px;
 }
+.light .movieInfoCotainer_score {
+  color: rgb(39, 37, 54);
+}
 .movieInfoCotainer_overview {
   color: white;
   line-height: 1.4rem;
+}
+.light .movieInfoCotainer_overview {
+  color: rgb(39, 37, 54);
 }
 @media screen and (max-width: 599px) {
   .movieInfoCotainer_overview {

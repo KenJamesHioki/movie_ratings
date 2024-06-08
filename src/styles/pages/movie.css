@@ -26,6 +26,9 @@
   color: white;
   width: 500px;
 }
+.light .rating_set-score {
+  color: rgb(39, 37, 54);
+}
 @media screen and (max-width: 959px) {
   .rating_set-score {
     width: 100%;

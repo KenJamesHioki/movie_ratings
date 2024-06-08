@@ -18,6 +18,20 @@
     height: 60px;
   }
 }
+.header_theme-and-icon {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.header_toggle-theme {
+  background-color: rgba(17, 25, 40, 0.6);
+  padding: 10px;
+  border-radius: 60px;
+  cursor: pointer;
+}
+.header_toggle-theme:hover {
+  opacity: 0.8;
+}
 .header_logo {
   height: 50px;
 }

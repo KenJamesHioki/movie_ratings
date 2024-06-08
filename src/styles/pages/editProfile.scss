@@ -55,6 +55,10 @@
   &_label {
     color: $cWhite;
     margin-bottom: 8px;
+
+    .light & {
+      color: $cNavy;
+    }
   }
 
   &_display-name {

@@ -38,6 +38,10 @@
     color: $cWhite;
     font-weight: 700;
     margin-bottom: 8px;
+
+    .light & {
+      color: $cNavy;
+    }
   
     @include mq(md) {
       font-size: 1.5rem;
@@ -57,11 +61,19 @@
     color: $cWhite;
     font-weight: 700;
     margin-bottom: 16px;
+
+    .light & {
+      color: $cNavy;
+    }
   }
   
   &_overview {
     color: $cWhite;
     line-height: 1.4rem;
+
+    .light & {
+      color: $cNavy;
+    }
   
     @include mq(md) {
       font-size: 0.8rem;

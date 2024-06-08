@@ -19,6 +19,23 @@
     height: 60px;
   }
 
+  &_theme-and-icon{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &_toggle-theme {
+    background-color: rgba(17, 25, 40, 0.6);
+    padding: 10px;
+    border-radius: 60px;
+    cursor: pointer;
+
+    &:hover{
+      opacity: 0.8;
+    }
+  }
+
 
   &_logo {
     height: 50px;

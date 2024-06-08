@@ -37,11 +37,19 @@
     color: $cWhite;
     font-weight: 700;
     font-size: 1.4rem;
+
+    .light & {
+      color: $cNavy;
+    }
   }
 
   &_introduction {
     color: $cWhite;
     margin-bottom: 8px;
+
+    .light & {
+      color: $cNavy;
+    }
   }
 
   &_button-container {
@@ -52,5 +60,9 @@
   &_movies-watched {
     color: $cWhite;
     margin-bottom: 8px;
+
+    .light & {
+      color: $cNavy;
+    }
   }
 }

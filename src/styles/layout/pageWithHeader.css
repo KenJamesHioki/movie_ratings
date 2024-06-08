@@ -7,6 +7,9 @@
   height: fit-content;
   min-height: calc(100vh - 60px);
 }
+.light .content {
+  background-color: #fafafa;
+}
 @media screen and (max-width: 959px) {
   .content {
     padding: 80px 0;

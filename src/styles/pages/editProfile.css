@@ -49,6 +49,9 @@
   color: white;
   margin-bottom: 8px;
 }
+.light .editProfile_label {
+  color: rgb(39, 37, 54);
+}
 .editProfile_display-name {
   width: 100%;
 }

@@ -20,6 +20,9 @@
   outline: none;
   color: white;
 }
+.light .home_search-input {
+  color: rgb(39, 37, 54);
+}
 .home_search-button {
   background-color: #1f8ef1;
   border: none;

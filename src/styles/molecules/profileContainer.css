@@ -35,9 +35,15 @@
   font-weight: 700;
   font-size: 1.4rem;
 }
+.light .profileContainer_display-name {
+  color: rgb(39, 37, 54);
+}
 .profileContainer_introduction {
   color: white;
   margin-bottom: 8px;
+}
+.light .profileContainer_introduction {
+  color: rgb(39, 37, 54);
 }
 .profileContainer_button-container {
   display: flex;
@@ -46,4 +52,7 @@
 .profileContainer_movies-watched {
   color: white;
   margin-bottom: 8px;
+}
+.light .profileContainer_movies-watched {
+  color: rgb(39, 37, 54);
 }/*# sourceMappingURL=profileContainer.css.map */

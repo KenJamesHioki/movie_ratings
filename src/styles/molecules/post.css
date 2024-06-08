@@ -6,6 +6,10 @@
   padding: 40px;
   border-radius: 8px;
 }
+.light .post {
+  color: rgb(39, 37, 54);
+  background-color: rgba(17, 25, 40, 0.05);
+}
 @media screen and (max-width: 599px) {
   .post {
     padding: 20px;
@@ -32,10 +36,16 @@
   font-weight: 600;
   font-size: 0.8rem;
 }
+.light .post_display-name {
+  color: rgb(39, 37, 54);
+}
 .post_score {
   color: white;
 }
 .post_comment {
   color: white;
   line-height: 1.2rem;
+}
+.light .post_comment {
+  color: rgb(39, 37, 54);
 }/*# sourceMappingURL=post.css.map */

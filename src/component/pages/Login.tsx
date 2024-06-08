@@ -227,6 +227,7 @@ export const Login: React.FC = memo(() => {
             onClick={() => setIsPasswordResetMode(false)}
           />
           <Input
+            type="text"
             value={passwordResetEmail}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setPasswordResetEmail(e.target.value)

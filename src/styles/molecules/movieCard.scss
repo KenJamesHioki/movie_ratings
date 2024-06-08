@@ -5,18 +5,19 @@
   display: inline-block;
   height: fit-content;
 
-  &_cover{
+  &_cover {
     position: relative;
     cursor: pointer;
   }
 
-  &_thumbnail{
+  &_thumbnail {
     width: 100%;
     height: auto;
     aspect-ratio: 2/3;
     overflow: hidden;
     position: relative;
-    border-radius: 8px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 
     &:hover>img {
       transform: scale(1.1);
@@ -26,7 +27,8 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 8px;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
       transition: transform 0.5s;
     }
   }
@@ -37,9 +39,9 @@
     left: 0;
     width: 100%;
     height: 100%;
-    border-radius: 8px;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%); /* グラデーション */
-
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
   }
 
   &_title {
@@ -51,14 +53,55 @@
     font-size: 0.8rem;
   }
 
-  &_rating{
+  &_button-container {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2px;
-    color: $cWhite;
-    text-align: center;
-    padding-top: 8px;
-    font-size: 0.8rem
   }
+
+  &_button {
+    flex: 1;
+    text-align: center;
+    background-color: rgba(17, 25, 40, 0.6);
+    border-left: 1px rgba(128, 128, 128, 0.345) solid;
+    border-right: 1px rgba(128, 128, 128, 0.345) solid;
+    border-bottom: 1px rgba(128, 128, 128, 0.345) solid;
+    padding: 8px 0;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &.rating {
+      border-bottom-left-radius: 8px;
+      color: $cYellow;
+
+      >svg {
+        font-size: 1rem;
+      }
+    }
+
+    &.wish-list {
+      border-bottom-right-radius: 8px;
+
+      >svg {
+        color: $cLightGray;
+      }
+    }
+
+  }
+
+  &_average-score {
+    font-size: 0.6rem;
+  }
+
+  // &_rating{
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  //   gap: 2px;
+  //   color: $cWhite;
+  //   text-align: center;
+  //   padding-top: 8px;
+  //   font-size: 0.8rem
+  // }
 }

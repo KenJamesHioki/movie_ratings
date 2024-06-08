@@ -5,6 +5,10 @@
   font-weight: 700;
   font-size: 2rem;
 
+  .light & {
+    color: $cNavy;
+  }
+
   @include mq(md) {
     font-size: 1.6rem;
   }

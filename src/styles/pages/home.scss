@@ -23,6 +23,10 @@
       border-radius: 4px;
       outline: none;
       color: $cWhite;
+
+      .light & {
+        color: $cNavy;
+      }
     }
 
     &-button {

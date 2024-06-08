@@ -97,6 +97,10 @@
     color: $cWhite;
     width: 500px;
 
+    .light & {
+      color: $cNavy;
+    }
+
     @include mq(lg) {
       width: 100%;
     }
