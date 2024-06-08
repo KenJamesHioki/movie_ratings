@@ -7,9 +7,11 @@ export const UserContext = createContext({
     userId: "",
     iconUrl: "",
     displayName: "",
+    introduction: "",
   },
-  login: (userId: string, iconUrl: string, displayName: string) => {},
+  login: (userId: string, iconUrl: string, displayName: string, introduction: string) => {},
   logout: () => {},
+  update: ( iconUrl: string, displayName: string, introduction: string) => {},
 });
 
 type Props = {
@@ -21,19 +23,24 @@ export const UserProvider = ({ children }: Props) => {
     userId: "",
     iconUrl: "",
     displayName: "",
+    introduction: "",
   });
 
-  const login = (userId: string, iconUrl: string, displayName: string) => {
-    setCurrentUser({ userId, iconUrl, displayName });
+  const login = (userId: string, iconUrl: string, displayName: string, introduction: string) => {
+    setCurrentUser({ userId, iconUrl, displayName, introduction });
   };
 
   const logout = () => {
-    setCurrentUser({ userId: "", iconUrl: "", displayName: "" });
+    setCurrentUser({ userId: "", iconUrl: "", displayName: "", introduction: "" });
     signOut(auth);
   };
 
+  const update =(iconUrl: string, displayName: string, introduction: string)=> {
+    setCurrentUser({...currentUser, iconUrl , displayName, introduction});
+  }
+
   return (
-    <UserContext.Provider value={{ currentUser, login, logout }}>
+    <UserContext.Provider value={{ currentUser, login, logout, update }}>
       {children}
     </UserContext.Provider>
   );

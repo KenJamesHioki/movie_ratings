@@ -7,12 +7,11 @@ import React, {
 } from "react";
 import { PageWithHeader } from "../layout/PageWithHeader";
 import { Post } from "../molecules/Post";
-import "../../styles/pages/rating.css";
+import "../../styles/pages/movie.css";
 import { PrimaryButton } from "../atoms/PrimaryButton";
 import { Textarea } from "../atoms/Textarea";
 import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../../lib/UserProvider";
-import axios from "axios";
 import {
   addDoc,
   collection,
@@ -29,42 +28,24 @@ import { Loader } from "../atoms/Loader";
 import { RatingPost } from "../../types/types";
 import { NoResultMessage } from "../atoms/NoResultMessage";
 import { InvertedButton } from "../atoms/InvertedButton";
+import { PostContainer } from "../layout/PostContainer";
+import { MovieInfoContainer } from "../molecules/MovieInfoContainer";
+import { Rating } from "@mui/material";
+import StarIcon from '@mui/icons-material/Star';
 
-type MovieInfo = {
-  title: string;
-  releaseYear: string;
-  overview: string;
-  posterPath: string;
-};
-
-export const Rating: React.FC = memo(() => {
-  const [movieInfo, setMovieInfo] = useState<MovieInfo>({
-    title: "",
-    releaseYear: "",
-    overview: "",
-    posterPath: "",
-  });
-  const [score, setScore] = useState<number>(0);
-  const [comment, setComment] = useState("");
-  const [posts, setPosts] = useState<Array<RatingPost> | null>([]);
-  const [currentUserPost, setCurrentUserPost] = useState<
-    RatingPost | null | undefined
-  >(null);
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+export const Movie: React.FC = memo(() => {
   const { currentUser } = useContext(UserContext);
   const { movieId } = useParams();
+  const [score, setScore] = useState<number>(0);
+  const [hoverScore, setHoverScore] = useState<number | null>(null);
+  const [comment, setComment] = useState("");
+  const [posts, setPosts] = useState<Array<RatingPost> | null>([]);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const currentUserPost = posts?.find(
+    (post) => post.userId === currentUser.userId
+  );
   const navigate = useNavigate();
-  const basePosterUrl = "https://image.tmdb.org/t/p/w300";
-  const clacAverageScore = (posts: Array<RatingPost> | null) => {
-    if (posts?.length === 0) {
-      return "--";
-    } else {
-      const sum = posts?.reduce((acc, curr) => acc + curr.score, 0);
-      return (sum / posts.length).toFixed(1);
-    }
-  };
-  const averageScore = clacAverageScore(posts);
 
   const updatePosts = async () => {
     const q = query(
@@ -78,9 +59,6 @@ export const Rating: React.FC = memo(() => {
       nextPosts.push({ postId: doc.id, ...doc.data() });
     });
     setPosts(nextPosts);
-    setCurrentUserPost(
-      nextPosts.find((post) => post.userId === currentUser.userId)
-    );
     setComment(
       nextPosts.find((post) => post.userId === currentUser.userId)?.comment ||
         ""
@@ -94,27 +72,7 @@ export const Rating: React.FC = memo(() => {
     if (!currentUser.userId) {
       navigate("/");
     }
-
-    setIsLoading(true);
-    const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${
-      import.meta.env.VITE_TMDB_API_KEY
-    }&language=ja-JP
-    `;
-
-    axios
-      .get(url)
-      .then((response) => {
-        const movieDetails = response.data;
-        setMovieInfo({
-          title: movieDetails.title,
-          releaseYear: movieDetails.release_date.split("-")[0], //YYYY-MM-DD形式からYYYY形式に変換
-          overview: movieDetails.overview,
-          posterPath: movieDetails.poster_path,
-        });
-      })
-      .catch((error: any) => console.error(error.message))
-      .finally(() => setIsLoading(false));
-  }, [movieId]);
+  }, [currentUser, navigate]);
 
   useEffect(() => {
     updatePosts();
@@ -167,36 +125,21 @@ export const Rating: React.FC = memo(() => {
     <>
       <PageWithHeader>
         <div className="rating_wrapper">
-          <div className="rating_movie-info-cotainer">
-            <div className="rating_poster">
-              <img
-                src={`${basePosterUrl}${movieInfo.posterPath}`}
-                alt={movieInfo.title}
-              />
-            </div>
-            <div className="rating_infos">
-              <h2 className="rating_title">
-                {movieInfo.title} <span>({movieInfo.releaseYear})</span>
-              </h2>
-              <p className="rating_score">★ {averageScore}</p>
-              <p className="rating_overview">{movieInfo.overview}</p>
-            </div>
-          </div>
+          <MovieInfoContainer movieId={String(movieId)} posts={posts} />
           <form className="rating_post-form">
             <label htmlFor="score" className="rating_set-score">
-              ★ {score}
-              <input
-                type="range"
+              {hoverScore === null || hoverScore === -1 ? score : hoverScore}
+              <Rating
                 name="score"
-                id="score"
-                min={0}
-                max={5}
-                step={1}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setScore(Number(e.target.value))
-                }
                 value={score}
-                disabled={currentUserPost && !isEditMode}
+                precision={1}
+                onChange={(e, newValue) =>
+                  setScore(Number(newValue))
+                }
+                onChangeActive={(e, newHover) =>
+                  setHoverScore(Number(newHover))}
+                readOnly={currentUserPost && !isEditMode}
+                emptyIcon={<StarIcon style={{ opacity: 0.5, color:"gray" }} fontSize="inherit" />}
               />
             </label>
             <div className="rating_comment-and-button">
@@ -206,6 +149,7 @@ export const Rating: React.FC = memo(() => {
                 onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
                   setComment(e.target.value)
                 }
+                placeholder="コメントを入力"
               />
               {!currentUserPost && (
                 <PrimaryButton
@@ -238,7 +182,7 @@ export const Rating: React.FC = memo(() => {
               )}
             </div>
           </form>
-          <div className="rating_comments">
+          <PostContainer>
             {posts?.length === 0 ? (
               <NoResultMessage>まだ投稿がありません</NoResultMessage>
             ) : (
@@ -259,7 +203,7 @@ export const Rating: React.FC = memo(() => {
                 })}
               </>
             )}
-          </div>
+          </PostContainer>
         </div>
       </PageWithHeader>
       {isLoading && <Loader />}

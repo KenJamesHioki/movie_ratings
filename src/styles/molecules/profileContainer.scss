@@ -1,0 +1,56 @@
+@use '../global/index' as *;
+
+.profileContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+  align-items: flex-start;
+  gap: 20px;
+
+  &_icon {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 8px;
+
+    @include mq(md) {
+      width: 80px;
+      height: 80px;
+    }
+
+    &>img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  }
+
+  &_other-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+
+  &_display-name {
+    color: $cWhite;
+    font-weight: 700;
+    font-size: 1.4rem;
+  }
+
+  &_introduction {
+    color: $cWhite;
+    margin-bottom: 8px;
+  }
+
+  &_button-container {
+    display: flex;
+    gap: 8px;
+  }
+
+  &_movies-watched {
+    color: $cWhite;
+    margin-bottom: 8px;
+  }
+}

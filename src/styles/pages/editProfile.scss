@@ -1,0 +1,69 @@
+@use '../global/index' as *;
+
+.editProfile {
+  &_wrapper {
+    max-width: 1000px;
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &_upload-icon{
+    display: none;
+  }
+
+  &_icon {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 8px;
+    position: relative;
+    cursor: pointer;
+
+    &:hover{
+      opacity: 0.8;
+    }
+
+    @include mq(md) {
+      width: 80px;
+      height: 80px;
+    }
+
+    &>img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  }
+
+  &_change-icon{
+    background-color: $cLightGray;
+    border-radius: 4px;
+    text-align: center;
+    padding: 8px 20px;
+    font-size: 0.7rem;
+    white-space: nowrap;
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &_label {
+    color: $cWhite;
+    margin-bottom: 8px;
+  }
+
+  &_display-name {
+    width: 100%;
+  }
+
+  &_introduction {
+    width: 100%;
+  }
+
+
+}

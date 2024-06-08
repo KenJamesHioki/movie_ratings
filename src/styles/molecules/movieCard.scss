@@ -1,6 +1,6 @@
 @use '../global/index' as *;
 
-.movie {
+.movieCard {
   position: relative;
   display: inline-block;
   height: fit-content;
@@ -52,8 +52,13 @@
   }
 
   &_rating{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
     color: $cWhite;
     text-align: center;
     padding-top: 8px;
+    font-size: 0.8rem
   }
 }

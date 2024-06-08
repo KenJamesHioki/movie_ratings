@@ -8,6 +8,7 @@ import { MovieContainer } from "../layout/MovieContainer";
 import { TMDBResult } from "../../types/types";
 import { Loader } from "../atoms/Loader";
 import { NoResultMessage } from "../atoms/NoResultMessage";
+import { SectionTitle } from "../atoms/SectionTitle";
 
 type Movie = {
   movieId: string;
@@ -18,6 +19,7 @@ type Movie = {
 export const Home: React.FC = memo(() => {
   const [movies, setMovies] = useState<Array<Movie>>([]);
   const [searchTitle, setSearchTitle] = useState("");
+  const [isSearchMode, setIsSearchMode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -31,9 +33,11 @@ export const Home: React.FC = memo(() => {
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     setIsLoading(true);
     e.preventDefault();
+    //searchTitleをReactRouterDomのクエリとして渡して/searchTitleのパスに遷移することを検討
     const searchMovieUrl = `https://api.themoviedb.org/3/search/movie?api_key=${
       import.meta.env.VITE_TMDB_API_KEY
     }&query=${encodeURIComponent(searchTitle)}&language=ja-JP`;
+    setIsSearchMode(true);
     setNextMovies(searchMovieUrl);
   };
 
@@ -68,6 +72,19 @@ export const Home: React.FC = memo(() => {
             />
             <button className="home_search-button">検索</button>
           </form>
+          {isSearchMode ? (
+            <SectionTitle
+              style={{ alignSelf: "flex-start", marginBottom: "40px" }}
+            >
+              {searchTitle}の検索結果：
+            </SectionTitle>
+          ) : (
+            <SectionTitle
+              style={{ alignSelf: "flex-start", marginBottom: "40px" }}
+            >
+              国内人気作品
+            </SectionTitle>
+          )}
           {movies?.length === 0 ? (
             <NoResultMessage>該当する映画がありません</NoResultMessage>
           ) : (

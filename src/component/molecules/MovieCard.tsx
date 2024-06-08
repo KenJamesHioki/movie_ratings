@@ -5,6 +5,8 @@ import axios from "axios";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { Post, RatingPost } from "../../types/types";
+import { Rating } from "@mui/material";
+import StarIcon from '@mui/icons-material/Star';
 
 type Props = {
   movieId: string;
@@ -67,20 +69,29 @@ export const MovieCard: React.FC<Props> = memo(
     }, [movieId]);
 
     return (
-      <div className="movie">
+      <div className="movieCard">
         <Link to={`/movie/${movieId}`}>
-          <div className="movie_cover">
-            <div className="movie_thumbnail">
+          <div className="movieCard_cover">
+            <div className="movieCard_thumbnail">
               <img
                 src={`${basePosterUrl}${posterPath || movieInfo?.posterPath}`}
                 alt="moviename"
               />
-              <div className="movie_overlay"></div>
+              <div className="movieCard_overlay"></div>
             </div>
-            <p className="movie_title">{title || movieInfo?.title}</p>
+            <p className="movieCard_title">{title || movieInfo?.title}</p>
           </div>
         </Link>
-        <p className="movie_rating">★ {averageScore}</p>
+        <p className="movieCard_rating">
+          {averageScore}{" "}
+          <Rating
+            precision={0.1}
+            value={Number(averageScore)}
+            readOnly
+            size="small"
+            emptyIcon={<StarIcon style={{ opacity: 0.5, color:"gray" }} fontSize="inherit" />}
+          />
+        </p>
       </div>
     );
   }

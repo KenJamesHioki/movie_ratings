@@ -7,6 +7,12 @@
   cursor: pointer;
   white-space: nowrap;
 }
+@media screen and (max-width: 599px) {
+  .primary-button, .inverted-button {
+    font-size: 0.8rem;
+    padding: 12px 16px;
+  }
+}
 .primary-button:hover, .inverted-button:hover {
   opacity: 0.8;
 }
@@ -19,6 +25,12 @@
   background-color: transparent;
   border: #1f8ef1 solid 1px;
   color: #1f8ef1;
+}
+@media screen and (max-width: 599px) {
+  .inverted-button {
+    font-size: 0.6rem;
+    padding: 12px 16px;
+  }
 }
 .inverted-button:disabled {
   cursor: not-allowed;

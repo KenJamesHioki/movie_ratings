@@ -1,0 +1,49 @@
+.profileContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+  align-items: flex-start;
+  gap: 20px;
+}
+.profileContainer_icon {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 8px;
+}
+@media screen and (max-width: 599px) {
+  .profileContainer_icon {
+    width: 80px;
+    height: 80px;
+  }
+}
+.profileContainer_icon > img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 50%;
+}
+.profileContainer_other-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+.profileContainer_display-name {
+  color: white;
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+.profileContainer_introduction {
+  color: white;
+  margin-bottom: 8px;
+}
+.profileContainer_button-container {
+  display: flex;
+  gap: 8px;
+}
+.profileContainer_movies-watched {
+  color: white;
+  margin-bottom: 8px;
+}/*# sourceMappingURL=profileContainer.css.map */

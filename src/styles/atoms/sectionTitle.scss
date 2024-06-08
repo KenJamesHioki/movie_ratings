@@ -1,0 +1,11 @@
+@use '../global/index' as *;
+ 
+.section-title{
+  color: $cWhite;
+  font-weight: 700;
+  font-size: 2rem;
+
+  @include mq(md) {
+    font-size: 1.6rem;
+  }
+}

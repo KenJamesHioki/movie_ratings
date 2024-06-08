@@ -1,10 +1,6 @@
 @use '../global/index' as *;
+@use './input' as *;
 
 .textarea {
-  background-color: rgba(17, 25, 40, 0.6);
-  border: none;
-  padding: 20px;
-  border-radius: 4px;
-  outline: none;
-  color: $cWhite;
+  @extend .input;
 }

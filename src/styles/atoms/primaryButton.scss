@@ -9,6 +9,11 @@
     cursor: pointer;
     white-space: nowrap;
 
+    @include mq(md) {
+      font-size: 0.6rem;
+      padding: 12px 16px;
+    }
+
     &:hover {
       opacity: 0.8;
     }

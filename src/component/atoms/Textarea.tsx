@@ -2,14 +2,15 @@ import React, { ChangeEvent, memo } from "react";
 import "../../styles/atoms/textarea.css";
 
 type Props = {
-  value?: string;
-  onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+  value: string;
+  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   placeholder?: string;
   disabled?: boolean;
+  style?:object;
 };
 
 export const Textarea: React.FC<Props> = memo(
-  ({ value = "", onChange, placeholder = "文字を入力", disabled }) => {
+  ({ value, onChange, placeholder = "文字を入力", disabled = false, style={} }) => {
     return (
       <textarea
         className="textarea"
@@ -17,6 +18,7 @@ export const Textarea: React.FC<Props> = memo(
         onChange={onChange}
         placeholder={placeholder}
         disabled={disabled}
+        style={style}
       />
     );
   }
