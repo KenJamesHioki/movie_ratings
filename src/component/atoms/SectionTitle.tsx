@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import "../../styles/atoms/sectionTitle.css"
 
 type Props = {
   children: string;
-  style?: object;
+  style?: CSSProperties;
 };
 
 export const SectionTitle:React.FC<Props> = ({children, style={}}) => {

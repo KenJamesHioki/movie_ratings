@@ -7,7 +7,7 @@ import StarIcon from "@mui/icons-material/Star";
 
 type Props = {
   movieId: string;
-  posts: Array<RatingPost> | null;
+  posts: Array<RatingPost>;
 };
 
 type MovieInfo = {
@@ -25,11 +25,11 @@ export const MovieInfoContainer: React.FC<Props> = ({ movieId, posts }) => {
     overview: "",
     posterPath: "",
   });
-  const clacAverageScore = (posts: Array<RatingPost> | null) => {
-    if (posts?.length === 0) {
+  const clacAverageScore = (posts: Array<RatingPost>) => {
+    if (posts.length === 0) {
       return "--";
     } else {
-      const sum = posts?.reduce((acc, curr) => acc + curr.score, 0);
+      const sum = posts.reduce((acc, curr) => acc + curr.score, 0);
       return (sum / posts.length).toFixed(1);
     }
   };

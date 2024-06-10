@@ -31,8 +31,9 @@ export const Home: React.FC = memo(() => {
   }, []);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    setIsLoading(true);
     e.preventDefault();
+    if (!searchTitle) return;
+    setIsLoading(true);
     //searchTitleをReactRouterDomのクエリとして渡して/searchTitleのパスに遷移することを検討
     const searchMovieUrl = `https://api.themoviedb.org/3/search/movie?api_key=${
       import.meta.env.VITE_TMDB_API_KEY
@@ -76,7 +77,7 @@ export const Home: React.FC = memo(() => {
             <SectionTitle
               style={{ alignSelf: "flex-start", marginBottom: "40px" }}
             >
-              {searchTitle}の検索結果：
+              {searchTitle ? `${searchTitle}の検索結果：` : "検索結果："}
             </SectionTitle>
           ) : (
             <SectionTitle

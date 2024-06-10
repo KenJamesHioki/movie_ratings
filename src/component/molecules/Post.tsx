@@ -28,7 +28,15 @@ export const Post: React.FC<Props> = memo(({ userId, score, comment }) => {
   useEffect(() => {
     const updateUser = async () => {
       const docSnap = await getDoc(doc(db, "users", userId));
-      setUser(docSnap.data());
+      if (docSnap.exists()) {
+        setUser({
+          displayName: docSnap.data().displayName,
+          introduction: docSnap.data().introduction,
+          iconUrl: docSnap.data().iconUrl,
+        });
+      } else {
+        console.error("指定のドキュメントが見つかりませんでした");
+      }
     };
     updateUser();
   }, [userId]);

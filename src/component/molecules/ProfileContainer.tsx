@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { InvertedButton } from "../atoms/InvertedButton";
-import { UserContext } from "../../lib/UserProvider";
+import { useUser } from "../../lib/UserProvider";
 import "../../styles/molecules/profileContainer.css";
 import { useNavigate } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
@@ -17,20 +17,30 @@ type UserInfo = {
   iconUrl: string;
 };
 
-export const ProfileContainer: React.FC<Props> = ({ numWatched, userId = null }) => {
-  const { currentUser, logout } = useContext(UserContext);
+export const ProfileContainer: React.FC<Props> = ({
+  numWatched,
+  userId = null,
+}) => {
+  const { currentUser, logout } = useUser();
   const navigate = useNavigate();
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [userInfo, setUserInfo] = useState<UserInfo>({
+    displayName: "",
+    introduction: "",
+    iconUrl: "",
+  });
 
   const fetchProfile = async (id: string) => {
     try {
       const docSnap = await getDoc(doc(db, "users", id));
-
-      setUserInfo({
-        displayName: docSnap.data().displayName,
-        introduction: docSnap.data().introduction,
-        iconUrl: docSnap.data().iconUrl,
-      });
+      if (docSnap.exists()) {
+        setUserInfo({
+          displayName: docSnap.data().displayName,
+          introduction: docSnap.data().introduction,
+          iconUrl: docSnap.data().iconUrl,
+        });
+      } else {
+        console.error("指定のドキュメントが見つかりませんでした");
+      }
     } catch (error: any) {
       console.error(error.message);
     }
@@ -62,6 +72,7 @@ export const ProfileContainer: React.FC<Props> = ({ numWatched, userId = null })
         {(userId === null || userId === currentUser.userId) && (
           <div className="profileContainer_button-container">
             <InvertedButton
+              type="button"
               onClick={() => {
                 navigate("/edit_profile");
               }}
@@ -69,6 +80,7 @@ export const ProfileContainer: React.FC<Props> = ({ numWatched, userId = null })
               プロフィールを編集
             </InvertedButton>
             <InvertedButton
+              type="button"
               style={{ border: "1px red solid", color: "red" }}
               onClick={logout}
             >

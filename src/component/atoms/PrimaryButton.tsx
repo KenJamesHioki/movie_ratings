@@ -1,17 +1,18 @@
-import React, { memo } from "react";
+import React, { CSSProperties, memo } from "react";
 import "../../styles/atoms/primaryButton.css";
 
 type Props = {
+  type: "button" | "reset" | "submit" | undefined;
   children: string;
   disabled?: boolean;
-  onClick: () => void;
-  style?: object;
+  onClick?: () => void;
+  style?: CSSProperties;
 };
 
 export const PrimaryButton: React.FC<Props> = memo(
-  ({ children, disabled = false, onClick, style={} }) => {
+  ({ type, children, disabled = false, onClick, style={} }) => {
     return (
-      <button className="primary-button" disabled={disabled} onClick={onClick} style={style}>
+      <button type={type} className="primary-button" disabled={disabled} onClick={onClick} style={style}>
         {children}
       </button>
     );

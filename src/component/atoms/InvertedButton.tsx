@@ -1,17 +1,18 @@
-import React, { memo } from "react";
+import React, { CSSProperties, memo } from "react";
 import "../../styles/atoms/invertedButton.css";
 
 type Props = {
+  type: "button" | "reset" | "submit" | undefined;
   children: string;
   disabled?: boolean;
   onClick: () => void;
-  style?: object;
+  style?: CSSProperties;
 };
 
 export const InvertedButton: React.FC<Props> = memo(
-  ({ children, disabled = false, onClick, style={} }) => {
+  ({ type, children, disabled = false, onClick, style={} }) => {
     return (
-      <button className="inverted-button" style={style} disabled={disabled} onClick={onClick}>
+      <button type={type} className="inverted-button" style={style} disabled={disabled} onClick={onClick}>
         {children}
       </button>
     );

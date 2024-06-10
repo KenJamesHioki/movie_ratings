@@ -21,13 +21,16 @@ type MovieInfo = {
 export const MovieCard: React.FC<Props> = memo(
   ({ movieId, title, posterPath }) => {
     const basePosterUrl = "https://image.tmdb.org/t/p/w300";
-    const [movieInfo, setMovieInfo] = useState<MovieInfo>();
-    const [posts, setPosts] = useState<Array<RatingPost> | null>([]);
-    const clacAverageScore = (posts: Array<RatingPost> | null) => {
-      if (posts?.length === 0) {
+    const [movieInfo, setMovieInfo] = useState<MovieInfo>({
+      title: "",
+      posterPath: "",
+    });
+    const [posts, setPosts] = useState<Array<RatingPost>>([]);
+    const clacAverageScore = (posts: Array<RatingPost>) => {
+      if (posts.length === 0) {
         return "--";
       } else {
-        const sum = posts?.reduce((acc, curr) => acc + curr.score, 0);
+        const sum = posts.reduce((acc, curr) => acc + curr.score, 0);
         return (sum / posts.length).toFixed(1);
       }
     };
@@ -37,8 +40,16 @@ export const MovieCard: React.FC<Props> = memo(
       const querySnapshot = await getDocs(q);
 
       const nextPosts: Array<RatingPost> = [];
+
       querySnapshot.forEach((doc) => {
-        nextPosts.push({ postId: doc.id, ...doc.data() });
+        nextPosts.push({
+          postId: doc.id,
+          comment: doc.data().comment,
+          movieId: doc.data().movieId,
+          score: doc.data().score,
+          timestamp: doc.data().timestamp,
+          userId: doc.data().userId,
+        });
       });
       setPosts(nextPosts);
     };
@@ -87,19 +98,9 @@ export const MovieCard: React.FC<Props> = memo(
             <p className="movieCard_average-score">{averageScore}</p>
           </div>
           <div className="movieCard_button wish-list">
-            <PlaylistAdd/>
+            <PlaylistAdd />
           </div>
         </div>
-        {/* <p className="movieCard_rating">
-          {averageScore}{" "}
-          <Rating
-            precision={0.1}
-            value={Number(averageScore)}
-            readOnly
-            size="small"
-            emptyIcon={<StarIcon style={{ opacity: 0.5, color:"gray" }} fontSize="inherit" />}
-          />
-        </p> */}
       </div>
     );
   }

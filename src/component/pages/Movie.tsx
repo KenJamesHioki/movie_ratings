@@ -1,7 +1,6 @@
 import React, {
   ChangeEvent,
   memo,
-  useContext,
   useEffect,
   useState,
 } from "react";
@@ -11,7 +10,7 @@ import "../../styles/pages/movie.css";
 import { PrimaryButton } from "../atoms/PrimaryButton";
 import { Textarea } from "../atoms/Textarea";
 import { useNavigate, useParams } from "react-router-dom";
-import { UserContext } from "../../lib/UserProvider";
+import { useUser } from "../../lib/UserProvider";
 import {
   addDoc,
   collection,
@@ -34,12 +33,12 @@ import { Rating } from "@mui/material";
 import StarIcon from '@mui/icons-material/Star';
 
 export const Movie: React.FC = memo(() => {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser } = useUser();
   const { movieId } = useParams();
   const [score, setScore] = useState<number>(0);
   const [hoverScore, setHoverScore] = useState<number | null>(null);
   const [comment, setComment] = useState("");
-  const [posts, setPosts] = useState<Array<RatingPost> | null>([]);
+  const [posts, setPosts] = useState<Array<RatingPost>>([]);
   const [isEditMode, setIsEditMode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const currentUserPost = posts?.find(
@@ -56,7 +55,14 @@ export const Movie: React.FC = memo(() => {
     const querySnapshot = await getDocs(q);
     const nextPosts: Array<RatingPost> = [];
     querySnapshot.forEach((doc) => {
-      nextPosts.push({ postId: doc.id, ...doc.data() });
+      nextPosts.push({
+        postId: doc.id,
+        comment: doc.data().comment,
+        movieId: doc.data().movieId,
+        score: doc.data().score,
+        timestamp: doc.data().timestamp,
+        userId: doc.data().userId,
+      });
     });
     setPosts(nextPosts);
     setComment(
@@ -78,9 +84,8 @@ export const Movie: React.FC = memo(() => {
     updatePosts();
   }, [movieId]);
 
-  const handlePost = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handlePost = async () => {
     setIsLoading(true);
-    e.preventDefault();
     try {
       await addDoc(collection(db, "posts"), {
         userId: currentUser.userId,
@@ -97,9 +102,8 @@ export const Movie: React.FC = memo(() => {
     }
   };
 
-  const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSave = async () => {
     setIsLoading(true);
-    e.preventDefault();
     try {
       await updateDoc(doc(db, "posts", currentUserPost!.postId), {
         score,
@@ -121,22 +125,32 @@ export const Movie: React.FC = memo(() => {
     setIsEditMode(false);
   };
 
+  const handleSubmit =(e: React.FormEvent<HTMLFormElement>)=>{
+    e.preventDefault();
+    if (isEditMode) {
+      handleSave();
+    } else if (!currentUserPost) {
+      handlePost();
+    }
+  }
+
+
   return (
     <>
       <PageWithHeader>
         <div className="rating_wrapper">
           <MovieInfoContainer movieId={String(movieId)} posts={posts} />
-          <form className="rating_post-form">
+          <form className="rating_post-form" onSubmit={handleSubmit}>
             <label htmlFor="score" className="rating_set-score">
               {hoverScore === null || hoverScore === -1 ? score : hoverScore}
               <Rating
                 name="score"
                 value={score}
                 precision={1}
-                onChange={(e, newValue) =>
+                onChange={(_e, newValue) =>
                   setScore(Number(newValue))
                 }
-                onChangeActive={(e, newHover) =>
+                onChangeActive={(_e, newHover) =>
                   setHoverScore(Number(newHover))}
                 readOnly={currentUserPost && !isEditMode}
                 emptyIcon={<StarIcon style={{ opacity: 0.5, color:"gray" }} fontSize="inherit" />}
@@ -153,15 +167,17 @@ export const Movie: React.FC = memo(() => {
               />
               {!currentUserPost && (
                 <PrimaryButton
+                  type="submit"
                   key="post"
                   disabled={!comment}
-                  onClick={handlePost}
+                  // onClick={handlePost}
                 >
                   投稿
                 </PrimaryButton>
               )}
               {currentUserPost && !isEditMode && (
                 <PrimaryButton
+                  type="button"
                   key="edit"
                   onClick={() => {
                     setIsEditMode(true);
@@ -172,10 +188,14 @@ export const Movie: React.FC = memo(() => {
               )}
               {isEditMode && (
                 <>
-                  <PrimaryButton key="save" onClick={handleSave}>
+                  <PrimaryButton 
+                  type="submit" 
+                  key="save" 
+                  //onClick={handleSave}
+                  >
                     保存
                   </PrimaryButton>
-                  <InvertedButton key="cancel" onClick={handleCancel}>
+                  <InvertedButton type="button" key="cancel" onClick={handleCancel}>
                     キャンセル
                   </InvertedButton>
                 </>

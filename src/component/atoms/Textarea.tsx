@@ -1,4 +1,4 @@
-import React, { ChangeEvent, memo } from "react";
+import React, { CSSProperties, ChangeEvent, memo } from "react";
 import "../../styles/atoms/textarea.css";
 
 type Props = {
@@ -6,7 +6,7 @@ type Props = {
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   placeholder?: string;
   disabled?: boolean;
-  style?:object;
+  style?:CSSProperties;
 };
 
 export const Textarea: React.FC<Props> = memo(

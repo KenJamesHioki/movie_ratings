@@ -1,8 +1,8 @@
-import React, { ChangeEvent, useContext, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { PageWithHeader } from "../layout/PageWithHeader";
 import { PrimaryButton } from "../atoms/PrimaryButton";
 import { InvertedButton } from "../atoms/InvertedButton";
-import { UserContext } from "../../lib/UserProvider";
+import { useUser } from "../../lib/UserProvider";
 import { Input } from "../atoms/Input";
 import { Textarea } from "../atoms/Textarea";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
@@ -13,7 +13,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Loader } from "../atoms/Loader";
 
 export const EditProfile: React.FC = () => {
-  const { currentUser, update } = useContext(UserContext);
+  const { currentUser, update } = useUser();
   const [displayName, setDisplayName] = useState("");
   const [introduction, setIntroduction] = useState("");
   const [newIcon, setNewIcon] = useState<File | null>(null);
@@ -25,9 +25,13 @@ export const EditProfile: React.FC = () => {
     setIsLoading(true);
     try {
       const docSnap = await getDoc(doc(db, "users", currentUser.userId));
-      setDisplayName(docSnap.data().displayName);
-      setIntroduction(docSnap.data().introduction);
-      setIconUrl(docSnap.data().iconUrl);
+      if (docSnap.exists()) {
+        setDisplayName(docSnap.data().displayName);
+        setIntroduction(docSnap.data().introduction);
+        setIconUrl(docSnap.data().iconUrl);
+      } else {
+        console.error("指定のドキュメントが見つかりませんでした");
+      }
     } catch (error: any) {
       console.error(error.message);
     } finally {
@@ -92,13 +96,12 @@ export const EditProfile: React.FC = () => {
             <Input
               type="text"
               value={displayName}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>{
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 const value = e.target.value;
                 if (value.length <= 30) {
                   setDisplayName(value);
                 }
-              }
-              }
+              }}
               style={{ width: "100%", boxSizing: "border-box" }}
             />
           </div>
@@ -112,13 +115,18 @@ export const EditProfile: React.FC = () => {
                   setIntroduction(value);
                 }
               }}
-              style={{ width: "100%", boxSizing: "border-box", resize: "vertical" }}
+              style={{
+                width: "100%",
+                boxSizing: "border-box",
+                resize: "vertical",
+              }}
             />
           </div>
-          <PrimaryButton onClick={handleSave} style={{ width: "100%" }}>
+          <PrimaryButton type="button" onClick={handleSave} style={{ width: "100%" }}>
             保存
           </PrimaryButton>
           <InvertedButton
+            type="button"
             onClick={() => navigate("/profile")}
             style={{ width: "100%" }}
           >

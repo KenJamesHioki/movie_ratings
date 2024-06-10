@@ -1,4 +1,4 @@
-import React, { ChangeEvent, memo } from "react";
+import React, { CSSProperties, ChangeEvent, memo } from "react";
 import "../../styles/atoms/input.css";
 
 type Props = {
@@ -6,7 +6,7 @@ type Props = {
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
-  style?:object;
+  style?:CSSProperties;
 };
 
 export const Input: React.FC<Props> = memo(

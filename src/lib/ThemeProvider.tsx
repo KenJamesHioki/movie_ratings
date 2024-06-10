@@ -1,35 +1,46 @@
-import { ReactNode, createContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 
-type Theme = 'light' | 'dark';
+type Theme = "light" | "dark";
 
 type ThemeContext = {
   theme: Theme;
-  toggleTheme: ()=>void;
-}
+  toggleTheme: () => void;
+};
 
-export const ThemeContext = createContext<ThemeContext | undefined>(undefined);
+export const ThemeContext = createContext<ThemeContext>({
+  theme: "dark",
+  toggleTheme: () => {},
+});
 
 type Props = {
   children: ReactNode;
-}
+};
 
-export const ThemeProvider: React.FC<Props> =({children})=> {
-  const [theme, setTheme] = useState<Theme>('dark');
+export const ThemeProvider: React.FC<Props> = ({ children }) => {
+  const [theme, setTheme] = useState<Theme>("dark");
 
-  useEffect(()=> {
+  useEffect(() => {
     document.body.classList.add(theme);
-  },[])
+  }, []);
 
   const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark'
+    const newTheme = theme === "dark" ? "light" : "dark";
     setTheme(newTheme);
     document.body.classList.remove(theme);
     document.body.classList.add(newTheme);
-  }
+  };
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );
-}
+};
+
+export const useTheme = (): ThemeContext => {
+  const context = useContext(ThemeContext);
+  if (context === undefined) {
+    throw new Error('useUserはUserPriovider内でのみ利用が可能です');
+  }
+  return context;
+};

@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { Login } from "./component/pages/Login";
-import { UserContext } from "./lib/UserProvider";
+import { useUser } from "./lib/UserProvider";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "./lib/firebase";
 import { Home } from "./component/pages/Home";
@@ -13,7 +13,7 @@ import { Loader } from "./component/atoms/Loader";
 import { EditProfile } from "./component/pages/EditProfile";
 
 function App() {
-  const { currentUser, login, logout } = useContext(UserContext);
+  const { currentUser, login, logout } = useUser();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -21,13 +21,17 @@ function App() {
       setIsLoading(true);
       try {
         if (user) {
-          const userInfoSnap = await getDoc(doc(db, "users", user.uid));
-          login(
-            user.uid,
-            userInfoSnap.data().iconUrl,
-            userInfoSnap.data().displayName,
-            userInfoSnap.data().introduction,
-          );
+          const docSnap = await getDoc(doc(db, "users", user.uid));
+          if (docSnap.exists()) {
+            login(
+              user.uid,
+              docSnap.data().iconUrl,
+              docSnap.data().displayName,
+              docSnap.data().introduction,
+            );
+          } else {
+            logout();
+          }
         } else {
           logout();
         }

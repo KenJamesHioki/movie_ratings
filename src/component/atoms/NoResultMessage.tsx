@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import "../../styles/atoms/noResultMessage.css"
 
 type Props = {
   children: string;
-  style?:object;
+  style?:CSSProperties;
 };
 
 export const NoResultMessage:React.FC<Props> = ({children, style}) => {

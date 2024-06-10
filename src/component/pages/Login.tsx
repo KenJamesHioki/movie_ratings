@@ -1,4 +1,4 @@
-import React, { memo, useContext, useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import "../../styles/pages/login.css";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import {
@@ -12,7 +12,7 @@ import { auth, db, provider, storage } from "../../lib/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
 import { Input } from "../atoms/Input";
-import { UserContext } from "../../lib/UserProvider";
+import { useUser } from "../../lib/UserProvider";
 import { useNavigate } from "react-router-dom";
 import { Close } from "@mui/icons-material";
 import { PrimaryButton } from "../atoms/PrimaryButton";
@@ -27,7 +27,7 @@ export const Login: React.FC = memo(() => {
   const [passwordResetEmail, setPasswordResetEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordResetMode, setIsPasswordResetMode] = useState(false);
-  const { currentUser } = useContext(UserContext);
+  const { currentUser } = useUser();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -234,7 +234,7 @@ export const Login: React.FC = memo(() => {
             }
             placeholder="メールアドレス"
           />
-          <PrimaryButton onClick={handlePasswordReset}>送信</PrimaryButton>
+          <PrimaryButton type="button" onClick={handlePasswordReset}>送信</PrimaryButton>
         </div>
       )}
     </div>

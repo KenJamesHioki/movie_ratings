@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PageWithHeader } from "../layout/PageWithHeader";
-import { UserContext } from "../../lib/UserProvider";
+import { useUser } from "../../lib/UserProvider";
 import { MovieCard } from "../molecules/MovieCard";
 import "../../styles/pages/profile.css";
 import { useNavigate, useParams } from "react-router-dom";
@@ -13,13 +13,13 @@ import { NoResultMessage } from "../atoms/NoResultMessage";
 import { ProfileContainer } from "../molecules/ProfileContainer";
 
 export const Profile: React.FC = () => {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser } = useUser();
   const { userId } = useParams();
   const [watchedMovies, setWatchedMovies] = useState<Array<RatingPost> | null>(
     []
   );
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!currentUser.userId) {
@@ -38,7 +38,14 @@ export const Profile: React.FC = () => {
         const querySnapshot = await getDocs(q);
         const nextPosts: Array<RatingPost> = [];
         querySnapshot.forEach((doc) => {
-          nextPosts.push({ postId: doc.id, ...doc.data() });
+          nextPosts.push({
+            postId: doc.id,
+            comment: doc.data().comment,
+            movieId: doc.data().movieId,
+            score: doc.data().score,
+            timestamp: doc.data().timestamp,
+            userId: doc.data().userId,
+          });
         });
         setWatchedMovies(nextPosts);
       } catch (error: any) {
@@ -55,7 +62,10 @@ export const Profile: React.FC = () => {
     <>
       <PageWithHeader>
         <div className="profile_wrapper">
-          <ProfileContainer numWatched={watchedMovies?.length} userId={userId} />
+          <ProfileContainer
+            numWatched={watchedMovies?.length}
+            userId={userId}
+          />
           {watchedMovies?.length === 0 ? (
             <NoResultMessage>視聴をした映画がありません</NoResultMessage>
           ) : (

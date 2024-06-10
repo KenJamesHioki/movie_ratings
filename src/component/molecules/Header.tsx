@@ -1,13 +1,13 @@
-import React, { memo, useContext } from "react";
+import React, { memo } from "react";
 import "../../styles/molecules/header.css";
-import { UserContext } from "../../lib/UserProvider";
+import { useUser } from "../../lib/UserProvider";
 import { Link } from "react-router-dom";
-import { ThemeContext } from "../../lib/ThemeProvider";
+import { useTheme } from "../../lib/ThemeProvider";
 import { DarkMode, LightMode } from "@mui/icons-material";
 
 export const Header: React.FC = memo(() => {
-  const { currentUser } = useContext(UserContext);
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { currentUser } = useUser();
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <header className="header">
