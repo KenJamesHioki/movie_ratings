@@ -45,8 +45,6 @@ function App() {
     return () => unSub();
   }, []);
 
-  console.log(currentUser);
-
   return (
     <div className="app">
       <Routes>

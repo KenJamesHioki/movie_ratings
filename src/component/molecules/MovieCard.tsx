@@ -1,13 +1,14 @@
 import React, { memo, useEffect, useState } from "react";
 import "../../styles/molecules/movieCard.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
+  arrayRemove,
+  arrayUnion,
   collection,
   doc,
   getDoc,
   getDocs,
-  onSnapshot,
   query,
   setDoc,
   updateDoc,
@@ -24,6 +25,7 @@ import { clacAverageScore } from "../../utils/calcAverageScore";
 type Props = {
   movieId: string;
   title?: string;
+  isWantToWatch: boolean;
   posterPath?: string;
 };
 
@@ -33,11 +35,11 @@ type MovieInfo = {
 };
 
 export const MovieCard: React.FC<Props> = memo(
-  ({ movieId, title, posterPath }) => {
+  ({ movieId, title, isWantToWatch, posterPath }) => {
     const BASE_POSTER_URL = "https://image.tmdb.org/t/p/w300";
     const { theme } = useTheme();
     const { currentUser } = useUser();
-    const [wantToWatchUsers, setWantToWatchUsers] = useState<Array<string>>([]);
+    const navigate = useNavigate();
     const [movieInfo, setMovieInfo] = useState<MovieInfo>({
       title: "",
       posterPath: "",
@@ -46,29 +48,37 @@ export const MovieCard: React.FC<Props> = memo(
     const averageScore = clacAverageScore(posts);
 
     const toggleWantToWatch = async () => {
-      let nextWantToWatchUsers: Array<string> = [];
-
-      if (wantToWatchUsers.includes(currentUser.userId)) {
-        nextWantToWatchUsers = wantToWatchUsers.filter(
-          (user) => user !== currentUser.userId
-        );
+      if (isWantToWatch) {
+        removeWantToWatchMovie();
       } else {
-        nextWantToWatchUsers = [...wantToWatchUsers, currentUser.userId];
+        addWantToWatchMovie();
       }
-
-      postWantToWatchUsers(nextWantToWatchUsers);
     };
 
-    const postWantToWatchUsers = async (wantToWatchUsers: Array<string>) => {
+    const removeWantToWatchMovie = async () => {
       try {
-        const docSnap = await getDoc(doc(db, "movies", movieId));
+        const docSnap = await getDoc(doc(db, "wantToWatch", currentUser.userId));
         if (docSnap.exists()) {
-          await updateDoc(doc(db, "movies", movieId), {
-            wantToWatchUsers,
+          await updateDoc(doc(db, "wantToWatch", currentUser.userId), {
+            wantToWatchMovies: arrayRemove(movieId),
+          });
+        } 
+      } catch (error: any) {
+        console.error(error.message);
+        showAlert({ type: "error", message: "通信に失敗しました", theme });
+      }
+    };
+
+    const addWantToWatchMovie = async () => {
+      try {
+        const docSnap = await getDoc(doc(db, "wantToWatch", currentUser.userId));
+        if (docSnap.exists()) {
+          await updateDoc(doc(db, "wantToWatch", currentUser.userId), {
+            wantToWatchMovies: arrayUnion(movieId),
           });
         } else {
-          await setDoc(doc(db, "movies", movieId), {
-            wantToWatchUsers,
+          await setDoc(doc(db, "wantToWatch", currentUser.userId), {
+            wantToWatchMovies: [movieId]
           });
         }
       } catch (error: any) {
@@ -76,31 +86,6 @@ export const MovieCard: React.FC<Props> = memo(
         showAlert({ type: "error", message: "通信に失敗しました", theme });
       }
     };
-
-    useEffect(() => {
-      const unSub = onSnapshot(doc(db, "movies", movieId), (doc) => {
-        if (doc.exists()) {
-          setWantToWatchUsers(doc.data().wantToWatchUsers);
-        }
-      });
-
-      return () => unSub();
-    }, [movieId]);
-
-    // useEffect(()=> {
-    //   const fetchWantToWatchUsers = async () => {
-    //     try {
-    //       const docSnap = await getDoc(doc(db, "movies", movieId));
-    //       if (docSnap.exists()) {
-    //         setWantToWatchUsers(docSnap.data().wantToWatchUsers);
-    //       }
-    //     } catch (error: any) {
-    //       console.error(error.message);
-    //       showAlert({type: 'error', message: 'データの読み込みに失敗しました', theme});
-    //     }
-    //   };
-    //   fetchWantToWatchUsers();
-    // },[movieId])
 
     useEffect(() => {
       const fetchPosts = async () => {
@@ -176,7 +161,7 @@ export const MovieCard: React.FC<Props> = memo(
           </div>
         </Link>
         <div className="movieCard_button-container">
-          <div className="movieCard_button rating">
+          <div className="movieCard_button rating" onClick={()=>navigate(`/movie/${movieId}`)}>
             <Star />
             <p className="movieCard_average-score">{averageScore}</p>
           </div>
@@ -184,7 +169,7 @@ export const MovieCard: React.FC<Props> = memo(
             className="movieCard_button wish-list"
             onClick={toggleWantToWatch}
           >
-            {wantToWatchUsers.includes(currentUser.userId) ? (
+            {isWantToWatch ? (
               <PlaylistAddCheckCircle className="movieCard_wish-icon" />
             ) : (
               <PlaylistAdd className="movieCard_not-wish-icon" />

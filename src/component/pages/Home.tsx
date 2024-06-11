@@ -13,6 +13,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { showAlert } from "../../lib/showAlert";
 import { useTheme } from "../../lib/ThemeProvider";
 import { PrimaryButton } from "../atoms/PrimaryButton";
+import { useWantToWatchMovies } from "../../hooks/useWantToWatchMovies";
+import { useUser } from "../../lib/UserProvider";
 
 type Movie = {
   movieId: string;
@@ -21,12 +23,14 @@ type Movie = {
 };
 
 export const Home: React.FC = memo(() => {
+  const { paramMovieTitle } = useParams();
+  const { theme } = useTheme();
+  const { currentUser } = useUser();
+  const { wantToWatchMovies } = useWantToWatchMovies(currentUser.userId);
   const [movies, setMovies] = useState<Array<Movie>>([]);
   const [searchTitle, setSearchTitle] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { paramMovieTitle } = useParams();
-  const { theme } = useTheme();
 
   useEffect(() => {
     setIsLoading(true);
@@ -116,6 +120,7 @@ export const Home: React.FC = memo(() => {
                   {movies.map((movie) => (
                     <MovieCard
                       key={movie.movieId}
+                      isWantToWatch={wantToWatchMovies.includes(movie.movieId)}
                       movieId={movie.movieId}
                       title={movie.title}
                       posterPath={movie.posterPath}
