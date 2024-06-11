@@ -27,7 +27,7 @@ function App() {
               user.uid,
               docSnap.data().iconUrl,
               docSnap.data().displayName,
-              docSnap.data().introduction,
+              docSnap.data().introduction
             );
           } else {
             logout();
@@ -51,10 +51,14 @@ function App() {
     <div className="app">
       <Routes>
         <Route path="/" element={currentUser.userId ? <Home /> : <Login />} />
+        <Route
+          path="/:paramMovieTitle"
+          element={currentUser.userId ? <Home /> : <Login />}
+        />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/profile/:userId" element={<Profile />} />
+        <Route path="/profile/:paramUserId" element={<Profile />} />
         <Route path="/edit_profile" element={<EditProfile />} />
-        <Route path="/movie/:movieId" element={<Movie />} />
+        <Route path="/movie/:paramMovieId" element={<Movie />} />
       </Routes>
       {isLoading && <Loader />}
     </div>

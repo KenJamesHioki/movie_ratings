@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 import "../../styles/pages/editProfile.css";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Loader } from "../atoms/Loader";
+import { showAlert } from "../../lib/showAlert";
+import { useTheme } from "../../lib/ThemeProvider";
 
 export const EditProfile: React.FC = () => {
   const { currentUser, update } = useUser();
@@ -20,6 +22,7 @@ export const EditProfile: React.FC = () => {
   const [iconUrl, setIconUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const {theme} = useTheme();
 
   const fetchProfile = async () => {
     setIsLoading(true);
@@ -31,9 +34,11 @@ export const EditProfile: React.FC = () => {
         setIconUrl(docSnap.data().iconUrl);
       } else {
         console.error("指定のドキュメントが見つかりませんでした");
+        showAlert({type: 'error', message: 'データの読み込みに失敗しました', theme});
       }
     } catch (error: any) {
       console.error(error.message);
+      showAlert({type: 'error', message: 'データの読み込みに失敗しました', theme});
     } finally {
       setIsLoading(false);
     }
@@ -65,11 +70,12 @@ export const EditProfile: React.FC = () => {
         introduction,
       });
       update(iconUrl, displayName, introduction);
+      navigate("/profile",{state: {type:"success", message:"プロフィールが更新されました", theme}});
     } catch (error: any) {
       console.error(error.message);
+      showAlert({type: 'error', message: '保存に失敗しました', theme});
     } finally {
       setIsLoading(false);
-      navigate("/profile");
     }
   };
 

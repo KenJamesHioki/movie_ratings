@@ -9,6 +9,10 @@ import { TMDBResult } from "../../types/types";
 import { Loader } from "../atoms/Loader";
 import { NoResultMessage } from "../atoms/NoResultMessage";
 import { SectionTitle } from "../atoms/SectionTitle";
+import { useNavigate, useParams } from "react-router-dom";
+import { showAlert } from "../../lib/showAlert";
+import { useTheme } from "../../lib/ThemeProvider";
+import { PrimaryButton } from "../atoms/PrimaryButton";
 
 type Movie = {
   movieId: string;
@@ -19,27 +23,32 @@ type Movie = {
 export const Home: React.FC = memo(() => {
   const [movies, setMovies] = useState<Array<Movie>>([]);
   const [searchTitle, setSearchTitle] = useState("");
-  const [isSearchMode, setIsSearchMode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const { paramMovieTitle } = useParams();
+  const { theme } = useTheme();
 
   useEffect(() => {
     setIsLoading(true);
-    const popularMoviesUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${
-      import.meta.env.VITE_TMDB_API_KEY
-    }&language=jp-JP&page=1&region=JP`;
-    setNextMovies(popularMoviesUrl);
-  }, []);
+    let url = "";
+
+    if (paramMovieTitle) {
+      url = `https://api.themoviedb.org/3/search/movie?api_key=${
+        import.meta.env.VITE_TMDB_API_KEY
+      }&query=${paramMovieTitle}&language=ja-JP`;
+    } else {
+      url = `https://api.themoviedb.org/3/movie/popular?api_key=${
+        import.meta.env.VITE_TMDB_API_KEY
+      }&language=jp-JP&page=1&region=JP`;
+      setSearchTitle("");
+    }
+    setNextMovies(url);
+  }, [paramMovieTitle]);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!searchTitle) return;
-    setIsLoading(true);
-    //searchTitleをReactRouterDomのクエリとして渡して/searchTitleのパスに遷移することを検討
-    const searchMovieUrl = `https://api.themoviedb.org/3/search/movie?api_key=${
-      import.meta.env.VITE_TMDB_API_KEY
-    }&query=${encodeURIComponent(searchTitle)}&language=ja-JP`;
-    setIsSearchMode(true);
-    setNextMovies(searchMovieUrl);
+    navigate(`/${searchTitle}`);
   };
 
   const setNextMovies = (url: string) => {
@@ -54,7 +63,15 @@ export const Home: React.FC = memo(() => {
 
         setMovies(nextMovies);
       })
-      .catch((error: any) => console.error(error.message))
+      .catch((error: any) => {
+        console.error(error.message);
+        setMovies([]);
+        showAlert({
+          type: "error",
+          message: "映画の読み込みに失敗しました",
+          theme,
+        });
+      })
       .finally(() => setIsLoading(false));
   };
 
@@ -71,13 +88,17 @@ export const Home: React.FC = memo(() => {
                 setSearchTitle(e.target.value)
               }
             />
-            <button className="home_search-button">検索</button>
+            <PrimaryButton type="submit" disabled={searchTitle === ""}>
+              検索
+            </PrimaryButton>
           </form>
-          {isSearchMode ? (
+          {paramMovieTitle ? (
             <SectionTitle
               style={{ alignSelf: "flex-start", marginBottom: "40px" }}
             >
-              {searchTitle ? `${searchTitle}の検索結果：` : "検索結果："}
+              {paramMovieTitle
+                ? `${paramMovieTitle}の検索結果：`
+                : "検索結果："}
             </SectionTitle>
           ) : (
             <SectionTitle

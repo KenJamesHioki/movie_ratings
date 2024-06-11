@@ -73,7 +73,10 @@
 .movieCard_button.wish-list {
   border-bottom-right-radius: 8px;
 }
-.movieCard_button.wish-list > svg {
+.movieCard_wish-icon {
+  color: #1f8ef1;
+}
+.movieCard_not-wish-icon {
   color: rgb(191, 191, 191);
 }
 .movieCard_average-score {

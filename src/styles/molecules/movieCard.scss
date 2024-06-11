@@ -82,12 +82,15 @@
 
     &.wish-list {
       border-bottom-right-radius: 8px;
-
-      >svg {
-        color: $cLightGray;
-      }
     }
+  }
 
+  &_wish-icon {
+    color: $cBlue;
+  }
+
+  &_not-wish-icon {
+    color: $cLightGray;
   }
 
   &_average-score {

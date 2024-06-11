@@ -10,4 +10,31 @@
     align-items: center;
     gap: 40px;
   }
+
+  &_button-container {
+    margin: 20px 0;
+    padding: 0 calc((100vw - 1000px) / 2);
+    display: flex;
+    background-color: rgba(17, 25, 40, 0.6);
+    width: 100%;
+    justify-content: flex-start;
+    border-top: 1px $cLightGrayBorder solid;
+    border-bottom: 1px $cLightGrayBorder solid;
+
+    & .button {
+      padding: 20px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      color: $cLightGray;
+      cursor: pointer;
+
+      &.selected {
+        background-color: $cBlue;
+        color: $cWhite;
+      }
+    }
+  }
+
 }

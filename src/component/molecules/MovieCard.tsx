@@ -2,10 +2,24 @@ import React, { memo, useEffect, useState } from "react";
 import "../../styles/molecules/movieCard.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  query,
+  setDoc,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { RatingPost } from "../../types/types";
-import { PlaylistAdd, Star } from "@mui/icons-material";
+import { PlaylistAdd, PlaylistAddCheckCircle, Star } from "@mui/icons-material";
+import { showAlert } from "../../lib/showAlert";
+import { useTheme } from "../../lib/ThemeProvider";
+import { useUser } from "../../lib/UserProvider";
+import { clacAverageScore } from "../../utils/calcAverageScore";
 
 type Props = {
   movieId: string;
@@ -20,42 +34,104 @@ type MovieInfo = {
 
 export const MovieCard: React.FC<Props> = memo(
   ({ movieId, title, posterPath }) => {
-    const basePosterUrl = "https://image.tmdb.org/t/p/w300";
+    const BASE_POSTER_URL = "https://image.tmdb.org/t/p/w300";
+    const { theme } = useTheme();
+    const { currentUser } = useUser();
+    const [wantToWatchUsers, setWantToWatchUsers] = useState<Array<string>>([]);
     const [movieInfo, setMovieInfo] = useState<MovieInfo>({
       title: "",
       posterPath: "",
     });
     const [posts, setPosts] = useState<Array<RatingPost>>([]);
-    const clacAverageScore = (posts: Array<RatingPost>) => {
-      if (posts.length === 0) {
-        return "--";
-      } else {
-        const sum = posts.reduce((acc, curr) => acc + curr.score, 0);
-        return (sum / posts.length).toFixed(1);
-      }
-    };
     const averageScore = clacAverageScore(posts);
-    const updatePosts = async () => {
-      const q = query(collection(db, "posts"), where("movieId", "==", movieId));
-      const querySnapshot = await getDocs(q);
 
-      const nextPosts: Array<RatingPost> = [];
+    const toggleWantToWatch = async () => {
+      let nextWantToWatchUsers: Array<string> = [];
 
-      querySnapshot.forEach((doc) => {
-        nextPosts.push({
-          postId: doc.id,
-          comment: doc.data().comment,
-          movieId: doc.data().movieId,
-          score: doc.data().score,
-          timestamp: doc.data().timestamp,
-          userId: doc.data().userId,
-        });
-      });
-      setPosts(nextPosts);
+      if (wantToWatchUsers.includes(currentUser.userId)) {
+        nextWantToWatchUsers = wantToWatchUsers.filter(
+          (user) => user !== currentUser.userId
+        );
+      } else {
+        nextWantToWatchUsers = [...wantToWatchUsers, currentUser.userId];
+      }
+
+      postWantToWatchUsers(nextWantToWatchUsers);
+    };
+
+    const postWantToWatchUsers = async (wantToWatchUsers: Array<string>) => {
+      try {
+        const docSnap = await getDoc(doc(db, "movies", movieId));
+        if (docSnap.exists()) {
+          await updateDoc(doc(db, "movies", movieId), {
+            wantToWatchUsers,
+          });
+        } else {
+          await setDoc(doc(db, "movies", movieId), {
+            wantToWatchUsers,
+          });
+        }
+      } catch (error: any) {
+        console.error(error.message);
+        showAlert({ type: "error", message: "通信に失敗しました", theme });
+      }
     };
 
     useEffect(() => {
-      updatePosts();
+      const unSub = onSnapshot(doc(db, "movies", movieId), (doc) => {
+        if (doc.exists()) {
+          setWantToWatchUsers(doc.data().wantToWatchUsers);
+        }
+      });
+
+      return () => unSub();
+    }, [movieId]);
+
+    // useEffect(()=> {
+    //   const fetchWantToWatchUsers = async () => {
+    //     try {
+    //       const docSnap = await getDoc(doc(db, "movies", movieId));
+    //       if (docSnap.exists()) {
+    //         setWantToWatchUsers(docSnap.data().wantToWatchUsers);
+    //       }
+    //     } catch (error: any) {
+    //       console.error(error.message);
+    //       showAlert({type: 'error', message: 'データの読み込みに失敗しました', theme});
+    //     }
+    //   };
+    //   fetchWantToWatchUsers();
+    // },[movieId])
+
+    useEffect(() => {
+      const fetchPosts = async () => {
+        const q = query(
+          collection(db, "posts"),
+          where("movieId", "==", movieId)
+        );
+        try {
+          const querySnapshot = await getDocs(q);
+          const nextPosts: Array<RatingPost> = [];
+          querySnapshot.forEach((doc) => {
+            nextPosts.push({
+              postId: doc.id,
+              comment: doc.data().comment,
+              movieId: doc.data().movieId,
+              score: doc.data().score,
+              timestamp: doc.data().timestamp,
+              userId: doc.data().userId,
+            });
+          });
+          setPosts(nextPosts);
+        } catch (error: any) {
+          console.error(error.message);
+          showAlert({
+            type: "error",
+            message: "投稿の読み込みに失敗しました",
+            theme,
+          });
+        }
+      };
+      fetchPosts();
     }, [movieId]);
 
     useEffect(() => {
@@ -74,7 +150,14 @@ export const MovieCard: React.FC<Props> = memo(
               posterPath: movieDetails.poster_path,
             });
           })
-          .catch((error: any) => console.error(error.message));
+          .catch((error: any) => {
+            showAlert({
+              type: "error",
+              message: "読み込みに失敗しました",
+              theme,
+            });
+            console.error(error.message);
+          });
       }
     }, [movieId]);
 
@@ -84,7 +167,7 @@ export const MovieCard: React.FC<Props> = memo(
           <div className="movieCard_cover">
             <div className="movieCard_thumbnail">
               <img
-                src={`${basePosterUrl}${posterPath || movieInfo?.posterPath}`}
+                src={`${BASE_POSTER_URL}${posterPath || movieInfo?.posterPath}`}
                 alt="moviename"
               />
               <div className="movieCard_overlay"></div>
@@ -97,8 +180,15 @@ export const MovieCard: React.FC<Props> = memo(
             <Star />
             <p className="movieCard_average-score">{averageScore}</p>
           </div>
-          <div className="movieCard_button wish-list">
-            <PlaylistAdd />
+          <div
+            className="movieCard_button wish-list"
+            onClick={toggleWantToWatch}
+          >
+            {wantToWatchUsers.includes(currentUser.userId) ? (
+              <PlaylistAddCheckCircle className="movieCard_wish-icon" />
+            ) : (
+              <PlaylistAdd className="movieCard_not-wish-icon" />
+            )}
           </div>
         </div>
       </div>

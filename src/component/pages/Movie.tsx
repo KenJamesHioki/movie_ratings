@@ -1,9 +1,4 @@
-import React, {
-  ChangeEvent,
-  memo,
-  useEffect,
-  useState,
-} from "react";
+import React, { ChangeEvent, memo, useEffect, useState } from "react";
 import { PageWithHeader } from "../layout/PageWithHeader";
 import { Post } from "../molecules/Post";
 import "../../styles/pages/movie.css";
@@ -30,11 +25,14 @@ import { InvertedButton } from "../atoms/InvertedButton";
 import { PostContainer } from "../layout/PostContainer";
 import { MovieInfoContainer } from "../molecules/MovieInfoContainer";
 import { Rating } from "@mui/material";
-import StarIcon from '@mui/icons-material/Star';
+import StarIcon from "@mui/icons-material/Star";
+import { showAlert } from "../../lib/showAlert";
+import { useTheme } from "../../lib/ThemeProvider";
 
 export const Movie: React.FC = memo(() => {
   const { currentUser } = useUser();
-  const { movieId } = useParams();
+  const { paramMovieId } = useParams();
+  const { theme } = useTheme();
   const [score, setScore] = useState<number>(0);
   const [hoverScore, setHoverScore] = useState<number | null>(null);
   const [comment, setComment] = useState("");
@@ -45,11 +43,11 @@ export const Movie: React.FC = memo(() => {
     (post) => post.userId === currentUser.userId
   );
   const navigate = useNavigate();
-
+  
   const updatePosts = async () => {
     const q = query(
       collection(db, "posts"),
-      where("movieId", "==", movieId),
+      where("movieId", "==", paramMovieId),
       orderBy("timestamp")
     );
     const querySnapshot = await getDocs(q);
@@ -82,7 +80,7 @@ export const Movie: React.FC = memo(() => {
 
   useEffect(() => {
     updatePosts();
-  }, [movieId]);
+  }, [paramMovieId]);
 
   const handlePost = async () => {
     setIsLoading(true);
@@ -92,11 +90,13 @@ export const Movie: React.FC = memo(() => {
         score,
         comment,
         timestamp: serverTimestamp(),
-        movieId,
+        movieId: paramMovieId,
       });
       updatePosts();
+      showAlert({ type: "success", message: "投稿されました", theme });
     } catch (error: any) {
       console.error(error.message);
+      showAlert({ type: "error", message: "投稿に失敗しました", theme });
     } finally {
       setIsLoading(false);
     }
@@ -112,8 +112,10 @@ export const Movie: React.FC = memo(() => {
       });
       setIsEditMode(false);
       updatePosts();
+      showAlert({ type: "success", message: "投稿内容が更新されました", theme });
     } catch (error: any) {
       console.error(error.message);
+      showAlert({ type: "error", message: "保存に失敗しました", theme });
     } finally {
       setIsLoading(false);
     }
@@ -125,21 +127,20 @@ export const Movie: React.FC = memo(() => {
     setIsEditMode(false);
   };
 
-  const handleSubmit =(e: React.FormEvent<HTMLFormElement>)=>{
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isEditMode) {
       handleSave();
     } else if (!currentUserPost) {
       handlePost();
     }
-  }
-
+  };
 
   return (
     <>
       <PageWithHeader>
         <div className="rating_wrapper">
-          <MovieInfoContainer movieId={String(movieId)} posts={posts} />
+          <MovieInfoContainer movieId={String(paramMovieId)} posts={posts} />
           <form className="rating_post-form" onSubmit={handleSubmit}>
             <label htmlFor="score" className="rating_set-score">
               {hoverScore === null || hoverScore === -1 ? score : hoverScore}
@@ -147,13 +148,17 @@ export const Movie: React.FC = memo(() => {
                 name="score"
                 value={score}
                 precision={1}
-                onChange={(_e, newValue) =>
-                  setScore(Number(newValue))
-                }
+                onChange={(_e, newValue) => setScore(Number(newValue))}
                 onChangeActive={(_e, newHover) =>
-                  setHoverScore(Number(newHover))}
+                  setHoverScore(Number(newHover))
+                }
                 readOnly={currentUserPost && !isEditMode}
-                emptyIcon={<StarIcon style={{ opacity: 0.5, color:"gray" }} fontSize="inherit" />}
+                emptyIcon={
+                  <StarIcon
+                    style={{ opacity: 0.5, color: "gray" }}
+                    fontSize="inherit"
+                  />
+                }
               />
             </label>
             <div className="rating_comment-and-button">
@@ -188,14 +193,18 @@ export const Movie: React.FC = memo(() => {
               )}
               {isEditMode && (
                 <>
-                  <PrimaryButton 
-                  type="submit" 
-                  key="save" 
-                  //onClick={handleSave}
+                  <PrimaryButton
+                    type="submit"
+                    key="save"
+                    //onClick={handleSave}
                   >
                     保存
                   </PrimaryButton>
-                  <InvertedButton type="button" key="cancel" onClick={handleCancel}>
+                  <InvertedButton
+                    type="button"
+                    key="cancel"
+                    onClick={handleCancel}
+                  >
                     キャンセル
                   </InvertedButton>
                 </>

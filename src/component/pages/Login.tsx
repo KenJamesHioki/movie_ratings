@@ -16,7 +16,10 @@ import { useUser } from "../../lib/UserProvider";
 import { useNavigate } from "react-router-dom";
 import { Close } from "@mui/icons-material";
 import { PrimaryButton } from "../atoms/PrimaryButton";
-import { isMobile } from "../../lib/isMobile";
+import { isMobile } from "../../utils/isMobile";
+import { showAlert } from "../../lib/showAlert";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const Login: React.FC = memo(() => {
   const [isLoginMode, setIsLoginMode] = useState(true);
@@ -46,39 +49,31 @@ export const Login: React.FC = memo(() => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      if (isLoginMode) {
-        await loginWithEmail();
-      } else {
-        await signupWithEmail();
-      }
-    } catch (error: any) {
-      console.error(error.message);
+    if (isLoginMode) {
+      await loginWithEmail();
+    } else {
+      await signupWithEmail();
     }
   };
 
   const loginWithEmail = async () => {
-    await signInWithEmailAndPassword(auth, email, password);
-  };
-
-  const handleGoogleAuth = async () => {
     try {
-      let result;
-      if (isMobile()) {
-        result = await signInWithRedirect(auth, provider);
-      } else {
-        result = await signInWithPopup(auth, provider);
-      }
-      if (!isLoginMode) {
-        await setDoc(doc(db, "users", result.user.uid), {
-          displayName: result.user.displayName,
-          introduction: "",
-          iconUrl: result.user.photoURL,
-        });
-        alert("新規登録が完了しました！");
-      }
+      await signInWithEmailAndPassword(auth, email, password);
     } catch (error: any) {
       console.error(error.message);
+      if (error.code === "auth/invalid-credential" || "auth/invalid-email") {
+        showAlert({
+          type: "error",
+          message: "メールアドレス／パスワードが間違っています",
+          theme: "dark",
+        });
+      } else {
+        showAlert({
+          type: "error",
+          message: "ログインに失敗しました",
+          theme: "dark",
+        });
+      }
     }
   };
 
@@ -105,12 +100,61 @@ export const Login: React.FC = memo(() => {
         iconUrl,
       });
 
+      setDisplayName("");
+      setIcon(null);
       setEmail("");
       setPassword("");
       setIsLoginMode(true);
-      alert("新規登録が完了しました！");
+      showAlert({
+        type: "success",
+        message: "新規登録が完了しました",
+        theme: "dark",
+      });
     } catch (error: any) {
       console.error(error.message);
+      if (error.code === "auth/email-already-in-use") {
+        showAlert({
+          type: "error",
+          message: "メールアドレスは既に使われています",
+          theme: "dark",
+        });
+      } else {
+        showAlert({
+          type: "error",
+          message: "新規登録に失敗しました",
+          theme: "dark",
+        });
+      }
+    }
+  };
+
+  const handleGoogleAuth = async () => {
+    try {
+      let result;
+      if (isMobile()) {
+        result = await signInWithRedirect(auth, provider);
+      } else {
+        result = await signInWithPopup(auth, provider);
+      }
+      if (!isLoginMode) {
+        await setDoc(doc(db, "users", result.user.uid), {
+          displayName: result.user.displayName,
+          introduction: "",
+          iconUrl: result.user.photoURL,
+        });
+        showAlert({
+          type: "success",
+          message: "新規登録が完了しました",
+          theme: "dark",
+        });
+      }
+    } catch (error: any) {
+      console.error(error.message);
+      showAlert({
+        type: "error",
+        message: "新規登録に失敗しました",
+        theme: "dark",
+      });
     }
   };
 
@@ -121,9 +165,18 @@ export const Login: React.FC = memo(() => {
       await sendPasswordResetEmail(auth, passwordResetEmail);
       setIsPasswordResetMode(false);
       setPasswordResetEmail("");
-      alert("パスワードリセット用のメールが送信されました。");
+      showAlert({
+        type: "success",
+        message: "パスワードリセットメールが送信されました",
+        theme: "dark",
+      });
     } catch (error: any) {
       console.error(error.message);
+      showAlert({
+        type: "error",
+        message: "リセットメール送信に失敗しました",
+        theme: "dark",
+      });
     } finally {
       setIsLoginMode(true);
     }
@@ -234,9 +287,12 @@ export const Login: React.FC = memo(() => {
             }
             placeholder="メールアドレス"
           />
-          <PrimaryButton type="button" onClick={handlePasswordReset}>送信</PrimaryButton>
+          <PrimaryButton type="button" onClick={handlePasswordReset}>
+            送信
+          </PrimaryButton>
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 });

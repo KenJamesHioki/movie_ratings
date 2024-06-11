@@ -4,6 +4,9 @@ import { RatingPost } from "../../types/types";
 import "../../styles/molecules/movieInfoContainer.css";
 import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
+import { showAlert } from "../../lib/showAlert";
+import { useTheme } from "../../lib/ThemeProvider";
+import { clacAverageScore } from "../../utils/calcAverageScore";
 
 type Props = {
   movieId: string;
@@ -18,21 +21,14 @@ type MovieInfo = {
 };
 
 export const MovieInfoContainer: React.FC<Props> = ({ movieId, posts }) => {
-  const basePosterUrl = "https://image.tmdb.org/t/p/w300";
+  const BASE_POSTER_URL = "https://image.tmdb.org/t/p/w300";
+  const {theme} = useTheme();
   const [movieInfo, setMovieInfo] = useState<MovieInfo>({
     title: "",
     releaseYear: "",
     overview: "",
     posterPath: "",
   });
-  const clacAverageScore = (posts: Array<RatingPost>) => {
-    if (posts.length === 0) {
-      return "--";
-    } else {
-      const sum = posts.reduce((acc, curr) => acc + curr.score, 0);
-      return (sum / posts.length).toFixed(1);
-    }
-  };
   const averageScore = clacAverageScore(posts);
 
   useEffect(() => {
@@ -52,14 +48,21 @@ export const MovieInfoContainer: React.FC<Props> = ({ movieId, posts }) => {
           posterPath: movieDetails.poster_path,
         });
       })
-      .catch((error: any) => console.error(error.message));
+      .catch((error: any) => {
+        showAlert({
+          type: "error",
+          message: "読み込みに失敗しました",
+          theme,
+        });
+        console.error(error.message);
+      });
   }, [movieId]);
 
   return (
     <div className="movieInfoCotainer">
       <div className="movieInfoCotainer_poster">
         <img
-          src={`${basePosterUrl}${movieInfo.posterPath}`}
+          src={`${BASE_POSTER_URL}${movieInfo.posterPath}`}
           alt={movieInfo.title}
         />
       </div>
