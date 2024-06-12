@@ -26,12 +26,16 @@ type ProfileInfo = {
 export const Profile: React.FC = () => {
   const { currentUser } = useUser();
   const { paramUserId } = useParams();
-  const { wantToWatchMovies, isLoading: wantToWatchIsLoading } = useWantToWatchMovies(
+  const { wantToWatchMovies, isLoading: wantToWatchIsLoading } =
+    useWantToWatchMovies(paramUserId || currentUser.userId);
+  const { watchedMovies, isLoading: watchedIsLoading } = useWatchedMovies(
     paramUserId || currentUser.userId
   );
-  const { watchedMovies, isLoading: watchedIsLoading } = useWatchedMovies(paramUserId || currentUser.userId);
   //OPTIMIZE: 他のユーザーのProfileでcurrentUserのwantToWatchを表示するためにcurrentUserのwantToWatchも取得しなければいけない。
-  const { wantToWatchMovies: myWantToWatchMovies, isLoading: myWantToWatchIsLoading } = useWantToWatchMovies(currentUser.userId);
+  const {
+    wantToWatchMovies: myWantToWatchMovies,
+    isLoading: myWantToWatchIsLoading,
+  } = useWantToWatchMovies(currentUser.userId);
   const location = useLocation();
   const [selectedButton, setSelectedButton] = useState<ButtonKey>("watched");
   const [isLoading, setIsLoading] = useState(false);
@@ -86,70 +90,84 @@ export const Profile: React.FC = () => {
     }
   }, [location]);
 
+  if (
+    isLoading ||
+    wantToWatchIsLoading ||
+    watchedIsLoading ||
+    myWantToWatchIsLoading
+  ) {
+    return (
+      <PageWithHeader>
+        <Loader />
+      </PageWithHeader>
+    );
+  }
+
+  if (!profileInfo) {
+    return (
+      <PageWithHeader>
+        <NoResultMessage>
+          該当するユーザーが見つかりませんでした
+        </NoResultMessage>{" "}
+      </PageWithHeader>
+    );
+  }
+
   return (
     <>
       <PageWithHeader>
-        {profileInfo ? (
-          <>
-            <div className="profile_wrapper">
-              <ProfileContainer
-                numWatched={watchedMovies?.length}
-                profileInfo={profileInfo}
+        <div className="profile_wrapper">
+          <ProfileContainer
+            numWatched={watchedMovies?.length}
+            profileInfo={profileInfo}
+          />
+        </div>
+        <div className="profile_button-container">
+          <div
+            onClick={() => handleClick("watched")}
+            className={`profile_watched-movies button ${
+              selectedButton === "watched" && "selected"
+            }`}
+          >
+            <Visibility />
+            <p>{watchedMovies.length}</p>
+          </div>
+          <div
+            onClick={() => handleClick("wantToWatch")}
+            className={`profile_watched-movies button ${
+              selectedButton === "wantToWatch" && "selected"
+            }`}
+          >
+            <PlaylistAddCheckCircle />
+            <p>{wantToWatchMovies.length}</p>
+          </div>
+        </div>
+        <div className="profile_wrapper">
+          {selectedButton === "watched" && watchedMovies.length === 0 ? (
+            <NoResultMessage>視聴した映画がありません</NoResultMessage>
+          ) : (
+            <></>
+          )}
+          {selectedButton === "wantToWatch" &&
+          wantToWatchMovies.length === 0 ? (
+            <NoResultMessage>登録した映画がありません</NoResultMessage>
+          ) : (
+            <></>
+          )}
+          <MovieContainer>
+            {(selectedButton === "watched"
+              ? watchedMovies
+              : wantToWatchMovies
+            ).map((movie) => (
+              <MovieCard
+                key={movie}
+                isWantToWatch={myWantToWatchMovies.includes(movie)}
+                movieId={movie}
               />
-            </div>
-            <div className="profile_button-container">
-              <div
-                onClick={() => handleClick("watched")}
-                className={`profile_watched-movies button ${
-                  selectedButton === "watched" && "selected"
-                }`}
-              >
-                <Visibility />
-                <p>{watchedMovies.length}</p>
-              </div>
-              <div
-                onClick={() => handleClick("wantToWatch")}
-                className={`profile_watched-movies button ${
-                  selectedButton === "wantToWatch" && "selected"
-                }`}
-              >
-                <PlaylistAddCheckCircle />
-                <p>{wantToWatchMovies.length}</p>
-              </div>
-            </div>
-            <div className="profile_wrapper">
-              {selectedButton === "watched" && watchedMovies.length === 0 ? (
-                <NoResultMessage>視聴した映画がありません</NoResultMessage>
-              ) : (
-                <></>
-              )}
-              {selectedButton === "wantToWatch" &&
-              wantToWatchMovies.length === 0 ? (
-                <NoResultMessage>登録した映画がありません</NoResultMessage>
-              ) : (
-                <></>
-              )}
-              <MovieContainer>
-                {(selectedButton === "watched"
-                  ? watchedMovies
-                  : wantToWatchMovies
-                ).map((movie) => (
-                  <MovieCard
-                    key={movie}
-                    isWantToWatch={myWantToWatchMovies.includes(movie)}
-                    movieId={movie}
-                  />
-                ))}
-              </MovieContainer>
-            </div>
-          </>
-        ) : (
-          <NoResultMessage>
-            該当するユーザーが見つかりませんでした
-          </NoResultMessage>
-        )}
+            ))}
+          </MovieContainer>
+        </div>
       </PageWithHeader>
-      {isLoading || wantToWatchIsLoading || watchedIsLoading || myWantToWatchIsLoading && <Loader />}
     </>
   );
 };

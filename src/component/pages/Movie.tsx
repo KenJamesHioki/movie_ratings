@@ -44,9 +44,11 @@ export const Movie: React.FC = memo(() => {
   const currentUserPost = posts?.find(
     (post) => post.userId === currentUser.userId
   );
-  const { movieInfo, isLoading: movieInfoIsLoading } = useMovieInfo(paramMovieId || "");
+  const { movieInfo, isLoading: movieInfoIsLoading } = useMovieInfo(
+    paramMovieId || ""
+  );
   const averageScore = clacAverageScore(posts);
-  
+
   const updatePosts = async () => {
     setIsLoading(true);
     try {
@@ -76,7 +78,11 @@ export const Movie: React.FC = memo(() => {
         nextPosts.find((post) => post.userId === currentUser.userId)?.score || 0
       );
     } catch (error: any) {
-      showAlert({type: "error" , message: "投稿の読み込みに失敗しました", theme})
+      showAlert({
+        type: "error",
+        message: "投稿の読み込みに失敗しました",
+        theme,
+      });
       console.error(error.message);
     } finally {
       setIsLoading(false);
@@ -145,115 +151,117 @@ export const Movie: React.FC = memo(() => {
     }
   };
 
-  return (
-    <>
+  if (isLoading || movieInfoIsLoading) {
+    return (
       <PageWithHeader>
-        {movieInfo ? (
-            <div className="rating_wrapper">
-              <MovieInfoContainer
-                movieInfo={movieInfo}
-                averageScore={averageScore}
-              />
-              <form className="rating_post-form" onSubmit={handleSubmit}>
-                <label htmlFor="score" className="rating_set-score">
-                  {hoverScore === null || hoverScore === -1
-                    ? score
-                    : hoverScore}
-                  <Rating
-                    name="score"
-                    value={score}
-                    precision={1}
-                    onChange={(_e, newValue) => setScore(Number(newValue))}
-                    onChangeActive={(_e, newHover) =>
-                      setHoverScore(Number(newHover))
-                    }
-                    readOnly={currentUserPost && !isEditMode}
-                    emptyIcon={
-                      <StarIcon
-                        style={{ opacity: 0.5, color: "gray" }}
-                        fontSize="inherit"
-                      />
-                    }
-                  />
-                </label>
-                <div className="rating_comment-and-button">
-                  <Textarea
-                    value={comment}
-                    disabled={currentUserPost && !isEditMode}
-                    onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-                      setComment(e.target.value)
-                    }
-                    placeholder="コメントを入力"
-                  />
-                  {!currentUserPost && (
-                    <PrimaryButton
-                      type="submit"
-                      key="post"
-                      disabled={!comment}
-                      // onClick={handlePost}
-                    >
-                      投稿
-                    </PrimaryButton>
-                  )}
-                  {currentUserPost && !isEditMode && (
-                    <PrimaryButton
-                      type="button"
-                      key="edit"
-                      onClick={() => {
-                        setIsEditMode(true);
-                      }}
-                    >
-                      編集
-                    </PrimaryButton>
-                  )}
-                  {isEditMode && (
-                    <>
-                      <PrimaryButton
-                        type="submit"
-                        key="save"
-                        //onClick={handleSave}
-                      >
-                        保存
-                      </PrimaryButton>
-                      <InvertedButton
-                        type="button"
-                        key="cancel"
-                        onClick={handleCancel}
-                      >
-                        キャンセル
-                      </InvertedButton>
-                    </>
-                  )}
-                </div>
-              </form>
-              <PostContainer>
-                {posts?.length === 0 ? (
-                  <NoResultMessage>まだ投稿がありません</NoResultMessage>
-                ) : (
-                  <>
-                    {posts?.map((post) => {
-                      if (currentUser.userId === post.userId) {
-                        return;
-                      } else {
-                        return (
-                          <Post
-                            key={post.postId}
-                            userId={post.userId}
-                            score={post.score}
-                            comment={post.comment}
-                          />
-                        );
-                      }
-                    })}
-                  </>
-                )}
-              </PostContainer>
-            </div>
-        ) : (
-          <NoResultMessage>該当する映画が見つかりませんでした</NoResultMessage>
-        )}
+        <Loader />
       </PageWithHeader>
-      {isLoading || movieInfoIsLoading && <Loader />}
-    </>
+    );
+  }
+
+  if (!movieInfo) {
+    return (
+      <PageWithHeader>
+        <NoResultMessage>該当する映画が見つかりませんでした</NoResultMessage>
+      </PageWithHeader>
+    );
+  }
+
+  return (
+    <PageWithHeader>
+      <div className="rating_wrapper">
+        <MovieInfoContainer movieInfo={movieInfo} averageScore={averageScore} />
+        <form className="rating_post-form" onSubmit={handleSubmit}>
+          <label htmlFor="score" className="rating_set-score">
+            {hoverScore === null || hoverScore === -1 ? score : hoverScore}
+            <Rating
+              name="score"
+              value={score}
+              precision={1}
+              onChange={(_e, newValue) => setScore(Number(newValue))}
+              onChangeActive={(_e, newHover) => setHoverScore(Number(newHover))}
+              readOnly={currentUserPost && !isEditMode}
+              emptyIcon={
+                <StarIcon
+                  style={{ opacity: 0.5, color: "gray" }}
+                  fontSize="inherit"
+                />
+              }
+            />
+          </label>
+          <div className="rating_comment-and-button">
+            <Textarea
+              value={comment}
+              disabled={currentUserPost && !isEditMode}
+              onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
+                setComment(e.target.value)
+              }
+              placeholder="コメントを入力"
+            />
+            {!currentUserPost && (
+              <PrimaryButton
+                type="submit"
+                key="post"
+                disabled={!comment}
+                // onClick={handlePost}
+              >
+                投稿
+              </PrimaryButton>
+            )}
+            {currentUserPost && !isEditMode && (
+              <PrimaryButton
+                type="button"
+                key="edit"
+                onClick={() => {
+                  setIsEditMode(true);
+                }}
+              >
+                編集
+              </PrimaryButton>
+            )}
+            {isEditMode && (
+              <>
+                <PrimaryButton
+                  type="submit"
+                  key="save"
+                  //onClick={handleSave}
+                >
+                  保存
+                </PrimaryButton>
+                <InvertedButton
+                  type="button"
+                  key="cancel"
+                  onClick={handleCancel}
+                >
+                  キャンセル
+                </InvertedButton>
+              </>
+            )}
+          </div>
+        </form>
+        <PostContainer>
+          {posts?.length === 0 ? (
+            <NoResultMessage>まだ投稿がありません</NoResultMessage>
+          ) : (
+            <>
+              {posts?.map((post) => {
+                if (currentUser.userId === post.userId) {
+                  return;
+                } else {
+                  return (
+                    <Post
+                      key={post.postId}
+                      userId={post.userId}
+                      score={post.score}
+                      comment={post.comment}
+                    />
+                  );
+                }
+              })}
+            </>
+          )}
+        </PostContainer>
+      </div>
+    </PageWithHeader>
   );
 });
