@@ -96,7 +96,13 @@ export const Home: React.FC = memo(() => {
               検索
             </PrimaryButton>
           </form>
-          {paramMovieTitle ? (
+          {!paramMovieTitle ? (
+            <SectionTitle
+              style={{ alignSelf: "flex-start", marginBottom: "40px" }}
+            >
+              国内人気作品
+            </SectionTitle>
+          ) : (
             <SectionTitle
               style={{ alignSelf: "flex-start", marginBottom: "40px" }}
             >
@@ -104,18 +110,12 @@ export const Home: React.FC = memo(() => {
                 ? `${paramMovieTitle}の検索結果：`
                 : "検索結果："}
             </SectionTitle>
-          ) : (
-            <SectionTitle
-              style={{ alignSelf: "flex-start", marginBottom: "40px" }}
-            >
-              国内人気作品
-            </SectionTitle>
           )}
-          {movies?.length === 0 ? (
+          {movies.length === 0 ? (
             <NoResultMessage>該当する映画がありません</NoResultMessage>
           ) : (
             <MovieContainer>
-              {movies[0]?.movieId && (
+              {movies[0] && (
                 <>
                   {movies.map((movie) => (
                     <MovieCard

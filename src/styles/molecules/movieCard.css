@@ -43,9 +43,12 @@
   position: absolute;
   left: 10px;
   bottom: 12px;
+  padding-right: 4px;
   color: white;
   font-weight: 700;
   font-size: 0.8rem;
+  white-space: normal;
+  word-wrap: break-word;
 }
 .movieCard_button-container {
   display: flex;

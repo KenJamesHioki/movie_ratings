@@ -46,6 +46,11 @@
   color: white;
   line-height: 1.2rem;
 }
+@media screen and (max-width: 599px) {
+  .post_comment {
+    font-size: 0.8rem;
+  }
+}
 .light .post_comment {
   color: rgb(39, 37, 54);
 }/*# sourceMappingURL=post.css.map */

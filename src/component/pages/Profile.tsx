@@ -5,14 +5,7 @@ import { MovieCard } from "../molecules/MovieCard";
 import "../../styles/pages/profile.css";
 import { useLocation, useParams } from "react-router-dom";
 import { MovieContainer } from "../layout/MovieContainer";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { Loader } from "../atoms/Loader";
 import { NoResultMessage } from "../atoms/NoResultMessage";
@@ -20,9 +13,10 @@ import { ProfileContainer } from "../molecules/ProfileContainer";
 import { showAlert } from "../../lib/showAlert";
 import { PlaylistAddCheckCircle, Visibility } from "@mui/icons-material";
 import { useWantToWatchMovies } from "../../hooks/useWantToWatchMovies";
+import { useWatchedMovies } from "../../hooks/useWatchedMovies";
 
 type ButtonKey = "watched" | "wantToWatch";
-type UserInfo = {
+type ProfileInfo = {
   userId: string;
   displayName: string;
   introduction: string;
@@ -32,14 +26,14 @@ type UserInfo = {
 export const Profile: React.FC = () => {
   const { currentUser } = useUser();
   const { paramUserId } = useParams();
-  const { wantToWatchMovies } = useWantToWatchMovies(
+  const { wantToWatchMovies, isLoading: wantToWatchIsLoading } = useWantToWatchMovies(
     paramUserId || currentUser.userId
   );
+  const { watchedMovies, isLoading: watchedIsLoading } = useWatchedMovies(paramUserId || currentUser.userId);
   const location = useLocation();
-  const [watchedMovies, setWatchedMovies] = useState<Array<string>>([]);
   const [selectedButton, setSelectedButton] = useState<ButtonKey>("watched");
   const [isLoading, setIsLoading] = useState(false);
-  const [userInfo, setUserInfo] = useState<UserInfo | null>({
+  const [profileInfo, setProfileInfo] = useState<ProfileInfo | null>({
     userId: "",
     displayName: "",
     introduction: "",
@@ -51,19 +45,19 @@ export const Profile: React.FC = () => {
   };
 
   useEffect(() => {
-    const fetchOtherUserInfo = async (id: string) => {
+    const fetchOtherUserProfile = async (id: string) => {
       try {
         setIsLoading(true);
         const docSnap = await getDoc(doc(db, "users", id));
         if (docSnap.exists()) {
-          setUserInfo({
+          setProfileInfo({
             userId: id,
             displayName: docSnap.data().displayName,
             introduction: docSnap.data().introduction,
             iconUrl: docSnap.data().iconUrl,
           });
         } else {
-          setUserInfo(null);
+          setProfileInfo(null);
         }
       } catch (error: any) {
         console.error(error.message);
@@ -73,9 +67,9 @@ export const Profile: React.FC = () => {
     };
 
     if (paramUserId) {
-      fetchOtherUserInfo(paramUserId);
+      fetchOtherUserProfile(paramUserId);
     } else {
-      setUserInfo({
+      setProfileInfo({
         userId: currentUser.userId,
         displayName: currentUser.displayName,
         introduction: currentUser.introduction,
@@ -90,39 +84,15 @@ export const Profile: React.FC = () => {
     }
   }, [location]);
 
-  useEffect(() => {
-    const q = query(
-      collection(db, "posts"),
-      where("userId", "==", paramUserId ? paramUserId : currentUser.userId)
-    );
-    const fetchWatchedMovies = async () => {
-      try {
-        setIsLoading(true);
-        const querySnapshot = await getDocs(q);
-        const nextWatchedMovies: Array<string> = [];
-        querySnapshot.forEach((doc) => {
-          nextWatchedMovies.push(doc.data().movieId);
-        });
-        setWatchedMovies(nextWatchedMovies);
-      } catch (error: any) {
-        console.error(error.meesage);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchWatchedMovies();
-  }, [paramUserId, currentUser]);
-
   return (
     <>
       <PageWithHeader>
-        {userInfo ? (
+        {profileInfo ? (
           <>
             <div className="profile_wrapper">
               <ProfileContainer
                 numWatched={watchedMovies?.length}
-                userInfo={userInfo}
+                profileInfo={profileInfo}
               />
             </div>
             <div className="profile_button-container">
@@ -172,10 +142,12 @@ export const Profile: React.FC = () => {
             </div>
           </>
         ) : (
-          <NoResultMessage>該当するユーザーが見つかりませんでした</NoResultMessage>
+          <NoResultMessage>
+            該当するユーザーが見つかりませんでした
+          </NoResultMessage>
         )}
       </PageWithHeader>
-      {isLoading && <Loader />}
+      {isLoading || wantToWatchIsLoading || watchedIsLoading && <Loader />}
     </>
   );
 };

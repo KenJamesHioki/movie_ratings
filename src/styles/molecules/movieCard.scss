@@ -48,9 +48,12 @@
     position: absolute;
     left: 10px;
     bottom: 12px;
+    padding-right: 4px;
     color: $cWhite;
     font-weight: 700;
     font-size: 0.8rem;
+    white-space: normal;
+    word-wrap: break-word;
   }
 
   &_button-container {
@@ -100,15 +103,4 @@
   &_average-score {
     font-size: 0.6rem;
   }
-
-  // &_rating{
-  //   display: flex;
-  //   align-items: center;
-  //   justify-content: center;
-  //   gap: 2px;
-  //   color: $cWhite;
-  //   text-align: center;
-  //   padding-top: 8px;
-  //   font-size: 0.8rem
-  // }
 }

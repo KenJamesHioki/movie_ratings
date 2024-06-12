@@ -40,39 +40,47 @@ export const Movie: React.FC = memo(() => {
   const [comment, setComment] = useState("");
   const [posts, setPosts] = useState<Array<RatingPost>>([]);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const currentUserPost = posts?.find(
     (post) => post.userId === currentUser.userId
   );
-  const { movieInfo } = useMovieInfo(paramMovieId || "");
+  const { movieInfo, isLoading: movieInfoIsLoading } = useMovieInfo(paramMovieId || "");
   const averageScore = clacAverageScore(posts);
   
   const updatePosts = async () => {
-    const q = query(
-      collection(db, "posts"),
-      where("movieId", "==", paramMovieId),
-      orderBy("timestamp")
-    );
-    const querySnapshot = await getDocs(q);
-    const nextPosts: Array<RatingPost> = [];
-    querySnapshot.forEach((doc) => {
-      nextPosts.push({
-        postId: doc.id,
-        comment: doc.data().comment,
-        movieId: doc.data().movieId,
-        score: doc.data().score,
-        timestamp: doc.data().timestamp,
-        userId: doc.data().userId,
+    setIsLoading(true);
+    try {
+      const q = query(
+        collection(db, "posts"),
+        where("movieId", "==", paramMovieId),
+        orderBy("timestamp")
+      );
+      const querySnapshot = await getDocs(q);
+      const nextPosts: Array<RatingPost> = [];
+      querySnapshot.forEach((doc) => {
+        nextPosts.push({
+          postId: doc.id,
+          comment: doc.data().comment,
+          movieId: doc.data().movieId,
+          score: doc.data().score,
+          timestamp: doc.data().timestamp,
+          userId: doc.data().userId,
+        });
       });
-    });
-    setPosts(nextPosts);
-    setComment(
-      nextPosts.find((post) => post.userId === currentUser.userId)?.comment ||
-        ""
-    );
-    setScore(
-      nextPosts.find((post) => post.userId === currentUser.userId)?.score || 0
-    );
+      setPosts(nextPosts);
+      setComment(
+        nextPosts.find((post) => post.userId === currentUser.userId)?.comment ||
+          ""
+      );
+      setScore(
+        nextPosts.find((post) => post.userId === currentUser.userId)?.score || 0
+      );
+    } catch (error: any) {
+      showAlert({type: "error" , message: "投稿の読み込みに失敗しました", theme})
+      console.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -80,8 +88,8 @@ export const Movie: React.FC = memo(() => {
   }, [paramMovieId]);
 
   const handlePost = async () => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
       await addDoc(collection(db, "posts"), {
         userId: currentUser.userId,
         score,
@@ -100,8 +108,8 @@ export const Movie: React.FC = memo(() => {
   };
 
   const handleSave = async () => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
       await updateDoc(doc(db, "posts", currentUserPost!.postId), {
         score,
         comment,
@@ -245,7 +253,7 @@ export const Movie: React.FC = memo(() => {
           <NoResultMessage>該当する映画が見つかりませんでした</NoResultMessage>
         )}
       </PageWithHeader>
-      {isLoading && <Loader />}
+      {isLoading || movieInfoIsLoading && <Loader />}
     </>
   );
 });

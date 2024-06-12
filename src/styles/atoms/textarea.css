@@ -9,10 +9,13 @@
 }
 @media screen and (max-width: 599px) {
   .input, .textarea {
-    font-size: 0.6rem;
+    font-size: 0.8rem;
   }
 }
 .light .input, .light .textarea {
   color: rgb(39, 37, 54);
   background-color: rgba(17, 25, 40, 0.05);
+}
+.light .login_wrapper .input, .light .login_wrapper .textarea {
+  color: white;
 }/*# sourceMappingURL=textarea.css.map */

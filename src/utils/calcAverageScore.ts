@@ -1,6 +1,9 @@
-import { RatingPost } from "../types/types";
+type Posts = {
+  score: number;
+  [key:string]: any;
+}
 
-export const clacAverageScore = (posts: Array<RatingPost>) => {
+export const clacAverageScore = (posts: Array<Posts>) => {
   if (posts.length === 0) {
     return "--";
   } else {

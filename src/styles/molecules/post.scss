@@ -53,6 +53,10 @@
   &_comment {
     color: $cWhite;
     line-height: 1.2rem;
+    
+    @include mq(md) {
+      font-size: 0.8rem;
+    }
 
     .light & {
       color: $cNavy;

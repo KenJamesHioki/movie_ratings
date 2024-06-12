@@ -5,7 +5,8 @@ import { MovieInfo } from "../types/types";
 import { useTheme } from "../lib/ThemeProvider";
 
 export const useMovieInfo = (movieId: string) => {
-  const {theme} = useTheme();
+  const { theme } = useTheme();
+  const [isLoading, setIsLoading] = useState(true);
   const [movieInfo, setMovieInfo] = useState<MovieInfo | null>({
     movieId: "",
     title: "",
@@ -19,7 +20,7 @@ export const useMovieInfo = (movieId: string) => {
       import.meta.env.VITE_TMDB_API_KEY
     }&language=ja-JP
     `;
-
+    setIsLoading(true);
     axios
       .get(url)
       .then((response) => {
@@ -31,6 +32,7 @@ export const useMovieInfo = (movieId: string) => {
           overview: movieDetails.overview,
           posterPath: movieDetails.poster_path,
         });
+        setIsLoading(false);
       })
       .catch((error: any) => {
         setMovieInfo(null);
@@ -40,8 +42,9 @@ export const useMovieInfo = (movieId: string) => {
           theme,
         });
         console.error(error.message);
-      });
+      })
+      .finally(() => setIsLoading(false));
   }, [movieId]);
 
-  return { movieInfo };
+  return { movieInfo, isLoading };
 };
