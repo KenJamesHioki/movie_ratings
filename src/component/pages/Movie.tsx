@@ -76,8 +76,8 @@ export const Movie: React.FC = memo(() => {
   }, [paramMovieId]);
 
   const handlePost = async () => {
-    setIsLoading(true);
     try {
+      setIsLoading(true);
       await addDoc(collection(db, "posts"), {
         userId: currentUser.userId,
         score,
@@ -96,8 +96,8 @@ export const Movie: React.FC = memo(() => {
   };
 
   const handleSave = async () => {
-    setIsLoading(true);
     try {
+      setIsLoading(true);
       await updateDoc(doc(db, "posts", currentUserPost!.postId), {
         score,
         comment,
