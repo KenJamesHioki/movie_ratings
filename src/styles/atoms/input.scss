@@ -1,7 +1,7 @@
 @use '../global/index' as *;
 
 .input {
-  background-color: rgba(17, 25, 40, 0.6);
+  background-color: $cFadedBlackLight;
   border: 1px rgba(128, 128, 128, 0.345) solid;
   padding: 20px;
   border-radius: 4px;

@@ -60,6 +60,9 @@
   padding: 8px 0;
   cursor: pointer;
 }
+.light .movieCard_button {
+  background-color: rgba(17, 25, 40, 0.9);
+}
 .movieCard_button:hover {
   opacity: 0.8;
 }

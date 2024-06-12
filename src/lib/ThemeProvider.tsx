@@ -20,14 +20,19 @@ export const ThemeProvider: React.FC<Props> = ({ children }) => {
   const [theme, setTheme] = useState<Theme>("dark");
 
   useEffect(() => {
+    const savedTheme: string | null = localStorage.getItem("theme");
+    if (savedTheme !== null) {
+      setTheme(savedTheme as Theme);
+    }    
     document.body.classList.add(theme);
-  }, []);
+  }, [theme]);
 
   const toggleTheme = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
     setTheme(newTheme);
     document.body.classList.remove(theme);
     document.body.classList.add(newTheme);
+    localStorage.setItem("theme", newTheme);
   };
 
   return (

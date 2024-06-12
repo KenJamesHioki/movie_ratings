@@ -15,11 +15,15 @@
     margin: 20px 0;
     padding: 0 calc((100vw - 1000px) / 2);
     display: flex;
-    background-color: rgba(17, 25, 40, 0.6);
+    background-color: $cFadedBlackLight;
     width: 100%;
     justify-content: flex-start;
     border-top: 1px $cLightGrayBorder solid;
     border-bottom: 1px $cLightGrayBorder solid;
+
+    .light & {
+      background-color: $cFadedBlackStrong;
+    }
 
     & .button {
       padding: 20px 40px;

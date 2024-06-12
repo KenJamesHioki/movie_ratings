@@ -60,12 +60,16 @@
   &_button {
     flex: 1;
     text-align: center;
-    background-color: rgba(17, 25, 40, 0.6);
+    background-color: $cFadedBlackLight;
     border-left: 1px rgba(128, 128, 128, 0.345) solid;
     border-right: 1px rgba(128, 128, 128, 0.345) solid;
     border-bottom: 1px rgba(128, 128, 128, 0.345) solid;
     padding: 8px 0;
     cursor: pointer;
+
+    .light & {
+      background-color: $cFadedBlackStrong;
+    }
 
     &:hover {
       opacity: 0.8;
