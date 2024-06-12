@@ -9,7 +9,7 @@
   min-height: calc(100vh - 60px);
 
   .light & {
-    background-color: $lightModeBg;
+    background-color: $cLightModeBg;
   }
 
   @include mq(lg) {

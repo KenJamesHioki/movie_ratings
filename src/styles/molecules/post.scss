@@ -10,7 +10,7 @@
 
   .light & {
     color: $cNavy;
-    background-color:$lightModeCardBg;
+    background-color: $cLightModeCardBg;
   }
 
 
@@ -36,7 +36,7 @@
     }
   }
 
-  &_display-name{
+  &_display-name {
     color: $cWhite;
     font-weight: 600;
     font-size: 0.8rem;
