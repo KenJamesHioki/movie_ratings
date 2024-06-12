@@ -6,7 +6,6 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
-  signInWithRedirect,
 } from "firebase/auth";
 import { auth, db, provider, storage } from "../../lib/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -14,7 +13,6 @@ import { doc, setDoc } from "firebase/firestore";
 import { Input } from "../atoms/Input";
 import { Close } from "@mui/icons-material";
 import { PrimaryButton } from "../atoms/PrimaryButton";
-import { isMobile } from "../../utils/isMobile";
 import { showAlert } from "../../lib/showAlert";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -31,7 +29,7 @@ export const Login: React.FC = memo(() => {
   const [passwordResetEmail, setPasswordResetEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordResetMode, setIsPasswordResetMode] = useState(false);
-  const {currentUser} = useUser();
+  const { currentUser } = useUser();
 
   useEffect(() => {
     if (currentUser) {
@@ -130,12 +128,7 @@ export const Login: React.FC = memo(() => {
 
   const handleGoogleAuth = async () => {
     try {
-      let result;
-      if (isMobile()) {
-        result = await signInWithRedirect(auth, provider);
-      } else {
-        result = await signInWithPopup(auth, provider);
-      }
+      const result = await signInWithPopup(auth, provider);
       if (!isLoginMode) {
         await setDoc(doc(db, "users", result.user.uid), {
           displayName: result.user.displayName,
