@@ -23,3 +23,11 @@ export type RatingPost = {
   timestamp: any;
   userId: string;
 };
+
+export type MovieInfo = {
+  movieId: string;
+  title: string;
+  releaseYear: string;
+  overview: string;
+  posterPath: string;
+};

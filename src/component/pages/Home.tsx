@@ -32,6 +32,12 @@ export const Home: React.FC = memo(() => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!searchTitle) return;
+    navigate(`/${searchTitle}`);
+  };
+
   useEffect(() => {
     setIsLoading(true);
     let url = "";
@@ -48,12 +54,6 @@ export const Home: React.FC = memo(() => {
     }
     setNextMovies(url);
   }, [paramMovieTitle]);
-
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!searchTitle) return;
-    navigate(`/${searchTitle}`);
-  };
 
   const setNextMovies = (url: string) => {
     axios

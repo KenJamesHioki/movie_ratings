@@ -24,26 +24,6 @@ export const EditProfile: React.FC = () => {
   const navigate = useNavigate();
   const {theme} = useTheme();
 
-  const fetchProfile = async () => {
-    setIsLoading(true);
-    try {
-      const docSnap = await getDoc(doc(db, "users", currentUser.userId));
-      if (docSnap.exists()) {
-        setDisplayName(docSnap.data().displayName);
-        setIntroduction(docSnap.data().introduction);
-        setIconUrl(docSnap.data().iconUrl);
-      } else {
-        console.error("指定のドキュメントが見つかりませんでした");
-        showAlert({type: 'error', message: 'データの読み込みに失敗しました', theme});
-      }
-    } catch (error: any) {
-      console.error(error.message);
-      showAlert({type: 'error', message: 'データの読み込みに失敗しました', theme});
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0]) {
       setNewIcon(e.target.files![0]);
@@ -80,6 +60,26 @@ export const EditProfile: React.FC = () => {
   };
 
   useEffect(() => {
+    const fetchProfile = async () => {
+      setIsLoading(true);
+      try {
+        const docSnap = await getDoc(doc(db, "users", currentUser.userId));
+        if (docSnap.exists()) {
+          setDisplayName(docSnap.data().displayName);
+          setIntroduction(docSnap.data().introduction);
+          setIconUrl(docSnap.data().iconUrl);
+        } else {
+          console.error("指定のドキュメントが見つかりませんでした");
+          showAlert({type: 'error', message: 'データの読み込みに失敗しました', theme});
+        }
+      } catch (error: any) {
+        console.error(error.message);
+        showAlert({type: 'error', message: 'データの読み込みに失敗しました', theme});
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
     fetchProfile();
   }, [currentUser]);
 
