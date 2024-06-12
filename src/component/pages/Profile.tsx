@@ -3,7 +3,7 @@ import { PageWithHeader } from "../layout/PageWithHeader";
 import { useUser } from "../../lib/UserProvider";
 import { MovieCard } from "../molecules/MovieCard";
 import "../../styles/pages/profile.css";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { MovieContainer } from "../layout/MovieContainer";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../lib/firebase";
@@ -14,7 +14,6 @@ import { showAlert } from "../../lib/showAlert";
 import { PlaylistAddCheckCircle, Visibility } from "@mui/icons-material";
 import { useWantToWatchMovies } from "../../hooks/useWantToWatchMovies";
 
-// type MovieId = string;
 type ButtonKey = "watched" | "wantToWatch";
 
 export const Profile: React.FC = () => {
@@ -25,17 +24,10 @@ export const Profile: React.FC = () => {
   const [selectedButton, setSelectedButton] = useState<ButtonKey>("watched");
   const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
 
   const handleClick = (key: ButtonKey) => {
     setSelectedButton(key);
   };
-
-  useEffect(() => {
-    if (!currentUser.userId) {
-      navigate("/");
-    }
-  }, [currentUser]);
 
   useEffect(() => {
     if (location.state) {

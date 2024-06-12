@@ -12,16 +12,17 @@ import { auth, db, provider, storage } from "../../lib/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
 import { Input } from "../atoms/Input";
-import { useUser } from "../../lib/UserProvider";
-import { useNavigate } from "react-router-dom";
 import { Close } from "@mui/icons-material";
 import { PrimaryButton } from "../atoms/PrimaryButton";
 import { isMobile } from "../../utils/isMobile";
 import { showAlert } from "../../lib/showAlert";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../../lib/UserProvider";
 
 export const Login: React.FC = memo(() => {
+  const navigate = useNavigate();
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [icon, setIcon] = useState<File | null>(null);
   const [iconUrl, setIconUrl] = useState("");
@@ -30,14 +31,13 @@ export const Login: React.FC = memo(() => {
   const [passwordResetEmail, setPasswordResetEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordResetMode, setIsPasswordResetMode] = useState(false);
-  const { currentUser } = useUser();
-  const navigate = useNavigate();
+  const {currentUser} = useUser();
 
   useEffect(() => {
-    if (currentUser.userId) {
+    if (currentUser) {
       navigate("/");
     }
-  }, [currentUser, navigate]);
+  }, [currentUser]);
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0]) {
@@ -148,6 +148,7 @@ export const Login: React.FC = memo(() => {
           theme: "dark",
         });
       }
+      navigate("/");
     } catch (error: any) {
       console.error(error.message);
       showAlert({

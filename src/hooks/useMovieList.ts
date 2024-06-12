@@ -1,3 +1,5 @@
+//結局は今は使っていない：あとで消すことを検討
+
 import { DocumentData, Query, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 type MovieId = string;

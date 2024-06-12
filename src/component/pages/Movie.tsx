@@ -4,7 +4,7 @@ import { Post } from "../molecules/Post";
 import "../../styles/pages/movie.css";
 import { PrimaryButton } from "../atoms/PrimaryButton";
 import { Textarea } from "../atoms/Textarea";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useUser } from "../../lib/UserProvider";
 import {
   addDoc,
@@ -42,7 +42,6 @@ export const Movie: React.FC = memo(() => {
   const currentUserPost = posts?.find(
     (post) => post.userId === currentUser.userId
   );
-  const navigate = useNavigate();
   
   const updatePosts = async () => {
     const q = query(
@@ -71,12 +70,6 @@ export const Movie: React.FC = memo(() => {
       nextPosts.find((post) => post.userId === currentUser.userId)?.score || 0
     );
   };
-
-  useEffect(() => {
-    if (!currentUser.userId) {
-      navigate("/");
-    }
-  }, [currentUser, navigate]);
 
   useEffect(() => {
     updatePosts();

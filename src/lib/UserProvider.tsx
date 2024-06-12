@@ -1,6 +1,14 @@
 import { signOut } from "firebase/auth";
-import { ReactNode, createContext, useContext, useState } from "react";
-import { auth } from "./firebase";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+} from "react";
+import { auth, db } from "./firebase";
+import { onAuthStateChanged } from "firebase/auth"; // 追加
+import { doc, getDoc } from "firebase/firestore";
 
 type User = {
   userId: string;
@@ -11,14 +19,15 @@ type User = {
 
 type UserContext = {
   currentUser: User;
-  login: (
-    userId: string,
-    iconUrl: string,
-    displayName: string,
-    introduction: string
-  ) => void;
+  // login: (
+  //   userId: string,
+  //   iconUrl: string,
+  //   displayName: string,
+  //   introduction: string
+  // ) => void;
   logout: () => void;
   update: (iconUrl: string, displayName: string, introduction: string) => void;
+  isAuthChecked: boolean; // 追加
 };
 
 const UserContext = createContext<UserContext>({
@@ -28,9 +37,10 @@ const UserContext = createContext<UserContext>({
     displayName: "",
     introduction: "",
   },
-  login: () => {},
+  // login: () => {},
   logout: () => {},
   update: () => {},
+  isAuthChecked: false, // 追加
 });
 
 type Props = {
@@ -44,23 +54,53 @@ export const UserProvider: React.FC<Props> = ({ children }) => {
     displayName: "",
     introduction: "",
   });
+  const [isAuthChecked, setIsAuthChecked] = useState(false);
 
-  const login = (
-    userId: string,
-    iconUrl: string,
-    displayName: string,
-    introduction: string
-  ) => {
-    setCurrentUser({ userId, iconUrl, displayName, introduction });
-  };
+  useEffect(() => {
+    console.log("activate");
+    
+    const unSub = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const docSnap = await getDoc(doc(db, "users", user.uid));
+        if (docSnap.exists()) {
+          setCurrentUser({
+            userId: user.uid,
+            iconUrl: docSnap.data().iconUrl,
+            displayName: docSnap.data().displayName,
+            introduction: docSnap.data().introduction,
+          });
+        } else {
+          setCurrentUser({
+            userId: "",
+            iconUrl: "",
+            displayName: "",
+            introduction: "",
+          });
+        }
+      } else {
+        setCurrentUser({
+          userId: "",
+          iconUrl: "",
+          displayName: "",
+          introduction: "",
+        });
+      }
+      setIsAuthChecked(true);
+    });
+
+    return () => unSub();
+  }, []);
+
+  // const login = (
+  //   userId: string,
+  //   iconUrl: string,
+  //   displayName: string,
+  //   introduction: string
+  // ) => {
+  //   setCurrentUser({ userId, iconUrl, displayName, introduction });
+  // };
 
   const logout = () => {
-    setCurrentUser({
-      userId: "",
-      iconUrl: "",
-      displayName: "",
-      introduction: "",
-    });
     signOut(auth);
   };
 
@@ -73,7 +113,9 @@ export const UserProvider: React.FC<Props> = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ currentUser, login, logout, update }}>
+    <UserContext.Provider
+      value={{ currentUser, /* login, */ logout, update, isAuthChecked }}
+    >
       {children}
     </UserContext.Provider>
   );
@@ -82,7 +124,7 @@ export const UserProvider: React.FC<Props> = ({ children }) => {
 export const useUser = (): UserContext => {
   const context = useContext(UserContext);
   if (context === undefined) {
-    throw new Error('useUserはUserPriovider内でのみ利用が可能です');
+    throw new Error("useUserはUserProvider内でのみ利用が可能です");
   }
   return context;
 };
