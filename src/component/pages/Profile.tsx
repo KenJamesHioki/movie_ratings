@@ -30,6 +30,8 @@ export const Profile: React.FC = () => {
     paramUserId || currentUser.userId
   );
   const { watchedMovies, isLoading: watchedIsLoading } = useWatchedMovies(paramUserId || currentUser.userId);
+  //OPTIMIZE: 他のユーザーのProfileでcurrentUserのwantToWatchを表示するためにcurrentUserのwantToWatchも取得しなければいけない。
+  const { wantToWatchMovies: myWantToWatchMovies, isLoading: myWantToWatchIsLoading } = useWantToWatchMovies(currentUser.userId);
   const location = useLocation();
   const [selectedButton, setSelectedButton] = useState<ButtonKey>("watched");
   const [isLoading, setIsLoading] = useState(false);
@@ -134,7 +136,7 @@ export const Profile: React.FC = () => {
                 ).map((movie) => (
                   <MovieCard
                     key={movie}
-                    isWantToWatch={wantToWatchMovies.includes(movie)}
+                    isWantToWatch={myWantToWatchMovies.includes(movie)}
                     movieId={movie}
                   />
                 ))}
@@ -147,7 +149,7 @@ export const Profile: React.FC = () => {
           </NoResultMessage>
         )}
       </PageWithHeader>
-      {isLoading || wantToWatchIsLoading || watchedIsLoading && <Loader />}
+      {isLoading || wantToWatchIsLoading || watchedIsLoading || myWantToWatchIsLoading && <Loader />}
     </>
   );
 };
