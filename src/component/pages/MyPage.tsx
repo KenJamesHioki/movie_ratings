@@ -14,6 +14,8 @@ import { showAlert } from "../../lib/showAlert";
 import { PlaylistAddCheckCircle, Visibility } from "@mui/icons-material";
 import { useWatchedMovieIds } from "../../hooks/useWatchedMovieIds";
 import { useWantToWatchMovieIds } from "../../hooks/useWantToWatchMovieIds";
+import { useMovieInfo } from "../../hooks/useMovieInfoTest";
+import { MovieInfo } from "../../types/types";
 
 type ButtonKey = "watched" | "wantToWatch";
 type ProfileInfo = {
@@ -39,6 +41,8 @@ export const MyPage: React.FC = () => {
   const location = useLocation();
   const [selectedButton, setSelectedButton] = useState<ButtonKey>("watched");
   const [isLoading, setIsLoading] = useState(false);
+
+  //ステートである必要はないのでは？
   const [profileInfo, setProfileInfo] = useState<ProfileInfo | null>({
     userId: "",
     displayName: "",
@@ -49,6 +53,36 @@ export const MyPage: React.FC = () => {
   const handleClick = (key: ButtonKey) => {
     setSelectedButton(key);
   };
+
+  const { fetchMovieInfo, isLoading: movieInfoIsLoading } = useMovieInfo();
+
+  const [wantToWatchMovieInfos, setWantToWatchMovieInfos] = useState<
+    Array<MovieInfo>
+  >([]);
+  useEffect(() => {
+    const fetchWantToWatchMovieInfos = async () => {
+      const movieInfos = await Promise.all(
+        wantToWatchMovieIds.map(
+          async (movieId) => await fetchMovieInfo(movieId)
+        )
+      );
+      setWantToWatchMovieInfos(movieInfos);
+    };
+    fetchWantToWatchMovieInfos();
+  }, [wantToWatchMovieIds, currentUser]);
+
+  const [watchedMovieInfos, setWatchedMovieInfos] = useState<Array<MovieInfo>>(
+    []
+  );
+  useEffect(() => {
+    const fetchWatchedMovieInfos = async () => {
+      const movieInfos = await Promise.all(
+        watchedMovieIds.map(async (movieId) => await fetchMovieInfo(movieId))
+      );
+      setWatchedMovieInfos(movieInfos);
+    };
+    fetchWatchedMovieInfos();
+  }, [watchedMovieIds, currentUser]);
 
   useEffect(() => {
     const fetchOtherUserProfile = async (id: string) => {
@@ -82,7 +116,7 @@ export const MyPage: React.FC = () => {
         iconUrl: currentUser.iconUrl,
       });
     }
-  }, [paramUserId]);
+  }, [paramUserId, currentUser]);
 
   useEffect(() => {
     if (location.state) {
@@ -94,7 +128,8 @@ export const MyPage: React.FC = () => {
     isLoading ||
     wantToWatchIsLoading ||
     watchedIsLoading ||
-    myWantToWatchIsLoading
+    myWantToWatchIsLoading ||
+    movieInfoIsLoading
   ) {
     return (
       <PageWithHeader>
@@ -156,13 +191,15 @@ export const MyPage: React.FC = () => {
           )}
           <MovieContainer>
             {(selectedButton === "watched"
-              ? watchedMovieIds
-              : wantToWatchMovieIds
+              ? watchedMovieInfos
+              : wantToWatchMovieInfos
             ).map((movie) => (
               <MovieCard
-                key={movie}
-                isWantToWatch={myWantToWatchMovies.includes(movie)}
-                movieId={movie}
+                key={movie.movieId}
+                isWantToWatch={myWantToWatchMovies.includes(movie.movieId)}
+                movieId={movie.movieId}
+                title={movie.title}
+                posterPath={movie.posterPath}
               />
             ))}
           </MovieContainer>

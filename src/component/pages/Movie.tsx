@@ -142,7 +142,7 @@ export const Movie: React.FC = memo(() => {
 
   useEffect(() => {
     fetchPosts();
-  }, [paramMovieId]);
+  }, [paramMovieId, currentUser]);
 
   useEffect(() => {
     if (currentUserPost) {

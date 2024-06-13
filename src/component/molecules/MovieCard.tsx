@@ -1,7 +1,6 @@
 import React, { memo, useEffect, useState } from "react";
 import "../../styles/molecules/movieCard.css";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { PlaylistAdd, PlaylistAddCheckCircle, Star } from "@mui/icons-material";
@@ -10,28 +9,27 @@ import { useTheme } from "../../lib/ThemeProvider";
 import { clacAverageScore } from "../../utils/calcAverageScore";
 import { useToggleWantToWatch } from "../../hooks/useToggleWantToWatch";
 
-//ProfileからはmovieIdしか渡ってこないためtitleとposterPathはオプショナルチェーンになっている
 type Props = {
   movieId: string;
-  title?: string;
-  posterPath?: string;
+  title: string;
+  posterPath: string;
   isWantToWatch: boolean;
 };
 
-type MovieInfo = {
-  title: string;
-  posterPath: string;
-};
+// type MovieInfo = {
+//   title: string;
+//   posterPath: string;
+// };
 
 export const MovieCard: React.FC<Props> = memo(
   ({ movieId, title, posterPath, isWantToWatch }) => {
     const BASE_POSTER_URL = "https://image.tmdb.org/t/p/w300";
     const { theme } = useTheme();
     const navigate = useNavigate();
-    const [movieInfo, setMovieInfo] = useState<MovieInfo>({
-      title: "",
-      posterPath: "",
-    });
+    // const [movieInfo, setMovieInfo] = useState<MovieInfo>({
+    //   title: "",
+    //   posterPath: "",
+    // });
     const [posts, setPosts] = useState<Array<{ score: number }>>([]);
     const averageScore = clacAverageScore(posts);
     const { toggleWantToWatch } = useToggleWantToWatch();
@@ -70,32 +68,32 @@ export const MovieCard: React.FC<Props> = memo(
     }, [movieId]);
 
     //OPTIMIZE:Homeからは複数の情報を渡しているがProfileからはmoviIdしか渡せないため無駄な分岐が発生している
-    useEffect(() => {
-      if (!title || !posterPath) {
-        const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${
-          import.meta.env.VITE_TMDB_API_KEY
-        }&language=ja
-      `;
+    // useEffect(() => {
+    //   if (!title || !posterPath) {
+    //     const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${
+    //       import.meta.env.VITE_TMDB_API_KEY
+    //     }&language=ja
+    //   `;
 
-        axios
-          .get(url)
-          .then((response) => {
-            const movieDetails = response.data;
-            setMovieInfo({
-              title: movieDetails.title,
-              posterPath: movieDetails.poster_path,
-            });
-          })
-          .catch((error: any) => {
-            showAlert({
-              type: "error",
-              message: "読み込みに失敗しました",
-              theme,
-            });
-            console.error(error.message);
-          });
-      }
-    }, [movieId]);
+    //     axios
+    //       .get(url)
+    //       .then((response) => {
+    //         const movieDetails = response.data;
+    //         setMovieInfo({
+    //           title: movieDetails.title,
+    //           posterPath: movieDetails.poster_path,
+    //         });
+    //       })
+    //       .catch((error: any) => {
+    //         showAlert({
+    //           type: "error",
+    //           message: "読み込みに失敗しました",
+    //           theme,
+    //         });
+    //         console.error(error.message);
+    //       });
+    //   }
+    // }, [movieId]);
 
     return (
       <div className="movieCard">
@@ -103,12 +101,12 @@ export const MovieCard: React.FC<Props> = memo(
           <div className="movieCard_cover">
             <div className="movieCard_thumbnail">
               <img
-                src={`${BASE_POSTER_URL}${posterPath || movieInfo?.posterPath}`}
+                src={`${BASE_POSTER_URL}${posterPath}`}
                 alt="moviename"
               />
               <div className="movieCard_overlay"></div>
             </div>
-            <p className="movieCard_title">{title || movieInfo?.title}</p>
+            <p className="movieCard_title">{title}</p>
           </div>
         </Link>
         <div className="movieCard_button-container">

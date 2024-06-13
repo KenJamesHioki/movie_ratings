@@ -15,8 +15,6 @@ function App() {
     return <Loader />;
   }
 
-  console.log(currentUser);
-
   return (
     <div className="app">
       <Routes>
