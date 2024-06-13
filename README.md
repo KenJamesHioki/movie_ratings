@@ -1,30 +1,78 @@
-# React + TypeScript + Vite
+## アプリケーション名
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+JMOVIE DB
 
-Currently, two official plugins are available:
+![image](https://github.com/KenJamesHioki/movie_ratings/assets/43932622/363ba901-a2cb-4f24-ab71-75076d334f61)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## アプリケーション概要
 
-## Expanding the ESLint configuration
+映画レビューアプリケーションです。
+観た映画の評価・感想を投稿、これから観たい映画のブックマークができます。
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## URL
 
-- Configure the top-level `parserOptions` property like this:
+https://movie-ra.web.app/
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## テスト用アカウント
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+メールアドレス：test6@gmail.com
+パスワード：123456
+
+## 利用方法
+
+- 新規登録をする
+- ホーム画面で映画名を検索する
+- 映画を選択し、評価と感想を投稿する
+- 今後観たい映画であればブックマークをする
+- マイページから観た映画／観たい映画の一覧が表示できる
+
+## 使用技術
+
+### 言語・ライブラリ
+- **JavaScript/TypeScript:** 主要なプログラミング言語
+- **React:** フロントエンドライブラリ
+
+### ビルドツール
+- **Webpack:** ビルドツール
+
+### スタイル関連ツール
+- **Sass:** スタイルシート
+
+### ライブラリ・パッケージ・外部API
+- **TMDB:** 映画情報取得API
+- **React Router:** ルーティングライブラリ
+- **Axios:** API通信ライブラリ
+- **MUI Icons:** アイコンライブラリ
+- **React-Toastify:** 通知/アラートライブラリ
+
+### インフラ・デプロイ関連
+- **Firebase Firestore:** NoSQLデータベース
+- **Firebase Authentication:** ユーザー認証
+- **Firebase Storage:** ファイルストレージ
+- **Firebase Hosting:** ウェブホスティング
+
+### 開発支援ツール
+- **ESLint:** コードリントツール
+- **Prettier:** コードフォーマッタ
+
+### パッケージマネージャー
+- **npm:** パッケージマネージャー
+
+## 主機能一覧
+
+機能 | 詳細
+-|-
+ユーザー登録、ログイン | メールアドレスとGoogleアカウントの利用に対応
+パスワードリセット | メールアドレス登録者のパスワードリセット
+投稿 | 映画の評価とコメントの投稿
+投稿編集 | 投稿内容の編集
+ブックマーク | 観たい映画のブックマーク
+検索 | 映画をタイトルで検索
+プロフィール | 評価した映画とブックマークした映画の一覧を表示
+プロフィール編集 | アイコン、表示名、自己紹介の編集
+テーマ切り替え | ダークとライトモードの切り替え
+他ユーザーページ | 他ユーザーのページが閲覧可能
+
+## データベース設計
+
+![image](https://github.com/KenJamesHioki/movie_ratings/assets/43932622/cf5631b6-88f1-4138-aafe-68c55a551f8a)
