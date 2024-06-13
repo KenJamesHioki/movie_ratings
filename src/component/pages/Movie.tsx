@@ -41,15 +41,15 @@ export const Movie: React.FC = memo(() => {
   const [posts, setPosts] = useState<Array<RatingPost>>([]);
   const [isEditMode, setIsEditMode] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const currentUserPost = posts?.find(
+  const currentUserPost = posts.find(
     (post) => post.userId === currentUser.userId
   );
   const { movieInfo, isLoading: movieInfoIsLoading } = useMovieInfo(
     paramMovieId || ""
   );
-  const averageScore = clacAverageScore(posts);
+  const averageScore = clacAverageScore(posts);  
 
-  const updatePosts = async () => {
+  const fetchPosts = async () => {
     setIsLoading(true);
     try {
       const q = query(
@@ -70,13 +70,6 @@ export const Movie: React.FC = memo(() => {
         });
       });
       setPosts(nextPosts);
-      setComment(
-        nextPosts.find((post) => post.userId === currentUser.userId)?.comment ||
-          ""
-      );
-      setScore(
-        nextPosts.find((post) => post.userId === currentUser.userId)?.score || 0
-      );
     } catch (error: any) {
       showAlert({
         type: "error",
@@ -89,11 +82,16 @@ export const Movie: React.FC = memo(() => {
     }
   };
 
-  useEffect(() => {
-    updatePosts();
-  }, [paramMovieId]);
-
-  const handlePost = async () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isEditMode) {
+      handleSaveChanges();
+    } else if (!currentUserPost) {
+      handleSubmitNewPost();
+    }
+  };
+  
+  const handleSubmitNewPost = async () => {
     setIsLoading(true);
     try {
       await addDoc(collection(db, "posts"), {
@@ -103,8 +101,8 @@ export const Movie: React.FC = memo(() => {
         timestamp: serverTimestamp(),
         movieId: paramMovieId,
       });
-      updatePosts();
       showAlert({ type: "success", message: "投稿されました", theme });
+      fetchPosts();
     } catch (error: any) {
       console.error(error.message);
       showAlert({ type: "error", message: "投稿に失敗しました", theme });
@@ -113,7 +111,7 @@ export const Movie: React.FC = memo(() => {
     }
   };
 
-  const handleSave = async () => {
+  const handleSaveChanges = async () => {
     setIsLoading(true);
     try {
       await updateDoc(doc(db, "posts", currentUserPost!.postId), {
@@ -122,12 +120,12 @@ export const Movie: React.FC = memo(() => {
         timestamp: serverTimestamp(),
       });
       setIsEditMode(false);
-      updatePosts();
       showAlert({
         type: "success",
         message: "投稿内容が更新されました",
         theme,
       });
+      fetchPosts();
     } catch (error: any) {
       console.error(error.message);
       showAlert({ type: "error", message: "保存に失敗しました", theme });
@@ -136,20 +134,25 @@ export const Movie: React.FC = memo(() => {
     }
   };
 
-  const handleCancel = async () => {
+  const handleCancelEdit = async () => {
     setScore(currentUserPost!.score);
     setComment(currentUserPost!.comment);
     setIsEditMode(false);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (isEditMode) {
-      handleSave();
-    } else if (!currentUserPost) {
-      handlePost();
+  useEffect(() => {
+    fetchPosts();
+  }, [paramMovieId]);
+
+  useEffect(() => {
+    if (currentUserPost) {
+      setComment(currentUserPost.comment);
+      setScore(currentUserPost.score);
+    } else {
+      setComment("");
+      setScore(0);
     }
-  };
+  }, [currentUserPost]);
 
   if (isLoading || movieInfoIsLoading) {
     return (
@@ -203,7 +206,7 @@ export const Movie: React.FC = memo(() => {
                 type="submit"
                 key="post"
                 disabled={!comment}
-                // onClick={handlePost}
+                // onClick={handleSubmitNewPost}
               >
                 投稿
               </PrimaryButton>
@@ -224,14 +227,14 @@ export const Movie: React.FC = memo(() => {
                 <PrimaryButton
                   type="submit"
                   key="save"
-                  //onClick={handleSave}
+                  //onClick={handleSaveChanges}
                 >
                   保存
                 </PrimaryButton>
                 <InvertedButton
                   type="button"
                   key="cancel"
-                  onClick={handleCancel}
+                  onClick={handleCancelEdit}
                 >
                   キャンセル
                 </InvertedButton>
