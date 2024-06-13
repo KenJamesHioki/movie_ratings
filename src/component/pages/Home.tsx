@@ -49,7 +49,7 @@ export const Home: React.FC = memo(() => {
     } else {
       url = `https://api.themoviedb.org/3/movie/popular?api_key=${
         import.meta.env.VITE_TMDB_API_KEY
-      }&language=jp-JP&page=1&region=JP`;
+      }&language=ja-JP&page=1&region=JP`;
       setSearchTitle("");
     }
     setNextMovies(url);

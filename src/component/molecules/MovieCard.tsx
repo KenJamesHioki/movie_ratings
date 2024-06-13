@@ -74,7 +74,7 @@ export const MovieCard: React.FC<Props> = memo(
       if (!title || !posterPath) {
         const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${
           import.meta.env.VITE_TMDB_API_KEY
-        }&language=jp
+        }&language=ja
       `;
 
         axios
