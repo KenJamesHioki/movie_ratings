@@ -6,7 +6,7 @@ import {
   setDoc,
   updateDoc,
 } from "firebase/firestore";
-import { useWantToWatchMovies } from "./useWantToWatchMovies";
+import { useWantToWatchMovieIds } from "./useWantToWatchMovieIds";
 import { useUser } from "../lib/UserProvider";
 import { db } from "../lib/firebase";
 import { showAlert } from "../lib/showAlert";
@@ -15,10 +15,10 @@ import { useTheme } from "../lib/ThemeProvider";
 export const useToggleWantToWatch = () => {
   const { currentUser } = useUser();
   const { theme } = useTheme();
-  const { wantToWatchMovies } = useWantToWatchMovies(currentUser.userId);
+  const { wantToWatchMovieIds } = useWantToWatchMovieIds(currentUser.userId);
 
   const toggleWantToWatch = async (movieId: string) => {
-    if (wantToWatchMovies.includes(movieId)) {
+    if (wantToWatchMovieIds.includes(movieId)) {
       removeWantToWatchMovie(movieId);
     } else {
       addWantToWatchMovie(movieId);

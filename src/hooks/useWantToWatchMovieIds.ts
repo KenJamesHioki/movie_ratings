@@ -4,22 +4,22 @@ import { db } from "../lib/firebase";
 import { showAlert } from "../lib/showAlert";
 import { useTheme } from "../lib/ThemeProvider";
 
-export const useWantToWatchMovies = (userId: string) => {
-  const [wantToWatchMovies, setWantToWatchMovies] = useState<Array<string>>([]);
+export const useWantToWatchMovieIds = (userId: string) => {
+  const [wantToWatchMovieIds, setWantToWatchMovieIds] = useState<Array<string>>([]);
   const [isLoading, setIsLoading] = useState(true);
   const {theme} = useTheme();
 
   useEffect(() => {
-    const fetchWantToWatchMovies = () => {
+    const fetchWantToWatchMovieIds = () => {
       setIsLoading(true);
       try {
         const unSub = onSnapshot(
           doc(db, "wantToWatch", userId),
           (doc) => {
             if (doc.exists()) {
-              setWantToWatchMovies(doc.data().wantToWatchMovies);
+              setWantToWatchMovieIds(doc.data().wantToWatchMovies);
             } else {
-              setWantToWatchMovies([]);
+              setWantToWatchMovieIds([]);
             }
             setIsLoading(false);
           },
@@ -39,8 +39,8 @@ export const useWantToWatchMovies = (userId: string) => {
       }
     };
 
-    fetchWantToWatchMovies();
+    fetchWantToWatchMovieIds();
   }, [userId]);
 
-  return { wantToWatchMovies, isLoading };
+  return { wantToWatchMovieIds, isLoading };
 };

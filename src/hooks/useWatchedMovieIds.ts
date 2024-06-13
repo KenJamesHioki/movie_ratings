@@ -4,8 +4,8 @@ import { db } from "../lib/firebase";
 import { showAlert } from "../lib/showAlert";
 import { useTheme } from "../lib/ThemeProvider";
 
-export const useWatchedMovies = (userId: string) => {
-  const [watchedMovies, setWatchedMovies] = useState<Array<string>>([]);
+export const useWatchedMovieIds = (userId: string) => {
+  const [watchedMovieIds, setWatchedMovieIds] = useState<Array<string>>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { theme } = useTheme();
 
@@ -19,7 +19,7 @@ export const useWatchedMovies = (userId: string) => {
         querySnapshot.forEach((doc) => {
           nextWatchedMovies.push(doc.data().movieId);
         });
-        setWatchedMovies(nextWatchedMovies);
+        setWatchedMovieIds(nextWatchedMovies);
         setIsLoading(false);
       } catch (error: any) {
         showAlert({ type: "error", message: "読み込みに失敗しました", theme });
@@ -32,5 +32,5 @@ export const useWatchedMovies = (userId: string) => {
     fetchWatchedMovies();
   }, [userId]);
 
-  return { watchedMovies, isLoading };
+  return { watchedMovieIds, isLoading };
 };

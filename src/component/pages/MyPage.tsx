@@ -12,8 +12,8 @@ import { NoResultMessage } from "../atoms/NoResultMessage";
 import { ProfileContainer } from "../molecules/ProfileContainer";
 import { showAlert } from "../../lib/showAlert";
 import { PlaylistAddCheckCircle, Visibility } from "@mui/icons-material";
-import { useWantToWatchMovies } from "../../hooks/useWantToWatchMovies";
-import { useWatchedMovies } from "../../hooks/useWatchedMovies";
+import { useWatchedMovieIds } from "../../hooks/useWatchedMovieIds";
+import { useWantToWatchMovieIds } from "../../hooks/useWantToWatchMovieIds";
 
 type ButtonKey = "watched" | "wantToWatch";
 type ProfileInfo = {
@@ -26,16 +26,16 @@ type ProfileInfo = {
 export const MyPage: React.FC = () => {
   const { currentUser } = useUser();
   const { paramUserId } = useParams();
-  const { wantToWatchMovies, isLoading: wantToWatchIsLoading } =
-    useWantToWatchMovies(paramUserId || currentUser.userId);
-  const { watchedMovies, isLoading: watchedIsLoading } = useWatchedMovies(
+  const { wantToWatchMovieIds, isLoading: wantToWatchIsLoading } =
+    useWantToWatchMovieIds(paramUserId || currentUser.userId);
+  const { watchedMovieIds, isLoading: watchedIsLoading } = useWatchedMovieIds(
     paramUserId || currentUser.userId
   );
   //OPTIMIZE: 他のユーザーのProfileでcurrentUserのwantToWatchを表示するためにcurrentUserのwantToWatchも取得しなければいけない。
   const {
-    wantToWatchMovies: myWantToWatchMovies,
+    wantToWatchMovieIds: myWantToWatchMovies,
     isLoading: myWantToWatchIsLoading,
-  } = useWantToWatchMovies(currentUser.userId);
+  } = useWantToWatchMovieIds(currentUser.userId);
   const location = useLocation();
   const [selectedButton, setSelectedButton] = useState<ButtonKey>("watched");
   const [isLoading, setIsLoading] = useState(false);
@@ -118,7 +118,7 @@ export const MyPage: React.FC = () => {
       <PageWithHeader>
         <div className="myPage_wrapper">
           <ProfileContainer
-            numWatched={watchedMovies?.length}
+            numWatched={watchedMovieIds?.length}
             profileInfo={profileInfo}
           />
         </div>
@@ -130,7 +130,7 @@ export const MyPage: React.FC = () => {
             }`}
           >
             <Visibility />
-            <p>{watchedMovies.length}</p>
+            <p>{watchedMovieIds.length}</p>
           </div>
           <div
             onClick={() => handleClick("wantToWatch")}
@@ -139,25 +139,25 @@ export const MyPage: React.FC = () => {
             }`}
           >
             <PlaylistAddCheckCircle />
-            <p>{wantToWatchMovies.length}</p>
+            <p>{wantToWatchMovieIds.length}</p>
           </div>
         </div>
         <div className="myPage_wrapper">
-          {selectedButton === "watched" && watchedMovies.length === 0 ? (
+          {selectedButton === "watched" && watchedMovieIds.length === 0 ? (
             <NoResultMessage>視聴した映画がありません</NoResultMessage>
           ) : (
             <></>
           )}
           {selectedButton === "wantToWatch" &&
-          wantToWatchMovies.length === 0 ? (
+          wantToWatchMovieIds.length === 0 ? (
             <NoResultMessage>登録した映画がありません</NoResultMessage>
           ) : (
             <></>
           )}
           <MovieContainer>
             {(selectedButton === "watched"
-              ? watchedMovies
-              : wantToWatchMovies
+              ? watchedMovieIds
+              : wantToWatchMovieIds
             ).map((movie) => (
               <MovieCard
                 key={movie}
