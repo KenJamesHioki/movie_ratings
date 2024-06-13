@@ -1,6 +1,6 @@
 @use '../global/index' as *;
 
-.profile {
+.myPage {
   &_wrapper {
     max-width: 1000px;
     width: 90%;
@@ -33,6 +33,11 @@
       gap: 2px;
       color: $cLightGray;
       cursor: pointer;
+
+      @include mq(md) {
+        padding: 8px 40px;
+        font-size: 0.8rem;
+      } 
 
       &.selected {
         background-color: $cBlue;

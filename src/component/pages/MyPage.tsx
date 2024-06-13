@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { PageWithHeader } from "../layout/PageWithHeader";
 import { useUser } from "../../lib/UserProvider";
 import { MovieCard } from "../molecules/MovieCard";
-import "../../styles/pages/profile.css";
+import "../../styles/pages/myPage.css";
 import { useLocation, useParams } from "react-router-dom";
 import { MovieContainer } from "../layout/MovieContainer";
 import { doc, getDoc } from "firebase/firestore";
@@ -23,7 +23,7 @@ type ProfileInfo = {
   iconUrl: string;
 };
 
-export const Profile: React.FC = () => {
+export const MyPage: React.FC = () => {
   const { currentUser } = useUser();
   const { paramUserId } = useParams();
   const { wantToWatchMovies, isLoading: wantToWatchIsLoading } =
@@ -116,16 +116,16 @@ export const Profile: React.FC = () => {
   return (
     <>
       <PageWithHeader>
-        <div className="profile_wrapper">
+        <div className="myPage_wrapper">
           <ProfileContainer
             numWatched={watchedMovies?.length}
             profileInfo={profileInfo}
           />
         </div>
-        <div className="profile_button-container">
+        <div className="myPage_button-container">
           <div
             onClick={() => handleClick("watched")}
-            className={`profile_watched-movies button ${
+            className={`myPage_watched-movies button ${
               selectedButton === "watched" && "selected"
             }`}
           >
@@ -134,7 +134,7 @@ export const Profile: React.FC = () => {
           </div>
           <div
             onClick={() => handleClick("wantToWatch")}
-            className={`profile_watched-movies button ${
+            className={`myPage_watched-movies button ${
               selectedButton === "wantToWatch" && "selected"
             }`}
           >
@@ -142,7 +142,7 @@ export const Profile: React.FC = () => {
             <p>{wantToWatchMovies.length}</p>
           </div>
         </div>
-        <div className="profile_wrapper">
+        <div className="myPage_wrapper">
           {selectedButton === "watched" && watchedMovies.length === 0 ? (
             <NoResultMessage>視聴した映画がありません</NoResultMessage>
           ) : (

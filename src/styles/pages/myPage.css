@@ -1,4 +1,4 @@
-.profile_wrapper {
+.myPage_wrapper {
   max-width: 1000px;
   width: 90%;
   margin: 0 auto;
@@ -7,7 +7,7 @@
   align-items: center;
   gap: 40px;
 }
-.profile_button-container {
+.myPage_button-container {
   margin: 20px 0;
   padding: 0 calc((100vw - 1000px) / 2);
   display: flex;
@@ -17,10 +17,10 @@
   border-top: 1px rgba(128, 128, 128, 0.345) solid;
   border-bottom: 1px rgba(128, 128, 128, 0.345) solid;
 }
-.light .profile_button-container {
+.light .myPage_button-container {
   background-color: rgba(17, 25, 40, 0.9);
 }
-.profile_button-container .button {
+.myPage_button-container .button {
   padding: 20px 40px;
   display: flex;
   flex-direction: column;
@@ -29,7 +29,13 @@
   color: rgb(191, 191, 191);
   cursor: pointer;
 }
-.profile_button-container .button.selected {
+@media screen and (max-width: 599px) {
+  .myPage_button-container .button {
+    padding: 8px 40px;
+    font-size: 0.8rem;
+  }
+}
+.myPage_button-container .button.selected {
   background-color: #1f8ef1;
   color: white;
-}/*# sourceMappingURL=profile.css.map */
+}/*# sourceMappingURL=myPage.css.map */

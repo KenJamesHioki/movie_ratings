@@ -26,8 +26,8 @@ export const Header: React.FC = memo(() => {
             </>
           )}
         </div>
-        <Link to="/profile" className="header_icon">
-            <img src={currentUser.iconUrl} alt="" />
+        <Link to="/mypage" className="header_icon">
+          <img src={currentUser.iconUrl} alt="" />
         </Link>
       </div>
     </header>

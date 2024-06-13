@@ -44,7 +44,7 @@ export const Post: React.FC<Props> = memo(({ userId, score, comment }) => {
   return (
     <div className="post">
       <div className="post_icon-and-display-name">
-        <Link to={`/profile/${userId}`}>
+        <Link to={`/mypage/${userId}`}>
           <div className="post_icon">
             <img src={user.iconUrl} alt="" />
           </div>

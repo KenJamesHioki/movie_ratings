@@ -22,7 +22,7 @@ export const EditProfile: React.FC = () => {
   const [iconUrl, setIconUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const {theme} = useTheme();
+  const { theme } = useTheme();
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0]) {
@@ -50,10 +50,16 @@ export const EditProfile: React.FC = () => {
         introduction,
       });
       update(iconUrl, displayName, introduction);
-      navigate("/profile",{state: {type:"success", message:"プロフィールが更新されました", theme}});
+      navigate("/mypage", {
+        state: {
+          type: "success",
+          message: "プロフィールが更新されました",
+          theme,
+        },
+      });
     } catch (error: any) {
       console.error(error.message);
-      showAlert({type: 'error', message: '保存に失敗しました', theme});
+      showAlert({ type: "error", message: "保存に失敗しました", theme });
     } finally {
       setIsLoading(false);
     }
@@ -70,16 +76,24 @@ export const EditProfile: React.FC = () => {
           setIconUrl(docSnap.data().iconUrl);
         } else {
           console.error("指定のドキュメントが見つかりませんでした");
-          showAlert({type: 'error', message: 'データの読み込みに失敗しました', theme});
+          showAlert({
+            type: "error",
+            message: "データの読み込みに失敗しました",
+            theme,
+          });
         }
       } catch (error: any) {
         console.error(error.message);
-        showAlert({type: 'error', message: 'データの読み込みに失敗しました', theme});
+        showAlert({
+          type: "error",
+          message: "データの読み込みに失敗しました",
+          theme,
+        });
       } finally {
         setIsLoading(false);
       }
     };
-    
+
     fetchProfile();
   }, [currentUser]);
 
@@ -128,12 +142,16 @@ export const EditProfile: React.FC = () => {
               }}
             />
           </div>
-          <PrimaryButton type="button" onClick={handleSave} style={{ width: "100%" }}>
+          <PrimaryButton
+            type="button"
+            onClick={handleSave}
+            style={{ width: "100%" }}
+          >
             保存
           </PrimaryButton>
           <InvertedButton
             type="button"
-            onClick={() => navigate("/profile")}
+            onClick={() => navigate("/mypage")}
             style={{ width: "100%" }}
           >
             キャンセル

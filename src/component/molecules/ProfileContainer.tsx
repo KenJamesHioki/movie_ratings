@@ -16,7 +16,10 @@ type Props = {
   profileInfo: ProfileInfo;
 };
 
-export const ProfileContainer: React.FC<Props> = ({ numWatched, profileInfo }) => {
+export const ProfileContainer: React.FC<Props> = ({
+  numWatched,
+  profileInfo,
+}) => {
   const { currentUser, logout } = useUser();
   const navigate = useNavigate();
 
@@ -26,11 +29,15 @@ export const ProfileContainer: React.FC<Props> = ({ numWatched, profileInfo }) =
         <img src={profileInfo.iconUrl} alt="" />
       </div>
       <div className="profileContainer_other-info">
-        <p className="profileContainer_display-name">{profileInfo.displayName}</p>
+        <p className="profileContainer_display-name">
+          {profileInfo.displayName}
+        </p>
         <p className="profileContainer_movies-watched">
           視聴映画数：{numWatched || 0}本
         </p>
-        <p className="profileContainer_introduction">{profileInfo.introduction}</p>
+        <p className="profileContainer_introduction">
+          {profileInfo.introduction}
+        </p>
         {(profileInfo.userId === null ||
           profileInfo.userId === currentUser.userId) && (
           <div className="profileContainer_button-container">
