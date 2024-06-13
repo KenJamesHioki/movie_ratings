@@ -2,24 +2,13 @@ import React, { memo, useEffect, useState } from "react";
 import "../../styles/molecules/movieCard.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import {
-  arrayRemove,
-  arrayUnion,
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  setDoc,
-  updateDoc,
-  where,
-} from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { PlaylistAdd, PlaylistAddCheckCircle, Star } from "@mui/icons-material";
 import { showAlert } from "../../lib/showAlert";
 import { useTheme } from "../../lib/ThemeProvider";
-import { useUser } from "../../lib/UserProvider";
 import { clacAverageScore } from "../../utils/calcAverageScore";
+import { useToggleWantToWatch } from "../../hooks/useToggleWantToWatch";
 
 //ProfileからはmovieIdしか渡ってこないためtitleとposterPathはオプショナルチェーンになっている
 type Props = {
@@ -38,58 +27,14 @@ export const MovieCard: React.FC<Props> = memo(
   ({ movieId, title, posterPath, isWantToWatch }) => {
     const BASE_POSTER_URL = "https://image.tmdb.org/t/p/w300";
     const { theme } = useTheme();
-    const { currentUser } = useUser();
     const navigate = useNavigate();
     const [movieInfo, setMovieInfo] = useState<MovieInfo>({
       title: "",
       posterPath: "",
     });
-    const [posts, setPosts] = useState<Array<{score:number}>>([]);
+    const [posts, setPosts] = useState<Array<{ score: number }>>([]);
     const averageScore = clacAverageScore(posts);
-
-    const toggleWantToWatch = async () => {
-      if (isWantToWatch) {
-        removeWantToWatchMovie();
-      } else {
-        addWantToWatchMovie();
-      }
-    };
-
-    const removeWantToWatchMovie = async () => {
-      try {
-        const docSnap = await getDoc(
-          doc(db, "wantToWatch", currentUser.userId)
-        );
-        if (docSnap.exists()) {
-          await updateDoc(doc(db, "wantToWatch", currentUser.userId), {
-            wantToWatchMovies: arrayRemove(movieId),
-          });
-        }
-      } catch (error: any) {
-        console.error(error.message);
-        showAlert({ type: "error", message: "通信に失敗しました", theme });
-      }
-    };
-
-    const addWantToWatchMovie = async () => {
-      try {
-        const docSnap = await getDoc(
-          doc(db, "wantToWatch", currentUser.userId)
-        );
-        if (docSnap.exists()) {
-          await updateDoc(doc(db, "wantToWatch", currentUser.userId), {
-            wantToWatchMovies: arrayUnion(movieId),
-          });
-        } else {
-          await setDoc(doc(db, "wantToWatch", currentUser.userId), {
-            wantToWatchMovies: [movieId],
-          });
-        }
-      } catch (error: any) {
-        console.error(error.message);
-        showAlert({ type: "error", message: "通信に失敗しました", theme });
-      }
-    };
+    const { toggleWantToWatch } = useToggleWantToWatch();
 
     //NOTE:Firebaseは、フィールドのaverageを取得するクエリが有料のため、全てのpostsを取得しクライアントサイドで計算するものとする
     useEffect(() => {
@@ -100,7 +45,7 @@ export const MovieCard: React.FC<Props> = memo(
         );
         try {
           const querySnapshot = await getDocs(q);
-          const nextPosts: Array<{score:number}> = [];
+          const nextPosts: Array<{ score: number }> = [];
           querySnapshot.forEach((doc) => {
             nextPosts.push({
               score: doc.data().score,
@@ -176,7 +121,7 @@ export const MovieCard: React.FC<Props> = memo(
           </div>
           <div
             className="movieCard_button wish-list"
-            onClick={toggleWantToWatch}
+            onClick={() => toggleWantToWatch(movieId)}
           >
             {isWantToWatch ? (
               <PlaylistAddCheckCircle className="movieCard_wish-icon" />

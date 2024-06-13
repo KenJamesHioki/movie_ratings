@@ -3,22 +3,39 @@ import { MovieInfo } from "../../types/types";
 import "../../styles/molecules/movieInfoContainer.css";
 import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
+import { PlaylistAdd, PlaylistAddCheckCircle } from "@mui/icons-material";
+import { useWantToWatchMovies } from "../../hooks/useWantToWatchMovies";
+import { useUser } from "../../lib/UserProvider";
+import { useToggleWantToWatch } from "../../hooks/useToggleWantToWatch";
 
 type Props = {
   movieInfo: MovieInfo;
   averageScore: string;
 };
 
-export const MovieInfoContainer: React.FC<Props> = ({ movieInfo, averageScore }) => {
+export const MovieInfoContainer: React.FC<Props> = ({
+  movieInfo,
+  averageScore,
+}) => {
   const BASE_POSTER_URL = "https://image.tmdb.org/t/p/w300";
+  const {currentUser} = useUser();
+  const {toggleWantToWatch} = useToggleWantToWatch()
+  const {wantToWatchMovies} = useWantToWatchMovies(currentUser.userId);
 
   return (
     <div className="movieInfoCotainer">
-      <div className="movieInfoCotainer_poster">
+      <div className="movieInfoCotainer_poster-and-button">
         <img
           src={`${BASE_POSTER_URL}${movieInfo.posterPath}`}
           alt={movieInfo.title}
         />
+        <div className="movieInfoCotainer_wish-list-button" onClick={() => {toggleWantToWatch(movieInfo.movieId)}}>
+          {wantToWatchMovies.includes(movieInfo.movieId) ? (
+            <PlaylistAddCheckCircle className="movieInfoCotainer_wish-icon" />
+          ) : (
+            <PlaylistAdd className="movieInfoCotainer_not-wish-icon" />
+          )}
+        </div>
       </div>
       <div className="movieInfoCotainer_infos">
         <h2 className="movieInfoCotainer_title">
