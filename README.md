@@ -75,4 +75,4 @@ https://movie-ra.web.app/
 
 ## データベース設計
 
-![image](https://github.com/KenJamesHioki/movie_ratings/assets/43932622/cf5631b6-88f1-4138-aafe-68c55a551f8a)
+![image](https://github.com/KenJamesHioki/movie_ratings/assets/43932622/6161981c-4008-4b85-afc3-0b577eb9ab99)
