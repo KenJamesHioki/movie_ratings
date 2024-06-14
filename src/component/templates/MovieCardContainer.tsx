@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import "../../styles/layout/movieContainer.css";
+import "../../styles/templates/movieContainer.css";
 
 type Props = {
   children: ReactNode;

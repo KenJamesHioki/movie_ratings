@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { PageWithHeader } from "../layout/PageWithHeader";
+import { PageWithHeader } from "../templates/PageWithHeader";
 import { useUser } from "../../lib/UserProvider";
-import { MovieCard } from "../molecules/MovieCard";
-import "../../styles/pages/myPage.css";
+import { MovieCard } from "../organisms/MovieCard";
 import { useLocation, useParams } from "react-router-dom";
-import { MovieContainer } from "../layout/MovieContainer";
+import { MovieContainer } from "../templates/MovieCardContainer";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { Loader } from "../atoms/Loader";
 import { NoResultMessage } from "../atoms/NoResultMessage";
-import { ProfileContainer } from "../molecules/ProfileContainer";
+import { ProfileContainer } from "../organisms/ProfileContainer";
 import { showAlert } from "../../lib/showAlert";
 import { PlaylistAddCheckCircle, Visibility } from "@mui/icons-material";
 import { useWatchedMovieIds } from "../../hooks/useWatchedMovieIds";
 import { useWantToWatchMovieIds } from "../../hooks/useWantToWatchMovieIds";
 import { useMovieInfo } from "../../hooks/useMovieInfoTest";
 import { MovieInfo } from "../../types/types";
+import "../../styles/pages/myPage.css";
 
 type ButtonKey = "watched" | "wantToWatch";
 type ProfileInfo = {

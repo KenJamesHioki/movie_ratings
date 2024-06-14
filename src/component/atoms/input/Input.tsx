@@ -1,5 +1,5 @@
 import React, { CSSProperties, ChangeEvent, memo } from "react";
-import "../../styles/atoms/input.css";
+import "../../../styles/atoms/input/input.css";
 
 type Props = {
   type: string;

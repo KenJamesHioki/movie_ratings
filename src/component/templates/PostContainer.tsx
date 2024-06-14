@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import "../../styles/layout/postContainer.css"
+import "../../styles/templates/postContainer.css"
 
 type Props = {
   children: ReactNode;

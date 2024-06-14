@@ -1,18 +1,18 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { PageWithHeader } from "../layout/PageWithHeader";
-import { PrimaryButton } from "../atoms/PrimaryButton";
-import { InvertedButton } from "../atoms/InvertedButton";
+import { PageWithHeader } from "../templates/PageWithHeader";
+import { PrimaryButton } from "../atoms/button/PrimaryButton";
+import { InvertedButton } from "../atoms/button/InvertedButton";
 import { useUser } from "../../lib/UserProvider";
-import { Input } from "../atoms/Input";
-import { Textarea } from "../atoms/Textarea";
+import { Input } from "../atoms/input/Input";
+import { Textarea } from "../atoms/input/Textarea";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db, storage } from "../../lib/firebase";
 import { useNavigate } from "react-router-dom";
-import "../../styles/pages/editProfile.css";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Loader } from "../atoms/Loader";
 import { showAlert } from "../../lib/showAlert";
 import { useTheme } from "../../lib/ThemeProvider";
+import "../../styles/pages/editProfile.css";
 
 export const EditProfile: React.FC = () => {
   const { currentUser, update } = useUser();

@@ -1,12 +1,12 @@
 import React from "react";
 import { MovieInfo } from "../../types/types";
-import "../../styles/molecules/movieInfoContainer.css";
 import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { PlaylistAdd, PlaylistAddCheckCircle } from "@mui/icons-material";
 import { useWantToWatchMovieIds } from "../../hooks/useWantToWatchMovieIds";
 import { useUser } from "../../lib/UserProvider";
 import { useToggleWantToWatch } from "../../hooks/useToggleWantToWatch";
+import "../../styles/organisms/movieInfoContainer.css";
 
 type Props = {
   movieInfo: MovieInfo;

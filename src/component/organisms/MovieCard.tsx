@@ -1,5 +1,4 @@
 import React, { memo, useEffect, useState } from "react";
-import "../../styles/molecules/movieCard.css";
 import { Link, useNavigate } from "react-router-dom";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../lib/firebase";
@@ -8,6 +7,7 @@ import { showAlert } from "../../lib/showAlert";
 import { useTheme } from "../../lib/ThemeProvider";
 import { clacAverageScore } from "../../utils/calcAverageScore";
 import { useToggleWantToWatch } from "../../hooks/useToggleWantToWatch";
+import "../../styles/organisms/movieCard.css";
 
 type Props = {
   movieId: string;

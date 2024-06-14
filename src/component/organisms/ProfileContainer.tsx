@@ -1,8 +1,8 @@
 import React from "react";
-import { InvertedButton } from "../atoms/InvertedButton";
+import { InvertedButton } from "../atoms/button/InvertedButton";
 import { useUser } from "../../lib/UserProvider";
-import "../../styles/molecules/profileContainer.css";
 import { useNavigate } from "react-router-dom";
+import "../../styles/organisms/profileContainer.css";
 
 type ProfileInfo = {
   userId: string;

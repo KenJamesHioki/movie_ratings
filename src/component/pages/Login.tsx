@@ -10,9 +10,9 @@ import {
 import { auth, db, provider, storage } from "../../lib/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
-import { Input } from "../atoms/Input";
+import { Input } from "../atoms/input/Input";
 import { Close } from "@mui/icons-material";
-import { PrimaryButton } from "../atoms/PrimaryButton";
+import { PrimaryButton } from "../atoms/button/PrimaryButton";
 import { showAlert } from "../../lib/showAlert";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

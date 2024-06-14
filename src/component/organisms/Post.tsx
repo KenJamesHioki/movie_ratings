@@ -1,10 +1,10 @@
 import React, { memo, useEffect, useState } from "react";
-import "../../styles/molecules/post.css";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { Link } from "react-router-dom";
+import "../../styles/organisms/post.css";
 
 type Props = {
   userId: string;

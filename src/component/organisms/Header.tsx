@@ -1,9 +1,9 @@
 import React, { memo } from "react";
-import "../../styles/molecules/header.css";
 import { useUser } from "../../lib/UserProvider";
 import { Link } from "react-router-dom";
 import { useTheme } from "../../lib/ThemeProvider";
 import { DarkMode, LightMode } from "@mui/icons-material";
+import "../../styles/organisms/header.css";
 
 export const Header: React.FC = memo(() => {
   const { currentUser } = useUser();

@@ -1,10 +1,9 @@
 import React, { ChangeEvent, memo, useEffect, useState } from "react";
-import "../../styles/pages/home.css";
-import { MovieCard } from "../molecules/MovieCard";
+import { MovieCard } from "../organisms/MovieCard";
 import axios from "axios";
-import { PageWithHeader } from "../layout/PageWithHeader";
-import { Input } from "../atoms/Input";
-import { MovieContainer } from "../layout/MovieContainer";
+import { PageWithHeader } from "../templates/PageWithHeader";
+import { Input } from "../atoms/input/Input";
+import { MovieContainer } from "../templates/MovieCardContainer";
 import { TMDBResult } from "../../types/types";
 import { Loader } from "../atoms/Loader";
 import { NoResultMessage } from "../atoms/NoResultMessage";
@@ -12,9 +11,10 @@ import { SectionTitle } from "../atoms/SectionTitle";
 import { useNavigate, useParams } from "react-router-dom";
 import { showAlert } from "../../lib/showAlert";
 import { useTheme } from "../../lib/ThemeProvider";
-import { PrimaryButton } from "../atoms/PrimaryButton";
+import { PrimaryButton } from "../atoms/button/PrimaryButton";
 import { useWantToWatchMovieIds } from "../../hooks/useWantToWatchMovieIds";
 import { useUser } from "../../lib/UserProvider";
+import "../../styles/pages/home.css";
 
 type Movie = {
   movieId: string;
@@ -120,7 +120,9 @@ export const Home: React.FC = memo(() => {
                   {movies.map((movie) => (
                     <MovieCard
                       key={movie.movieId}
-                      isWantToWatch={wantToWatchMovieIds.includes(movie.movieId)}
+                      isWantToWatch={wantToWatchMovieIds.includes(
+                        movie.movieId
+                      )}
                       movieId={movie.movieId}
                       title={movie.title}
                       posterPath={movie.posterPath}

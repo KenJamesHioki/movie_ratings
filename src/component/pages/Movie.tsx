@@ -1,9 +1,8 @@
 import React, { ChangeEvent, memo, useEffect, useState } from "react";
-import { PageWithHeader } from "../layout/PageWithHeader";
-import { Post } from "../molecules/Post";
-import "../../styles/pages/movie.css";
-import { PrimaryButton } from "../atoms/PrimaryButton";
-import { Textarea } from "../atoms/Textarea";
+import { PageWithHeader } from "../templates/PageWithHeader";
+import { Post } from "../organisms/Post";
+import { PrimaryButton } from "../atoms/button/PrimaryButton";
+import { Textarea } from "../atoms/input/Textarea";
 import { useParams } from "react-router-dom";
 import { useUser } from "../../lib/UserProvider";
 import {
@@ -16,24 +15,25 @@ import {
   serverTimestamp,
   updateDoc,
   where,
-} from "firebase/firestore";
-import { db } from "../../lib/firebase";
-import { Loader } from "../atoms/Loader";
-import { RatingPost } from "../../types/types";
-import { NoResultMessage } from "../atoms/NoResultMessage";
-import { InvertedButton } from "../atoms/InvertedButton";
-import { PostContainer } from "../layout/PostContainer";
-import { MovieInfoContainer } from "../molecules/MovieInfoContainer";
-import { Rating } from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
-import { showAlert } from "../../lib/showAlert";
-import { useTheme } from "../../lib/ThemeProvider";
-import { useMovieInfo } from "../../hooks/useMovieInfo";
-import { clacAverageScore } from "../../utils/calcAverageScore";
-
-export const Movie: React.FC = memo(() => {
-  const { currentUser } = useUser();
-  const { paramMovieId } = useParams();
+  } from "firebase/firestore";
+  import { db } from "../../lib/firebase";
+  import { Loader } from "../atoms/Loader";
+  import { RatingPost } from "../../types/types";
+  import { NoResultMessage } from "../atoms/NoResultMessage";
+  import { InvertedButton } from "../atoms/button/InvertedButton";
+  import { PostContainer } from "../templates/PostContainer";
+  import { MovieInfoContainer } from "../organisms/MovieInfoContainer";
+  import { Rating } from "@mui/material";
+  import StarIcon from "@mui/icons-material/Star";
+  import { showAlert } from "../../lib/showAlert";
+  import { useTheme } from "../../lib/ThemeProvider";
+  import { useMovieInfo } from "../../hooks/useMovieInfo";
+  import { clacAverageScore } from "../../utils/calcAverageScore";
+  import "../../styles/pages/movie.css";
+  
+  export const Movie: React.FC = memo(() => {
+    const { currentUser } = useUser();
+    const { paramMovieId } = useParams();
   const { theme } = useTheme();
   const [score, setScore] = useState<number>(0);
   const [hoverScore, setHoverScore] = useState<number | null>(null);
@@ -47,7 +47,7 @@ export const Movie: React.FC = memo(() => {
   const { movieInfo, isLoading: movieInfoIsLoading } = useMovieInfo(
     paramMovieId || ""
   );
-  const averageScore = clacAverageScore(posts);  
+  const averageScore = clacAverageScore(posts);
 
   const fetchPosts = async () => {
     setIsLoading(true);
@@ -90,7 +90,7 @@ export const Movie: React.FC = memo(() => {
       handleSubmitNewPost();
     }
   };
-  
+
   const handleSubmitNewPost = async () => {
     setIsLoading(true);
     try {

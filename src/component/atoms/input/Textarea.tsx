@@ -1,5 +1,5 @@
 import React, { CSSProperties, ChangeEvent, memo } from "react";
-import "../../styles/atoms/textarea.css";
+import "../../../styles/atoms/input/textarea.css";
 
 type Props = {
   value: string;
