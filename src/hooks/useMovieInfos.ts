@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { showAlert } from "../lib/showAlert";
 import { useTheme } from "../lib/ThemeProvider";
+import { MovieInfo } from "../types/types";
 
-export const useMovieInfo = () => {
+export const useMovieInfos = (movieIds: Array<string>) => {
   const { theme } = useTheme();
   const [isLoading, setIsLoading] = useState(true);
+  const [movieInfos, setMovieInfos] = useState<Array<MovieInfo>>([]);
 
   const fetchMovieInfo = async (movieId: string) => {
     const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${
@@ -24,8 +26,8 @@ export const useMovieInfo = () => {
         releaseYear: movieDetails.release_date.split("-")[0], // YYYY-MM-DD形式からYYYY形式に変換
         overview: movieDetails.overview,
         posterPath: movieDetails.poster_path,
-      } ;
-    } catch (error:any) {
+      };
+    } catch (error: any) {
       showAlert({
         type: "error",
         message: "読み込みに失敗しました",
@@ -33,7 +35,7 @@ export const useMovieInfo = () => {
       });
       console.error(error.message);
       return {
-        movieId:"",
+        movieId: "",
         title: "",
         releaseYear: "",
         overview: "",
@@ -44,5 +46,16 @@ export const useMovieInfo = () => {
     }
   };
 
-  return { fetchMovieInfo, isLoading };
+  useEffect(() => {
+    const fetchAllMoviesInfos = async (movieIds: Array<string>) => {
+      const allMovieInfos = await Promise.all(
+        movieIds.map(async (movieId) => await fetchMovieInfo(movieId))
+      );
+      setMovieInfos(allMovieInfos);
+    };
+
+    fetchAllMoviesInfos(movieIds);
+  }, [movieIds]);
+
+  return { movieInfos, isLoading };
 };

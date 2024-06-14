@@ -13,8 +13,7 @@ import { showAlert } from "../../lib/showAlert";
 import { PlaylistAddCheckCircle, Visibility } from "@mui/icons-material";
 import { useWatchedMovieIds } from "../../hooks/useWatchedMovieIds";
 import { useWantToWatchMovieIds } from "../../hooks/useWantToWatchMovieIds";
-import { useMovieInfo } from "../../hooks/useMovieInfoTest";
-import { MovieInfo } from "../../types/types";
+import { useMovieInfos } from "../../hooks/useMovieInfos";
 import "../../styles/pages/myPage.css";
 
 type ButtonKey = "watched" | "wantToWatch";
@@ -28,11 +27,16 @@ type ProfileInfo = {
 export const MyPage: React.FC = memo(() => {
   const { currentUser } = useUser();
   const { paramUserId } = useParams();
-  const { wantToWatchMovieIds, isLoading: wantToWatchIsLoading } =
+  const { wantToWatchMovieIds, isLoading: wantToWatchIdsIsLoading } =
     useWantToWatchMovieIds(paramUserId || currentUser.userId);
-  const { watchedMovieIds, isLoading: watchedIsLoading } = useWatchedMovieIds(
-    paramUserId || currentUser.userId
-  );
+  const { watchedMovieIds, isLoading: watchedIdsIsLoading } =
+    useWatchedMovieIds(paramUserId || currentUser.userId);
+  const {
+    movieInfos: wantToWatchMovieInfos,
+    isLoading: wantToWatchInfosIsLoading,
+  } = useMovieInfos(wantToWatchMovieIds);
+  const { movieInfos: watchedMovieInfos, isLoading: watchedInfosIsLoading } =
+    useMovieInfos(watchedMovieIds);
   //OPTIMIZE: 他のユーザーのProfileでcurrentUserのwantToWatchを表示するためにcurrentUserのwantToWatchも取得しなければいけない。
   const {
     wantToWatchMovieIds: myWantToWatchMovies,
@@ -42,7 +46,7 @@ export const MyPage: React.FC = memo(() => {
   const [selectedButton, setSelectedButton] = useState<ButtonKey>("watched");
   const [isLoading, setIsLoading] = useState(false);
 
-  //ステートである必要はないのでは？
+  //currentUserではないユーザーのMyPageを表示する場合にのみ必要なステート
   const [profileInfo, setProfileInfo] = useState<ProfileInfo | null>({
     userId: "",
     displayName: "",
@@ -50,39 +54,11 @@ export const MyPage: React.FC = memo(() => {
     iconUrl: "",
   });
 
-  const handleClick = (key: ButtonKey) => {
+  console.log("mypage rendered");
+
+  const handleSwitchMovieList = (key: ButtonKey) => {
     setSelectedButton(key);
   };
-
-  const { fetchMovieInfo, isLoading: movieInfoIsLoading } = useMovieInfo();
-
-  const [wantToWatchMovieInfos, setWantToWatchMovieInfos] = useState<
-    Array<MovieInfo>
-  >([]);
-  useEffect(() => {
-    const fetchWantToWatchMovieInfos = async () => {
-      const movieInfos = await Promise.all(
-        wantToWatchMovieIds.map(
-          async (movieId) => await fetchMovieInfo(movieId)
-        )
-      );
-      setWantToWatchMovieInfos(movieInfos);
-    };
-    fetchWantToWatchMovieInfos();
-  }, [wantToWatchMovieIds, currentUser]);
-
-  const [watchedMovieInfos, setWatchedMovieInfos] = useState<Array<MovieInfo>>(
-    []
-  );
-  useEffect(() => {
-    const fetchWatchedMovieInfos = async () => {
-      const movieInfos = await Promise.all(
-        watchedMovieIds.map(async (movieId) => await fetchMovieInfo(movieId))
-      );
-      setWatchedMovieInfos(movieInfos);
-    };
-    fetchWatchedMovieInfos();
-  }, [watchedMovieIds, currentUser]);
 
   useEffect(() => {
     const fetchOtherUserProfile = async (id: string) => {
@@ -126,10 +102,11 @@ export const MyPage: React.FC = memo(() => {
 
   if (
     isLoading ||
-    wantToWatchIsLoading ||
-    watchedIsLoading ||
+    wantToWatchIdsIsLoading ||
+    watchedIdsIsLoading ||
     myWantToWatchIsLoading ||
-    movieInfoIsLoading
+    wantToWatchInfosIsLoading ||
+    watchedInfosIsLoading
   ) {
     return (
       <PageWithHeader>
@@ -159,7 +136,7 @@ export const MyPage: React.FC = memo(() => {
         </div>
         <div className="myPage_button-container">
           <div
-            onClick={() => handleClick("watched")}
+            onClick={() => handleSwitchMovieList("watched")}
             className={`myPage_watched-movies button ${
               selectedButton === "watched" && "selected"
             }`}
@@ -168,7 +145,7 @@ export const MyPage: React.FC = memo(() => {
             <p>{watchedMovieIds.length}</p>
           </div>
           <div
-            onClick={() => handleClick("wantToWatch")}
+            onClick={() => handleSwitchMovieList("wantToWatch")}
             className={`myPage_watched-movies button ${
               selectedButton === "wantToWatch" && "selected"
             }`}

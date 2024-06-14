@@ -24,7 +24,7 @@ export const useWantToWatchMovieIds = (userId: string) => {
             setIsLoading(false);
           },
           (error: any) => {
-            showAlert({type: "error" , message: "読み込みに失敗しました", theme})
+            showAlert({type: "error" , message: "サーバーとの接続が切断されました", theme})
             console.error(error.message);
             setIsLoading(false);
           }
