@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { InvertedButton } from "../atoms/button/InvertedButton";
 import { useUser } from "../../lib/UserProvider";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +16,7 @@ type Props = {
   profileInfo: ProfileInfo;
 };
 
-export const ProfileContainer: React.FC<Props> = ({
+export const ProfileContainer: React.FC<Props> = memo(({
   numWatched,
   profileInfo,
 }) => {
@@ -61,4 +61,4 @@ export const ProfileContainer: React.FC<Props> = ({
       </div>
     </div>
   );
-};
+});

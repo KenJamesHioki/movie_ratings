@@ -1,10 +1,10 @@
-import React from "react";
+import React, { memo } from "react";
 import { PageWithHeader } from "../templates/PageWithHeader";
 import { PrimaryButton } from "../atoms/button/PrimaryButton";
 import { useNavigate } from "react-router-dom";
 import "../../styles/pages/page404.css";
 
-export const Page404: React.FC = () => {
+export const Page404: React.FC = memo(() => {
   const navigate = useNavigate();
 
   return (
@@ -18,4 +18,4 @@ export const Page404: React.FC = () => {
       </div>
     </PageWithHeader>
   );
-};
+});

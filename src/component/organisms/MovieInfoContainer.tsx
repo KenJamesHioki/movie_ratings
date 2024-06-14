@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { MovieInfo } from "../../types/types";
 import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
@@ -13,7 +13,7 @@ type Props = {
   averageScore: string;
 };
 
-export const MovieInfoContainer: React.FC<Props> = ({
+export const MovieInfoContainer: React.FC<Props> = memo(({
   movieInfo,
   averageScore,
 }) => {
@@ -64,4 +64,4 @@ export const MovieInfoContainer: React.FC<Props> = ({
       </div>
     </div>
   );
-};
+});

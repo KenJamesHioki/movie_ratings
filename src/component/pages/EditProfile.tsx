@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, memo, useEffect, useState } from "react";
 import { PageWithHeader } from "../templates/PageWithHeader";
 import { PrimaryButton } from "../atoms/button/PrimaryButton";
 import { InvertedButton } from "../atoms/button/InvertedButton";
@@ -14,7 +14,7 @@ import { showAlert } from "../../lib/showAlert";
 import { useTheme } from "../../lib/ThemeProvider";
 import "../../styles/pages/editProfile.css";
 
-export const EditProfile: React.FC = () => {
+export const EditProfile: React.FC = memo(() => {
   const { currentUser, update } = useUser();
   const [displayName, setDisplayName] = useState("");
   const [introduction, setIntroduction] = useState("");
@@ -161,4 +161,4 @@ export const EditProfile: React.FC = () => {
       {isLoading && <Loader />}
     </>
   );
-};
+});

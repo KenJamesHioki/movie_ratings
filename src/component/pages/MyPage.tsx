@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { PageWithHeader } from "../templates/PageWithHeader";
 import { useUser } from "../../lib/UserProvider";
 import { MovieCard } from "../organisms/MovieCard";
@@ -25,7 +25,7 @@ type ProfileInfo = {
   iconUrl: string;
 };
 
-export const MyPage: React.FC = () => {
+export const MyPage: React.FC = memo(() => {
   const { currentUser } = useUser();
   const { paramUserId } = useParams();
   const { wantToWatchMovieIds, isLoading: wantToWatchIsLoading } =
@@ -207,4 +207,4 @@ export const MyPage: React.FC = () => {
       </PageWithHeader>
     </>
   );
-};
+});
