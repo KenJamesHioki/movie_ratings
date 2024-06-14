@@ -178,7 +178,7 @@ export const Movie: React.FC = memo(() => {
           averageScore={averageScore}
         />
         <form className="rating_post-form" onSubmit={handleSubmit}>
-          <label htmlFor="score" className="rating_set-score">
+          <div className="rating_set-score">
             {hoverScore === null || hoverScore === -1 ? score : hoverScore}
             <Rating
               name="score"
@@ -194,7 +194,7 @@ export const Movie: React.FC = memo(() => {
                 />
               }
             />
-          </label>
+          </div>
           <div className="rating_comment-and-button">
             <Textarea
               value={comment}

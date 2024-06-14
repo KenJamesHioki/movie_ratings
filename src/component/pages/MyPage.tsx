@@ -54,8 +54,6 @@ export const MyPage: React.FC = memo(() => {
     iconUrl: "",
   });
 
-  console.log("mypage rendered");
-
   const handleSwitchMovieList = (key: ButtonKey) => {
     setSelectedButton(key);
   };
