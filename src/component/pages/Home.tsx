@@ -4,7 +4,6 @@ import axios from "axios";
 import { PageWithHeader } from "../templates/PageWithHeader";
 import { Input } from "../atoms/input/Input";
 import { MovieContainer } from "../templates/MovieCardContainer";
-import { TMDBResult } from "../../types/types";
 import { Loader } from "../atoms/Loader";
 import { NoResultMessage } from "../atoms/NoResultMessage";
 import { SectionTitle } from "../atoms/SectionTitle";
@@ -15,6 +14,7 @@ import { PrimaryButton } from "../atoms/button/PrimaryButton";
 import { useWantToWatchMovieIds } from "../../hooks/useWantToWatchMovieIds";
 import { useUser } from "../../lib/UserProvider";
 import "../../styles/pages/home.css";
+import { TMDBMovie } from "../../types/api/TMDBMovie";
 
 type Movie = {
   movieId: string;
@@ -59,7 +59,7 @@ export const Home: React.FC = memo(() => {
     axios
       .get(url)
       .then((response) => {
-        const nextMovies = response.data.results.map((result: TMDBResult) => ({
+        const nextMovies:Array<Movie> = response.data.results.map((result: TMDBMovie) => ({
           movieId: String(result.id),
           title: result.title,
           posterPath: result.poster_path,
