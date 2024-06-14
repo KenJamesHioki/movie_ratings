@@ -7,6 +7,7 @@ import { Route, Routes } from "react-router-dom";
 import { MyPage } from "./component/pages/MyPage";
 import { Loader } from "./component/atoms/Loader";
 import { EditProfile } from "./component/pages/EditProfile";
+import { Page404 } from "./component/pages/Page404";
 
 function App() {
   const { currentUser, isAuthChecked } = useUser();
@@ -38,6 +39,10 @@ function App() {
         <Route
           path="/movie/:paramMovieId"
           element={currentUser.userId ? <Movie /> : <Login />}
+        />
+        <Route
+          path="*"
+          element={<Page404/>}
         />
       </Routes>
     </div>

@@ -1,0 +1,29 @@
+@use '../global/index' as *;
+
+.page404 {
+  &_wrapper {
+    max-width: 1000px;
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  &_code {
+    color: $cWhite;
+    font-weight: 700;
+    font-size: 2rem;
+
+    .light & {
+      color: $cNavy;
+    }
+  }
+  &_message {
+    color: $cWhite;
+    .light & {
+      color: $cNavy;
+    }
+  }
+
+}

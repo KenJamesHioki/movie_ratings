@@ -45,6 +45,9 @@
   width: 40px;
   cursor: pointer;
 }
+.header_icon.hide {
+  display: none;
+}
 .header_icon > img {
   height: 100%;
   width: 100%;

@@ -49,6 +49,10 @@
     height: 40px;
     width: 40px;
     cursor: pointer;
+
+    &.hide {
+      display: none;
+    }
     
     &>img{
       height: 100%;
