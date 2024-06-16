@@ -2,7 +2,6 @@ import axios from "axios";
 import { showAlert } from "../lib/showAlert";
 
 export const fetchMovieInfo = async (movieId: string, setIsLoading: (isLoading:boolean)=>void, theme:string) => {
-  // const {theme} = useTheme();
   const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${
     import.meta.env.VITE_TMDB_API_KEY
   }&language=ja-JP

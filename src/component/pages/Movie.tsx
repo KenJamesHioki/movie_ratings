@@ -222,7 +222,6 @@ export const Movie: React.FC = memo(() => {
                 type="submit"
                 key="post"
                 disabled={!comment}
-                // onClick={handleSubmitNewPost}
               >
                 投稿
               </PrimaryButton>
@@ -243,7 +242,6 @@ export const Movie: React.FC = memo(() => {
                 <PrimaryButton
                   type="submit"
                   key="save"
-                  //onClick={handleSaveChanges}
                 >
                   保存
                 </PrimaryButton>

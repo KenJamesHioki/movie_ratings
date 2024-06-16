@@ -34,15 +34,8 @@ export const MyPage: React.FC = memo(() => {
     useWantToWatchMovieIds(paramUserId || currentUser.userId);
   const { watchedMovieIds, isLoading: watchedIdsIsLoading } =
     useWatchedMovieIds(paramUserId || currentUser.userId);
-  // const {
-  //   movieInfos: wantToWatchMovieInfos,
-  //   isLoading: wantToWatchInfosIsLoading,
-  // } = useMovieInfos(wantToWatchMovieIds);
-  // const { movieInfos: watchedMovieInfos, isLoading: watchedInfosIsLoading } =
-  //   useMovieInfos(watchedMovieIds);
   const [wantToWatchMovieInfos, setWantToWatchMovieInfos] = useState<Array<MovieInfo>>([]);
   const [watchedMovieInfos, setWatchedMovieInfos] = useState<Array<MovieInfo>>([]);
-  //OPTIMIZE: 他のユーザーのProfileでcurrentUserのwantToWatchを表示するためにcurrentUserのwantToWatchも取得しなければいけない。
   const {
     wantToWatchMovieIds: myWantToWatchMovies,
     isLoading: myWantToWatchIsLoading,

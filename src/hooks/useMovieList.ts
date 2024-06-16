@@ -13,7 +13,6 @@ export const useMovieList = (
 
   useEffect(() => {
     setIsLoading(true);
-    console.log('called');
     
     const unSub = onSnapshot(
       query,

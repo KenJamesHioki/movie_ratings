@@ -7,7 +7,7 @@ import {
   useEffect,
 } from "react";
 import { auth, db } from "./firebase";
-import { onAuthStateChanged } from "firebase/auth"; // 追加
+import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 
 type User = {
@@ -19,15 +19,9 @@ type User = {
 
 type UserContext = {
   currentUser: User;
-  // login: (
-  //   userId: string,
-  //   iconUrl: string,
-  //   displayName: string,
-  //   introduction: string
-  // ) => void;
   logout: () => void;
   update: (iconUrl: string, displayName: string, introduction: string) => void;
-  isAuthChecked: boolean; // 追加
+  isAuthChecked: boolean;
 };
 
 const UserContext = createContext<UserContext>({
@@ -37,10 +31,9 @@ const UserContext = createContext<UserContext>({
     displayName: "",
     introduction: "",
   },
-  // login: () => {},
   logout: () => {},
   update: () => {},
-  isAuthChecked: false, // 追加
+  isAuthChecked: false,
 });
 
 type Props = {
@@ -89,15 +82,6 @@ export const UserProvider: React.FC<Props> = ({ children }) => {
     return () => unSub();
   }, []);
 
-  // const login = (
-  //   userId: string,
-  //   iconUrl: string,
-  //   displayName: string,
-  //   introduction: string
-  // ) => {
-  //   setCurrentUser({ userId, iconUrl, displayName, introduction });
-  // };
-
   const logout = () => {
     signOut(auth);
   };
@@ -112,7 +96,7 @@ export const UserProvider: React.FC<Props> = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ currentUser, /* login, */ logout, update, isAuthChecked }}
+      value={{ currentUser, logout, update, isAuthChecked }}
     >
       {children}
     </UserContext.Provider>
