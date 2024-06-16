@@ -128,7 +128,7 @@ export const MyPage: React.FC = memo(() => {
       <PageWithHeader>
         <div className="myPage_wrapper">
           <ProfileContainer
-            numWatched={watchedMovieIds?.length}
+            numWatched={watchedMovieIds.length}
             profileInfo={profileInfo}
           />
         </div>

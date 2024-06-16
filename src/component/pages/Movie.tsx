@@ -246,11 +246,11 @@ export const Movie: React.FC = memo(() => {
           </div>
         </form>
         <PostContainer>
-          {posts?.length === 0 ? (
+          {posts.length === 0 ? (
             <NoResultMessage>まだ投稿がありません</NoResultMessage>
           ) : (
             <>
-              {posts?.map((post) => {
+              {posts.map((post) => {
                 if (currentUser.userId === post.userId) {
                   return;
                 } else {
