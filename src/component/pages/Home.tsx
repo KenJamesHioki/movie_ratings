@@ -52,32 +52,34 @@ export const Home: React.FC = memo(() => {
       }&language=ja-JP&page=1&region=JP`;
       setSearchTitle("");
     }
-    setNextMovies(url);
+
+    const fetchMovieInfos = (url: string) => {
+      axios
+        .get(url)
+        .then((response) => {
+          const fetchedMovies:Array<Movie> = response.data.results.map((result: TMDBMovie) => ({
+            movieId: String(result.id),
+            title: result.title,
+            posterPath: result.poster_path,
+          }));
+  
+          setMovies(fetchedMovies);
+        })
+        .catch((error: any) => {
+          console.error(error.message);
+          setMovies([]);
+          showAlert({
+            type: "error",
+            message: "映画の読み込みに失敗しました",
+            theme,
+          });
+        })
+        .finally(() => setIsLoading(false));
+    };
+    
+    fetchMovieInfos(url);
   }, [paramMovieTitle]);
 
-  const setNextMovies = (url: string) => {
-    axios
-      .get(url)
-      .then((response) => {
-        const nextMovies:Array<Movie> = response.data.results.map((result: TMDBMovie) => ({
-          movieId: String(result.id),
-          title: result.title,
-          posterPath: result.poster_path,
-        }));
-
-        setMovies(nextMovies);
-      })
-      .catch((error: any) => {
-        console.error(error.message);
-        setMovies([]);
-        showAlert({
-          type: "error",
-          message: "映画の読み込みに失敗しました",
-          theme,
-        });
-      })
-      .finally(() => setIsLoading(false));
-  };
 
   return (
     <>
