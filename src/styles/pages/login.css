@@ -42,9 +42,9 @@
   margin-bottom: 4px;
 }
 .login_user-icon-label > p {
-  color: white;
+  color: #1f8ef1;
   text-decoration: underline;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   padding-top: 4px;
 }
 .login_user-icon-label > img {

@@ -18,6 +18,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../lib/UserProvider";
+import { Loader } from "../atoms/Loader";
 
 export const Login: React.FC = memo(() => {
   const navigate = useNavigate();
@@ -29,7 +30,11 @@ export const Login: React.FC = memo(() => {
   const [passwordResetEmail, setPasswordResetEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordResetMode, setIsPasswordResetMode] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { currentUser } = useUser();
+
+  console.log(currentUser);
+  
 
   useEffect(() => {
     if (currentUser) {
@@ -55,6 +60,7 @@ export const Login: React.FC = memo(() => {
   };
 
   const loginWithEmail = async () => {
+    setIsLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error: any) {
@@ -72,10 +78,13 @@ export const Login: React.FC = memo(() => {
           theme: "dark",
         });
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const signupWithEmail = async () => {
+    setIsLoading(true);
     try {
       let iconUrl = "";
       const userCredential = await createUserWithEmailAndPassword(
@@ -123,10 +132,13 @@ export const Login: React.FC = memo(() => {
           theme: "dark",
         });
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleGoogleAuth = async () => {
+    setIsLoading(true);
     try {
       const result = await signInWithPopup(auth, provider);
       if (!isLoginMode) {
@@ -149,10 +161,13 @@ export const Login: React.FC = memo(() => {
         message: "新規登録に失敗しました",
         theme: "dark",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handlePasswordReset = async () => {
+    setIsLoading(true);
     setIsLoginMode(true);
     auth.languageCode = "ja";
     try {
@@ -173,8 +188,19 @@ export const Login: React.FC = memo(() => {
       });
     } finally {
       setIsLoginMode(true);
+      setIsLoading(false);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="login_wrapper">
+        <div className="login_container">
+          <Loader />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="login_wrapper">
@@ -198,8 +224,9 @@ export const Login: React.FC = memo(() => {
                       fontSize: 48,
                       color: "white",
                       cursor: "pointer",
+                      opacity: 0.7,
                       "&:hover": {
-                        opacity: 0.8,
+                        opacity: 0.5,
                       },
                     }}
                   />
