@@ -13,8 +13,10 @@ import { showAlert } from "../../lib/showAlert";
 import { PlaylistAddCheckCircle, Visibility } from "@mui/icons-material";
 import { useWatchedMovieIds } from "../../hooks/useWatchedMovieIds";
 import { useWantToWatchMovieIds } from "../../hooks/useWantToWatchMovieIds";
-import { useMovieInfos } from "../../hooks/useMovieInfos";
 import "../../styles/pages/myPage.css";
+import { fetchMovieInfo } from "../../utils/fetchMovieInfo";
+import { MovieInfo } from "../../types/types";
+import { useTheme } from "../../lib/ThemeProvider";
 
 type ButtonKey = "watched" | "wantToWatch";
 type ProfileInfo = {
@@ -27,16 +29,19 @@ type ProfileInfo = {
 export const MyPage: React.FC = memo(() => {
   const { currentUser } = useUser();
   const { paramUserId } = useParams();
+  const {theme} = useTheme();
   const { wantToWatchMovieIds, isLoading: wantToWatchIdsIsLoading } =
     useWantToWatchMovieIds(paramUserId || currentUser.userId);
   const { watchedMovieIds, isLoading: watchedIdsIsLoading } =
     useWatchedMovieIds(paramUserId || currentUser.userId);
-  const {
-    movieInfos: wantToWatchMovieInfos,
-    isLoading: wantToWatchInfosIsLoading,
-  } = useMovieInfos(wantToWatchMovieIds);
-  const { movieInfos: watchedMovieInfos, isLoading: watchedInfosIsLoading } =
-    useMovieInfos(watchedMovieIds);
+  // const {
+  //   movieInfos: wantToWatchMovieInfos,
+  //   isLoading: wantToWatchInfosIsLoading,
+  // } = useMovieInfos(wantToWatchMovieIds);
+  // const { movieInfos: watchedMovieInfos, isLoading: watchedInfosIsLoading } =
+  //   useMovieInfos(watchedMovieIds);
+  const [wantToWatchMovieInfos, setWantToWatchMovieInfos] = useState<Array<MovieInfo>>([]);
+  const [watchedMovieInfos, setWatchedMovieInfos] = useState<Array<MovieInfo>>([]);
   //OPTIMIZE: 他のユーザーのProfileでcurrentUserのwantToWatchを表示するためにcurrentUserのwantToWatchも取得しなければいけない。
   const {
     wantToWatchMovieIds: myWantToWatchMovies,
@@ -57,6 +62,28 @@ export const MyPage: React.FC = memo(() => {
   const handleSwitchMovieList = (key: ButtonKey) => {
     setSelectedButton(key);
   };
+
+  useEffect(() => {
+    const fetchWatchedMovieInfos = async (movieIds:Array<string>) => {
+      const watchedMovieInfos = await Promise.all(
+        movieIds.map(async (movieId) => await fetchMovieInfo(movieId, setIsLoading, theme))
+      );
+      setWatchedMovieInfos(watchedMovieInfos);
+    };
+
+    fetchWatchedMovieInfos(watchedMovieIds);
+  }, [watchedMovieIds]);
+
+  useEffect(() => {
+    const fetchWantToWatchMovieInfos = async (movieIds:Array<string>) => {
+      const wantToWatchMovieInfos = await Promise.all(
+        movieIds.map(async (movieId) => await fetchMovieInfo(movieId, setIsLoading, theme))
+      );
+      setWantToWatchMovieInfos(wantToWatchMovieInfos);
+    };
+
+    fetchWantToWatchMovieInfos(wantToWatchMovieIds);
+  }, [wantToWatchMovieIds]);
 
   useEffect(() => {
     const fetchOtherUserProfile = async (id: string) => {
@@ -102,9 +129,7 @@ export const MyPage: React.FC = memo(() => {
     isLoading ||
     wantToWatchIdsIsLoading ||
     watchedIdsIsLoading ||
-    myWantToWatchIsLoading ||
-    wantToWatchInfosIsLoading ||
-    watchedInfosIsLoading
+    myWantToWatchIsLoading
   ) {
     return (
       <PageWithHeader>

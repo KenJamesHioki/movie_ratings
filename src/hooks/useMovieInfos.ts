@@ -1,3 +1,5 @@
+//結局は今は使っていない：あとで消すことを検討
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { showAlert } from "../lib/showAlert";

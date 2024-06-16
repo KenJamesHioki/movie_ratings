@@ -1,5 +1,5 @@
 import React, { CSSProperties, memo } from "react";
-import "../../../styles/atoms//button/primaryButton.css";
+import "../../../styles/atoms/button/primaryButton.css";
 
 type Props = {
   type: "button" | "reset" | "submit" | undefined;

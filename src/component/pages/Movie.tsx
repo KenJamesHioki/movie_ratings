@@ -1,4 +1,4 @@
-import React, { ChangeEvent, memo, useEffect, useMemo, useState } from "react";
+import React, { ChangeEvent, memo, useEffect, useState } from "react";
 import { PageWithHeader } from "../templates/PageWithHeader";
 import { Post } from "../organisms/Post";
 import { PrimaryButton } from "../atoms/button/PrimaryButton";
@@ -18,7 +18,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { Loader } from "../atoms/Loader";
-import { RatingPost } from "../../types/types";
+import { MovieInfo, RatingPost } from "../../types/types";
 import { NoResultMessage } from "../atoms/NoResultMessage";
 import { InvertedButton } from "../atoms/button/InvertedButton";
 import { PostContainer } from "../templates/PostContainer";
@@ -29,12 +29,11 @@ import { showAlert } from "../../lib/showAlert";
 import { useTheme } from "../../lib/ThemeProvider";
 import { clacAverageScore } from "../../utils/calcAverageScore";
 import "../../styles/pages/movie.css";
-import { useMovieInfos } from "../../hooks/useMovieInfos";
+import { fetchMovieInfo } from "../../utils/fetchMovieInfo";
 
 export const Movie: React.FC = memo(() => {
   const { currentUser } = useUser();
-  const { paramMovieId } = useParams();
-  const memoMovieId = useMemo(() => [paramMovieId || ""], [paramMovieId]);
+  const { paramMovieId = "" } = useParams();
   const { theme } = useTheme();
   const [score, setScore] = useState<number>(0);
   const [hoverScore, setHoverScore] = useState<number | null>(null);
@@ -45,8 +44,13 @@ export const Movie: React.FC = memo(() => {
   const currentUserPost = posts.find(
     (post) => post.userId === currentUser.userId
   );
-  const { movieInfos, isLoading: movieInfosIsLoading } =
-    useMovieInfos(memoMovieId);
+  const [movieInfos, setMovieInfos] = useState<MovieInfo>({
+    movieId: "",
+    title: "",
+    releaseYear: "",
+    overview: "",
+    posterPath: "",
+  });
   const averageScore = clacAverageScore(posts);
 
   const fetchPosts = async () => {
@@ -145,6 +149,15 @@ export const Movie: React.FC = memo(() => {
   }, [paramMovieId]);
 
   useEffect(() => {
+    const fetchMovieInfos = async (movieId:string) => {
+      const movieInfos = await fetchMovieInfo(movieId, setIsLoading, theme);
+      setMovieInfos(movieInfos);
+    };
+
+    fetchMovieInfos(paramMovieId);
+  }, [paramMovieId]);
+
+  useEffect(() => {
     if (currentUserPost) {
       setComment(currentUserPost.comment);
       setScore(currentUserPost.score);
@@ -154,7 +167,7 @@ export const Movie: React.FC = memo(() => {
     }
   }, [currentUserPost]);
 
-  if (isLoading || movieInfosIsLoading) {
+  if (isLoading) {
     return (
       <PageWithHeader>
         <Loader />
@@ -162,7 +175,7 @@ export const Movie: React.FC = memo(() => {
     );
   }
 
-  if (movieInfos[0].movieId === "") {
+  if (movieInfos.movieId === "") {
     return (
       <PageWithHeader>
         <NoResultMessage>該当する映画が見つかりませんでした</NoResultMessage>
@@ -174,7 +187,7 @@ export const Movie: React.FC = memo(() => {
     <PageWithHeader>
       <div className="rating_wrapper">
         <MovieInfoContainer
-          movieInfo={movieInfos[0]}
+          movieInfo={movieInfos}
           averageScore={averageScore}
         />
         <form className="rating_post-form" onSubmit={handleSubmit}>
