@@ -27,7 +27,7 @@
 @media screen and (max-width: 599px) {
   .login_container {
     width: 90%;
-    padding: 100px 20px;
+    padding: 80px 20px;
   }
 }
 .login_logo {
@@ -48,8 +48,8 @@
   padding-top: 4px;
 }
 .login_user-icon-label > img {
-  width: 40px;
-  height: 40px;
+  width: 52px;
+  height: 52px;
   padding: 5px;
   border-radius: 50%;
   -o-object-fit: cover;

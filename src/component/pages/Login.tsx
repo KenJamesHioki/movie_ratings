@@ -31,16 +31,13 @@ export const Login: React.FC = memo(() => {
   const [password, setPassword] = useState("");
   const [isPasswordResetMode, setIsPasswordResetMode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { currentUser } = useUser();
-
-  console.log(currentUser);
-  
+  const { currentUser, logout } = useUser();
 
   useEffect(() => {
     if (currentUser) {
       navigate("/");
     }
-  }, [currentUser]);
+  }, [currentUser.userId]);
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0]) {
@@ -78,7 +75,6 @@ export const Login: React.FC = memo(() => {
           theme: "dark",
         });
       }
-    } finally {
       setIsLoading(false);
     }
   };
@@ -117,6 +113,7 @@ export const Login: React.FC = memo(() => {
         message: "新規登録が完了しました",
         theme: "dark",
       });
+      logout();
     } catch (error: any) {
       console.error(error.message);
       if (error.code === "auth/email-already-in-use") {
@@ -192,107 +189,118 @@ export const Login: React.FC = memo(() => {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="login_wrapper">
-        <div className="login_container">
-          <Loader />
-        </div>
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className="login_wrapper">
+  //       <div className="login_container">
+  //         <Loader />
+  //         <ToastContainer />
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="login_wrapper">
       <div className="login_container">
-        <img className="login_logo" src="/images/logo.png" />
-        <form className="login_form" onSubmit={handleSubmit}>
-          {!isLoginMode && (
-            <>
-              <label className="login_user-icon-label" htmlFor="file">
-                <input
-                  id="file"
-                  type="file"
-                  className="login_upload-icon"
-                  onChange={handleImageSelect}
-                />
-                {icon ? (
-                  <img src={iconUrl} alt="" />
-                ) : (
-                  <AccountCircleIcon
-                    sx={{
-                      fontSize: 48,
-                      color: "white",
-                      cursor: "pointer",
-                      opacity: 0.7,
-                      "&:hover": {
-                        opacity: 0.5,
-                      },
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <img className="login_logo" src="/images/logo.png" />
+            <form className="login_form" onSubmit={handleSubmit}>
+              {!isLoginMode && (
+                <>
+                  <label className="login_user-icon-label" htmlFor="file">
+                    <input
+                      id="file"
+                      type="file"
+                      className="login_upload-icon"
+                      onChange={handleImageSelect}
+                    />
+                    {icon ? (
+                      <img src={iconUrl} alt="" />
+                    ) : (
+                      <>
+                        <AccountCircleIcon
+                          sx={{
+                            fontSize: 48,
+                            color: "white",
+                            cursor: "pointer",
+                            opacity: 0.7,
+                            "&:hover": {
+                              opacity: 0.5,
+                            },
+                          }}
+                        />
+                        <p>アイコンをアップロード *</p>
+                      </>
+                    )}
+                  </label>
+                  <Input
+                    type="text"
+                    value={displayName}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setDisplayName(e.target.value);
                     }}
+                    placeholder="ユーザー名 *"
                   />
-                )}
-                <p>アイコンをアップロード</p>
-              </label>
+                </>
+              )}
               <Input
                 type="text"
-                value={displayName}
+                placeholder={isLoginMode ? "メールアドレス" : "メールアドレス *"}
+                value={email}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setDisplayName(e.target.value);
+                  setEmail(e.target.value);
                 }}
-                placeholder="ユーザー名"
               />
-            </>
-          )}
-          <Input
-            type="text"
-            placeholder="メールアドレス"
-            value={email}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setEmail(e.target.value);
-            }}
-          />
-          <Input
-            type="password"
-            placeholder="パスワード"
-            value={password}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setPassword(e.target.value);
-            }}
-          />
-          <button
-            className="login_signin"
-            disabled={
-              isLoginMode
-                ? !email || password.length < 6
-                : !email || password.length < 6 || !icon || !displayName
-            }
-          >
-            {isLoginMode ? "サインイン" : "新規登録"}
-          </button>
-        </form>
-        <div
-          className="login_password-and-account"
-          style={!isLoginMode ? { justifyContent: "flex-end" } : {}}
-        >
-          {isLoginMode && (
-            <p
-              className="login_password-reset"
-              onClick={() => setIsPasswordResetMode(true)}
+              <Input
+                type="password"
+                placeholder={
+                  isLoginMode ? "パスワード" : "パスワード (6文字以上) *"
+                }
+                value={password}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setPassword(e.target.value);
+                }}
+              />
+              <button
+                className="login_signin"
+                disabled={
+                  isLoginMode
+                    ? !email || password.length < 6
+                    : !email || password.length < 6 || !icon || !displayName
+                }
+              >
+                {isLoginMode ? "サインイン" : "新規登録"}
+              </button>
+            </form>
+            <div
+              className="login_password-and-account"
+              style={!isLoginMode ? { justifyContent: "flex-end" } : {}}
             >
-              パスワードをリセット
-            </p>
-          )}
-          <p
-            className="login_new-account"
-            onClick={() => setIsLoginMode(!isLoginMode)}
-          >
-            {isLoginMode ? "アカウントの新規登録" : "ログイン画面に戻る"}
-          </p>
-        </div>
-        <div className="login_separator"></div>
-        <button className="login_google-signin" onClick={handleGoogleAuth}>
-          {isLoginMode ? "Googleでサインイン" : "Googleで登録"}
-        </button>
+              {isLoginMode && (
+                <p
+                  className="login_password-reset"
+                  onClick={() => setIsPasswordResetMode(true)}
+                >
+                  パスワードをリセット
+                </p>
+              )}
+              <p
+                className="login_new-account"
+                onClick={() => setIsLoginMode(!isLoginMode)}
+              >
+                {isLoginMode ? "アカウントの新規登録" : "ログイン画面に戻る"}
+              </p>
+            </div>
+            <div className="login_separator"></div>
+            <button className="login_google-signin" onClick={handleGoogleAuth}>
+              {isLoginMode ? "Googleでサインイン" : "Googleで登録"}
+            </button>
+          </>
+        )}
       </div>
       {isPasswordResetMode && (
         <div className="login_password-reset-modal">

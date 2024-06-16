@@ -51,7 +51,7 @@ export const UserProvider: React.FC<Props> = ({ children }) => {
 
   useEffect(() => {    
     const unSub = onAuthStateChanged(auth, async (user) => {
-      if (user) {
+      if (user) {        
         const docSnap = await getDoc(doc(db, "users", user.uid));
         if (docSnap.exists()) {
           setCurrentUser({
