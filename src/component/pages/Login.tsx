@@ -152,8 +152,8 @@ export const Login: React.FC = memo(() => {
             theme: "dark",
           });
           logout();
-          setIsLoginMode(true)
-        } catch (error:any) {
+          setIsLoginMode(true);
+        } catch (error: any) {
           console.error(error.message);
           showAlert({
             type: "error",
@@ -201,17 +201,6 @@ export const Login: React.FC = memo(() => {
     }
   };
 
-  // if (isLoading) {
-  //   return (
-  //     <div className="login_wrapper">
-  //       <div className="login_container">
-  //         <Loader />
-  //         <ToastContainer />
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
   return (
     <div className="login_wrapper">
       <div className="login_container">
@@ -223,6 +212,14 @@ export const Login: React.FC = memo(() => {
             <form className="login_form" onSubmit={handleSubmit}>
               {!isLoginMode && (
                 <>
+                  <Input
+                    type="text"
+                    value={displayName}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setDisplayName(e.target.value);
+                    }}
+                    placeholder="ニックネーム *"
+                  />
                   <label className="login_user-icon-label" htmlFor="file">
                     <input
                       id="file"
@@ -249,19 +246,13 @@ export const Login: React.FC = memo(() => {
                       </>
                     )}
                   </label>
-                  <Input
-                    type="text"
-                    value={displayName}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      setDisplayName(e.target.value);
-                    }}
-                    placeholder="ユーザー名 *"
-                  />
                 </>
               )}
               <Input
                 type="text"
-                placeholder={isLoginMode ? "メールアドレス" : "メールアドレス *"}
+                placeholder={
+                  isLoginMode ? "メールアドレス" : "メールアドレス *"
+                }
                 value={email}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setEmail(e.target.value);
@@ -287,6 +278,21 @@ export const Login: React.FC = memo(() => {
               >
                 {isLoginMode ? "サインイン" : "新規登録"}
               </button>
+              {!isLoginMode &&
+                (!email || password.length < 6 || !icon || !displayName) && (
+                  <div className="login_validation">
+                    <ul>
+                      {!displayName && (
+                        <li>・ニックネームを入力してください。</li>
+                      )}
+                      {!icon && <li>・アイコンを設定してください。</li>}
+                      {!email && <li>・メールアドレスを入力してください。</li>}
+                      {password.length < 6 && (
+                        <li>・パスワードを6文字以上で入力してください。</li>
+                      )}
+                    </ul>
+                  </div>
+                )}
             </form>
             <div
               className="login_password-and-account"

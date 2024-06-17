@@ -1,7 +1,7 @@
 @use '../global/index' as *;
 
 .login {
-  &_wrapper{
+  &_wrapper {
     width: 100vw;
     height: 100vh;
     position: relative;
@@ -37,7 +37,7 @@
     width: 80%;
   }
 
-  &_user-icon-label{
+  &_user-icon-label {
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -52,7 +52,7 @@
       padding-top: 4px;
     }
 
-    &>img{
+    &>img {
       width: 52px;
       height: 52px;
       padding: 5px;
@@ -95,6 +95,30 @@
     }
   }
 
+  &_validation {
+    opacity: 0;
+    color: red;
+    font-size: 0.8rem;
+    line-height: 1.1rem;
+    pointer-events: none;
+    padding: 16px 8px;
+    border-radius: 12px;
+    width: 95%;
+    position: absolute;
+    bottom: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+    transform-origin: buttom;
+    transition: opacity 0.3s;
+    background-color: rgb(224, 195, 200);
+    border: 1px solid red;
+  }
+
+  &_signin:hover+&_validation {
+    opacity: 1;
+    background-color: pink;
+  }
+
   &_separator {
     height: 1px;
     width: 100%;
@@ -130,7 +154,7 @@
     }
   }
 
-  &_password-reset-modal{
+  &_password-reset-modal {
     background-color: rgba(17, 25, 40, 1);
     position: fixed;
     top: 50%;

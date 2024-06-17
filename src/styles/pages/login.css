@@ -83,6 +83,28 @@
   cursor: not-allowed;
   background-color: rgb(149, 149, 149);
 }
+.login_validation {
+  opacity: 0;
+  color: red;
+  font-size: 0.8rem;
+  line-height: 1.1rem;
+  pointer-events: none;
+  padding: 16px 8px;
+  border-radius: 12px;
+  width: 95%;
+  position: absolute;
+  bottom: 40%;
+  left: 50%;
+  transform: translateX(-50%);
+  transform-origin: buttom;
+  transition: opacity 0.3s;
+  background-color: rgb(224, 195, 200);
+  border: 1px solid red;
+}
+.login_signin:hover + .login_validation {
+  opacity: 1;
+  background-color: pink;
+}
 .login_separator {
   height: 1px;
   width: 100%;
