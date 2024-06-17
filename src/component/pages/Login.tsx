@@ -9,7 +9,7 @@ import {
 } from "firebase/auth";
 import { auth, db, provider, storage } from "../../lib/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { Input } from "../atoms/input/Input";
 import { Close } from "@mui/icons-material";
 import { PrimaryButton } from "../atoms/button/PrimaryButton";
@@ -138,24 +138,36 @@ export const Login: React.FC = memo(() => {
     setIsLoading(true);
     try {
       const result = await signInWithPopup(auth, provider);
-      if (!isLoginMode) {
-        await setDoc(doc(db, "users", result.user.uid), {
-          displayName: result.user.displayName,
-          introduction: "",
-          iconUrl: result.user.photoURL,
-        });
-        showAlert({
-          type: "success",
-          message: "新規登録が完了しました",
-          theme: "dark",
-        });
+      const docSnap = await getDoc(doc(db, "users", result.user.uid));
+      if (!docSnap.exists()) {
+        try {
+          await setDoc(doc(db, "users", result.user.uid), {
+            displayName: result.user.displayName,
+            introduction: "",
+            iconUrl: result.user.photoURL,
+          });
+          showAlert({
+            type: "success",
+            message: "新規登録が完了しました。",
+            theme: "dark",
+          });
+          logout();
+          setIsLoginMode(true)
+        } catch (error:any) {
+          console.error(error.message);
+          showAlert({
+            type: "error",
+            message: "新規登録に失敗しました",
+            theme: "dark",
+          });
+        }
       }
       navigate("/");
     } catch (error: any) {
       console.error(error.message);
       showAlert({
         type: "error",
-        message: "新規登録に失敗しました",
+        message: "サインインに失敗しました",
         theme: "dark",
       });
     } finally {
