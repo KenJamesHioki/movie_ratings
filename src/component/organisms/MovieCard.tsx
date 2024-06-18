@@ -1,13 +1,12 @@
 import React, { memo, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "../../lib/firebase";
 import { PlaylistAdd, PlaylistAddCheckCircle, Star } from "@mui/icons-material";
-import { showAlert } from "../../lib/showAlert";
 import { useTheme } from "../../lib/ThemeProvider";
 import { clacAverageScore } from "../../utils/calcAverageScore";
 import { useToggleWantToWatch } from "../../hooks/useToggleWantToWatch";
 import "../../styles/organisms/movieCard.css";
+import { fetchPosts } from "../../utils/fetchPosts";
+import { Loader } from "../atoms/Loader";
 
 type Props = {
   movieId: string;
@@ -22,35 +21,19 @@ export const MovieCard: React.FC<Props> = memo(
     const { theme } = useTheme();
     const { toggleWantToWatch } = useToggleWantToWatch();
     const navigate = useNavigate();
-    const [posts, setPosts] = useState<Array<{ score: number }>>([]);
-    const averageScore = clacAverageScore(posts);
+    const [scores, setScores] = useState<Array<{ score: number }>>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const averageScore = clacAverageScore(scores);
 
     //NOTE:Firebaseは、フィールドのaverageを取得するクエリが有料のため、全てのpostsを取得しクライアントサイドで計算するものとする
     useEffect(() => {
-      const fetchPosts = async () => {
-        const q = query(
-          collection(db, "posts"),
-          where("movieId", "==", movieId)
-        );
-        try {
-          const querySnapshot = await getDocs(q);
-          const fetchedPosts: Array<{ score: number }> = [];
-          querySnapshot.forEach((doc) => {
-            fetchedPosts.push({
-              score: doc.data().score,
-            });
-          });
-          setPosts(fetchedPosts);
-        } catch (error: any) {
-          console.error(error.message);
-          showAlert({
-            type: "error",
-            message: "スコアの読み込みに失敗しました",
-            theme,
-          });
-        }
-      };
-      fetchPosts();
+      const fetchCurrentPosts =async(movieId: string, setIsLoading: (isLoading:boolean)=>void, theme:string)=>{
+        const posts = await fetchPosts(movieId, setIsLoading, theme);
+        const postScores = posts.map(post=> ({score: post.score}));
+        setScores(postScores);
+      }
+
+      fetchCurrentPosts(movieId, setIsLoading, theme);
     }, [movieId]);
 
     return (
@@ -86,6 +69,7 @@ export const MovieCard: React.FC<Props> = memo(
             )}
           </div>
         </div>
+        {isLoading && <Loader size={40}/>}
       </div>
     );
   }

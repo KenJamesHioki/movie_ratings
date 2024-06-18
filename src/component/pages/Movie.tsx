@@ -120,12 +120,12 @@ export const Movie: React.FC = memo(() => {
   }, [paramMovieId]);
 
   useEffect(() => {
-    const fetchCurrentMovieInfo = async (movieId: string) => {
+    const fetchCurrentMovieInfo = async (movieId: string, setIsLoading: (isLoading:boolean)=>void, theme:string) => {
       const movieInfos = await fetchMovieInfo(movieId, setIsLoading, theme);
       setMovieInfos(movieInfos);
     };
 
-    fetchCurrentMovieInfo(paramMovieId);
+    fetchCurrentMovieInfo(paramMovieId, setIsLoading, theme);
   }, [paramMovieId]);
 
   useEffect(() => {
@@ -141,7 +141,7 @@ export const Movie: React.FC = memo(() => {
   if (isLoading) {
     return (
       <PageWithHeader>
-        <Loader />
+        <Loader size={60} />
       </PageWithHeader>
     );
   }
