@@ -5,6 +5,9 @@ import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { Link } from "react-router-dom";
 import "../../styles/organisms/post.css";
+import { Loader } from "../atoms/Loader";
+import { showAlert } from "../../lib/showAlert";
+import { useTheme } from "../../lib/ThemeProvider";
 
 type Props = {
   userId: string;
@@ -19,6 +22,8 @@ type PostUserInfo = {
 };
 
 export const Post: React.FC<Props> = memo(({ userId, score, comment }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const {theme} = useTheme();
   const [user, setUser] = useState<PostUserInfo>({
     displayName: "",
     introduction: "",
@@ -27,17 +32,26 @@ export const Post: React.FC<Props> = memo(({ userId, score, comment }) => {
 
   useEffect(() => {
     const updateUser = async () => {
-      const docSnap = await getDoc(doc(db, "users", userId));
-      if (docSnap.exists()) {
-        setUser({
-          displayName: docSnap.data().displayName,
-          introduction: docSnap.data().introduction,
-          iconUrl: docSnap.data().iconUrl,
-        });
-      } else {
-        console.error("指定のドキュメントが見つかりませんでした");
+      setIsLoading(true)
+      try {
+        const docSnap = await getDoc(doc(db, "users", userId));
+        if (docSnap.exists()) {
+          setUser({
+            displayName: docSnap.data().displayName,
+            introduction: docSnap.data().introduction,
+            iconUrl: docSnap.data().iconUrl,
+          });
+        } else {
+          console.error("指定のドキュメントが見つかりませんでした");
+        }
+      } catch (error) {
+        console.error("ドキュメントの取得に失敗しました");
+        showAlert({type:"error", message:"コメントの読み込みに失敗しました", theme})
+      } finally {
+        setIsLoading(false)
       }
     };
+
     updateUser();
   }, [userId]);
 
@@ -63,6 +77,7 @@ export const Post: React.FC<Props> = memo(({ userId, score, comment }) => {
         readOnly
       />
       <p className="post_comment">{comment}</p>
+      {isLoading && <Loader size={30}/>}
     </div>
   );
 });

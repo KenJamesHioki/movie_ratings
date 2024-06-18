@@ -5,6 +5,7 @@
   background-color: rgba(17, 25, 40, 0.6);
   padding: 40px;
   border-radius: 8px;
+  position: relative;
 }
 .light .post {
   color: rgb(39, 37, 54);
