@@ -111,21 +111,15 @@ export const Movie: React.FC = memo(() => {
   };
 
   useEffect(() => {
-    const fetchCurrentPosts = async (movieId: string) => {
-      const posts = await fetchPosts(movieId, setIsLoading, theme);
-      setPosts(posts);
-    };
-
-    fetchCurrentPosts(paramMovieId);
+    fetchPosts(paramMovieId, setIsLoading, theme).then((response) =>
+      setPosts(response)
+    );
   }, [paramMovieId]);
 
   useEffect(() => {
-    const fetchCurrentMovieInfo = async (movieId: string, setIsLoading: (isLoading:boolean)=>void, theme:string) => {
-      const movieInfos = await fetchMovieInfo(movieId, setIsLoading, theme);
-      setMovieInfos(movieInfos);
-    };
-
-    fetchCurrentMovieInfo(paramMovieId, setIsLoading, theme);
+    fetchMovieInfo(paramMovieId, setIsLoading, theme).then((response) =>
+      setMovieInfos(response)
+    );
   }, [paramMovieId]);
 
   useEffect(() => {

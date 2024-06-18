@@ -27,13 +27,9 @@ export const MovieCard: React.FC<Props> = memo(
 
     //NOTE:Firebaseは、フィールドのaverageを取得するクエリが有料のため、全てのpostsを取得しクライアントサイドで計算するものとする
     useEffect(() => {
-      const fetchCurrentPosts =async(movieId: string, setIsLoading: (isLoading:boolean)=>void, theme:string)=>{
-        const posts = await fetchPosts(movieId, setIsLoading, theme);
-        const postScores = posts.map(post=> ({score: post.score}));
-        setScores(postScores);
-      }
-
-      fetchCurrentPosts(movieId, setIsLoading, theme);
+      fetchPosts(movieId, setIsLoading, theme).then((response) =>
+        setScores(response)
+      );
     }, [movieId]);
 
     return (
@@ -41,10 +37,7 @@ export const MovieCard: React.FC<Props> = memo(
         <Link to={`/movie/${movieId}`}>
           <div className="movieCard_cover">
             <div className="movieCard_thumbnail">
-              <img
-                src={`${BASE_POSTER_URL}${posterPath}`}
-                alt="moviename"
-              />
+              <img src={`${BASE_POSTER_URL}${posterPath}`} alt="moviename" />
               <div className="movieCard_overlay"></div>
             </div>
             <p className="movieCard_title">{title}</p>
@@ -69,7 +62,7 @@ export const MovieCard: React.FC<Props> = memo(
             )}
           </div>
         </div>
-        {isLoading && <Loader size={40}/>}
+        {isLoading && <Loader size={40} />}
       </div>
     );
   }
