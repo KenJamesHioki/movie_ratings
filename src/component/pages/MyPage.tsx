@@ -126,7 +126,7 @@ export const MyPage: React.FC = memo(() => {
   ) {
     return (
       <PageWithHeader>
-        <Loader />
+        <Loader size={60} />
       </PageWithHeader>
     );
   }

@@ -158,7 +158,7 @@ export const EditProfile: React.FC = memo(() => {
           </InvertedButton>
         </div>
       </PageWithHeader>
-      {isLoading && <Loader />}
+      {isLoading && <Loader size={60}/>}
     </>
   );
 });

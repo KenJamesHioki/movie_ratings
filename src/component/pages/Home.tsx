@@ -136,7 +136,7 @@ export const Home: React.FC = memo(() => {
           )}
         </div>
       </PageWithHeader>
-      {isLoading && <Loader />}
+      {isLoading && <Loader size={60} />}
     </>
   );
 });

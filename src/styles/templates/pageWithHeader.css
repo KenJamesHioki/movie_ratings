@@ -5,7 +5,7 @@
   flex-direction: column;
   height: -moz-fit-content;
   height: fit-content;
-  min-height: calc(100vh - 60px);
+  min-height: 100vh;
 }
 .light .content {
   background-color: #fafafa;

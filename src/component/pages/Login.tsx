@@ -201,7 +201,7 @@ export const Login: React.FC = memo(() => {
     <div className="login_wrapper">
       <div className="login_container">
         {isLoading ? (
-          <Loader />
+          <Loader size={60} />
         ) : (
           <>
             <img className="login_logo" src="/images/logo.png" />
