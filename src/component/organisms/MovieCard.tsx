@@ -20,10 +20,10 @@ export const MovieCard: React.FC<Props> = memo(
   ({ movieId, title, posterPath, isWantToWatch }) => {
     const BASE_POSTER_URL = "https://image.tmdb.org/t/p/w300";
     const { theme } = useTheme();
+    const { toggleWantToWatch } = useToggleWantToWatch();
     const navigate = useNavigate();
     const [posts, setPosts] = useState<Array<{ score: number }>>([]);
     const averageScore = clacAverageScore(posts);
-    const { toggleWantToWatch } = useToggleWantToWatch();
 
     //NOTE:Firebaseは、フィールドのaverageを取得するクエリが有料のため、全てのpostsを取得しクライアントサイドで計算するものとする
     useEffect(() => {
@@ -34,18 +34,18 @@ export const MovieCard: React.FC<Props> = memo(
         );
         try {
           const querySnapshot = await getDocs(q);
-          const nextPosts: Array<{ score: number }> = [];
+          const fetchedPosts: Array<{ score: number }> = [];
           querySnapshot.forEach((doc) => {
-            nextPosts.push({
+            fetchedPosts.push({
               score: doc.data().score,
             });
           });
-          setPosts(nextPosts);
+          setPosts(fetchedPosts);
         } catch (error: any) {
           console.error(error.message);
           showAlert({
             type: "error",
-            message: "投稿の読み込みに失敗しました",
+            message: "スコアの読み込みに失敗しました",
             theme,
           });
         }
@@ -76,13 +76,13 @@ export const MovieCard: React.FC<Props> = memo(
             <p className="movieCard_average-score">{averageScore}</p>
           </div>
           <div
-            className="movieCard_button wish-list"
+            className="movieCard_button want-to-watch-list"
             onClick={() => toggleWantToWatch(movieId)}
           >
             {isWantToWatch ? (
-              <PlaylistAddCheckCircle className="movieCard_wish-icon" />
+              <PlaylistAddCheckCircle className="movieCard_want-to-watch-icon" />
             ) : (
-              <PlaylistAdd className="movieCard_not-wish-icon" />
+              <PlaylistAdd className="movieCard_not-want-to-watch-icon" />
             )}
           </div>
         </div>

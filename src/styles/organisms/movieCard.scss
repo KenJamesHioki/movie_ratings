@@ -87,16 +87,16 @@
       }
     }
 
-    &.wish-list {
+    &.want-to-watch-list {
       border-bottom-right-radius: 8px;
     }
   }
 
-  &_wish-icon {
+  &_want-to-watch-icon {
     color: $cBlue;
   }
 
-  &_not-wish-icon {
+  &_not-want-to-watch-icon {
     color: $cLightGray;
   }
 

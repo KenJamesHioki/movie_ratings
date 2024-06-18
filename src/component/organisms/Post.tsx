@@ -12,14 +12,14 @@ type Props = {
   comment: string;
 };
 
-type User = {
+type PostUserInfo = {
   displayName: string;
   introduction: string;
   iconUrl: string;
 };
 
 export const Post: React.FC<Props> = memo(({ userId, score, comment }) => {
-  const [user, setUser] = useState<User>({
+  const [user, setUser] = useState<PostUserInfo>({
     displayName: "",
     introduction: "",
     iconUrl: "",

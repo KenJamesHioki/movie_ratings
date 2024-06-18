@@ -41,9 +41,6 @@ export const Movie: React.FC = memo(() => {
   const [posts, setPosts] = useState<Array<RatingPost>>([]);
   const [isEditMode, setIsEditMode] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const currentUserPost = posts.find(
-    (post) => post.userId === currentUser.userId
-  );
   const [movieInfos, setMovieInfos] = useState<MovieInfo>({
     movieId: "",
     title: "",
@@ -51,6 +48,9 @@ export const Movie: React.FC = memo(() => {
     overview: "",
     posterPath: "",
   });
+  const currentUserPost = posts.find(
+    (post) => post.userId === currentUser.userId
+  );
   const averageScore = clacAverageScore(posts);
 
   const fetchPosts = async () => {
@@ -59,7 +59,7 @@ export const Movie: React.FC = memo(() => {
       const q = query(
         collection(db, "posts"),
         where("movieId", "==", paramMovieId),
-        orderBy("timestamp")
+        orderBy("timestamp", "desc")
       );
       const querySnapshot = await getDocs(q);
       const nextPosts: Array<RatingPost> = [];

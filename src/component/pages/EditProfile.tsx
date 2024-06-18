@@ -16,13 +16,13 @@ import "../../styles/pages/editProfile.css";
 
 export const EditProfile: React.FC = memo(() => {
   const { currentUser, update } = useUser();
+  const { theme } = useTheme();
+  const navigate = useNavigate();
   const [displayName, setDisplayName] = useState("");
   const [introduction, setIntroduction] = useState("");
   const [newIcon, setNewIcon] = useState<File | null>(null);
   const [iconUrl, setIconUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-  const { theme } = useTheme();
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files![0]) {
@@ -78,7 +78,7 @@ export const EditProfile: React.FC = memo(() => {
           console.error("指定のドキュメントが見つかりませんでした");
           showAlert({
             type: "error",
-            message: "データの読み込みに失敗しました",
+            message: "予期せぬエラーが発生しました",
             theme,
           });
         }

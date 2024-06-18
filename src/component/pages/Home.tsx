@@ -39,47 +39,47 @@ export const Home: React.FC = memo(() => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
-    let url = "";
+    let apiUrl = "";
 
     if (paramMovieTitle) {
-      url = `https://api.themoviedb.org/3/search/movie?api_key=${
+      apiUrl = `https://api.themoviedb.org/3/search/movie?api_key=${
         import.meta.env.VITE_TMDB_API_KEY
       }&query=${paramMovieTitle}&language=ja-JP`;
     } else {
-      url = `https://api.themoviedb.org/3/movie/popular?api_key=${
+      apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${
         import.meta.env.VITE_TMDB_API_KEY
       }&language=ja-JP&page=1&region=JP`;
       setSearchTitle("");
     }
 
-    const fetchMovieInfos = (url: string) => {
-      axios
-        .get(url)
-        .then((response) => {
-          const fetchedMovies:Array<Movie> = response.data.results.map((result: TMDBMovie) => ({
+    const fetchMovieInfos = async (url: string) => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get(url);
+        const fetchedMovies: Array<Movie> = response.data.results.map(
+          (result: TMDBMovie) => ({
             movieId: String(result.id),
             title: result.title,
             posterPath: result.poster_path,
-          }));
-  
-          setMovies(fetchedMovies);
-        })
-        .catch((error: any) => {
-          console.error(error.message);
-          setMovies([]);
-          showAlert({
-            type: "error",
-            message: "映画の読み込みに失敗しました",
-            theme,
-          });
-        })
-        .finally(() => setIsLoading(false));
-    };
-    
-    fetchMovieInfos(url);
-  }, [paramMovieTitle]);
+          })
+        );
 
+        setMovies(fetchedMovies);
+      } catch (error: any) {
+        console.error(error.message);
+        setMovies([]);
+        showAlert({
+          type: "error",
+          message: "映画の読み込みに失敗しました",
+          theme,
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchMovieInfos(apiUrl);
+  }, [paramMovieTitle]);
 
   return (
     <>

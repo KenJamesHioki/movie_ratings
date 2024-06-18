@@ -21,6 +21,7 @@ import { useUser } from "../../lib/UserProvider";
 import { Loader } from "../atoms/Loader";
 
 export const Login: React.FC = memo(() => {
+  const { currentUser, logout } = useUser();
   const navigate = useNavigate();
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [icon, setIcon] = useState<File | null>(null);
@@ -31,7 +32,6 @@ export const Login: React.FC = memo(() => {
   const [password, setPassword] = useState("");
   const [isPasswordResetMode, setIsPasswordResetMode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { currentUser, logout } = useUser();
 
   useEffect(() => {
     if (currentUser) {
@@ -162,7 +162,7 @@ export const Login: React.FC = memo(() => {
           });
         }
       }
-      navigate("/");
+      // navigate("/");
     } catch (error: any) {
       console.error(error.message);
       showAlert({
@@ -176,8 +176,7 @@ export const Login: React.FC = memo(() => {
   };
 
   const handlePasswordReset = async () => {
-    setIsLoading(true);
-    setIsLoginMode(true);
+    setIsPasswordResetMode(false)
     auth.languageCode = "ja";
     try {
       await sendPasswordResetEmail(auth, passwordResetEmail);
@@ -185,7 +184,7 @@ export const Login: React.FC = memo(() => {
       setPasswordResetEmail("");
       showAlert({
         type: "success",
-        message: "パスワードリセットメールが送信されました",
+        message: "リセットメールが送信されました",
         theme: "dark",
       });
     } catch (error: any) {
@@ -195,9 +194,6 @@ export const Login: React.FC = memo(() => {
         message: "リセットメール送信に失敗しました",
         theme: "dark",
       });
-    } finally {
-      setIsLoginMode(true);
-      setIsLoading(false);
     }
   };
 
@@ -334,7 +330,7 @@ export const Login: React.FC = memo(() => {
             }
             placeholder="メールアドレス"
           />
-          <PrimaryButton type="button" onClick={handlePasswordReset}>
+          <PrimaryButton type="button" onClick={handlePasswordReset} disabled={!passwordResetEmail} >
             送信
           </PrimaryButton>
         </div>

@@ -5,7 +5,7 @@ type Props = {
   type: "button" | "reset" | "submit" | undefined;
   children: string;
   disabled?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
   style?: CSSProperties;
 };
 

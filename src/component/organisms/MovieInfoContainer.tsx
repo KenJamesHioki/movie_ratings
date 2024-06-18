@@ -30,15 +30,15 @@ export const MovieInfoContainer: React.FC<Props> = memo(({
           alt={movieInfo.title}
         />
         <div
-          className="movieInfoCotainer_wish-list-button"
+          className="movieInfoCotainer_want-to-watch-list-button"
           onClick={() => {
             toggleWantToWatch(movieInfo.movieId);
           }}
         >
           {wantToWatchMovieIds.includes(movieInfo.movieId) ? (
-            <PlaylistAddCheckCircle className="movieInfoCotainer_wish-icon" />
+            <PlaylistAddCheckCircle className="movieInfoCotainer_want-to-watch-icon" />
           ) : (
-            <PlaylistAdd className="movieInfoCotainer_not-wish-icon" />
+            <PlaylistAdd className="movieInfoCotainer_not-want-to-watch-icon" />
           )}
         </div>
       </div>

@@ -24,7 +24,7 @@
      object-fit: cover;
   margin-bottom: 4px;
 }
-.movieInfoCotainer_wish-list-button {
+.movieInfoCotainer_want-to-watch-list-button {
   flex: 1;
   text-align: center;
   background-color: rgba(17, 25, 40, 0.6);
@@ -33,16 +33,16 @@
   border-radius: 8px;
   cursor: pointer;
 }
-.light .movieInfoCotainer_wish-list-button {
+.light .movieInfoCotainer_want-to-watch-list-button {
   background-color: rgba(17, 25, 40, 0.9);
 }
-.movieInfoCotainer_wish-list-button:hover {
+.movieInfoCotainer_want-to-watch-list-button:hover {
   opacity: 0.8;
 }
-.movieInfoCotainer_wish-icon {
+.movieInfoCotainer_want-to-watch-icon {
   color: #1f8ef1;
 }
-.movieInfoCotainer_not-wish-icon {
+.movieInfoCotainer_not-want-to-watch-icon {
   color: rgb(191, 191, 191);
 }
 .movieInfoCotainer_infos {

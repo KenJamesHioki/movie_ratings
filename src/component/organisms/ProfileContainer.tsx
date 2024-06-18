@@ -28,7 +28,7 @@ export const ProfileContainer: React.FC<Props> = memo(({
       <div className="profileContainer_icon">
         <img src={profileInfo.iconUrl} alt="" />
       </div>
-      <div className="profileContainer_other-info">
+      <div className="profileContainer_other-infos">
         <p className="profileContainer_display-name">
           {profileInfo.displayName}
         </p>

@@ -76,13 +76,13 @@
 .movieCard_button.rating > svg {
   font-size: 1rem;
 }
-.movieCard_button.wish-list {
+.movieCard_button.want-to-watch-list {
   border-bottom-right-radius: 8px;
 }
-.movieCard_wish-icon {
+.movieCard_want-to-watch-icon {
   color: #1f8ef1;
 }
-.movieCard_not-wish-icon {
+.movieCard_not-want-to-watch-icon {
   color: rgb(191, 191, 191);
 }
 .movieCard_average-score {

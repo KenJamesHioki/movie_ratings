@@ -24,7 +24,7 @@
      object-fit: cover;
   border-radius: 50%;
 }
-.profileContainer_other-info {
+.profileContainer_other-infos {
   display: flex;
   flex-direction: column;
   gap: 8px;
