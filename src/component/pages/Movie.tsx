@@ -9,12 +9,8 @@ import {
   addDoc,
   collection,
   doc,
-  getDocs,
-  orderBy,
-  query,
   serverTimestamp,
   updateDoc,
-  where,
 } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { Loader } from "../atoms/Loader";
@@ -30,6 +26,7 @@ import { useTheme } from "../../lib/ThemeProvider";
 import { clacAverageScore } from "../../utils/calcAverageScore";
 import "../../styles/pages/movie.css";
 import { fetchMovieInfo } from "../../utils/fetchMovieInfo";
+import { fetchPosts } from "../../utils/fetchPosts";
 
 export const Movie: React.FC = memo(() => {
   const { currentUser } = useUser();
@@ -53,39 +50,6 @@ export const Movie: React.FC = memo(() => {
   );
   const averageScore = clacAverageScore(posts);
 
-  const fetchPosts = async () => {
-    setIsLoading(true);
-    try {
-      const q = query(
-        collection(db, "posts"),
-        where("movieId", "==", paramMovieId),
-        orderBy("timestamp", "desc")
-      );
-      const querySnapshot = await getDocs(q);
-      const nextPosts: Array<RatingPost> = [];
-      querySnapshot.forEach((doc) => {
-        nextPosts.push({
-          postId: doc.id,
-          comment: doc.data().comment,
-          movieId: doc.data().movieId,
-          score: doc.data().score,
-          timestamp: doc.data().timestamp,
-          userId: doc.data().userId,
-        });
-      });
-      setPosts(nextPosts);
-    } catch (error: any) {
-      showAlert({
-        type: "error",
-        message: "投稿の読み込みに失敗しました",
-        theme,
-      });
-      console.error(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isEditMode) {
@@ -106,7 +70,8 @@ export const Movie: React.FC = memo(() => {
         movieId: paramMovieId,
       });
       showAlert({ type: "success", message: "投稿されました", theme });
-      fetchPosts();
+      const nextPosts = await fetchPosts(paramMovieId, setIsLoading, theme);
+      setPosts(nextPosts);
     } catch (error: any) {
       console.error(error.message);
       showAlert({ type: "error", message: "投稿に失敗しました", theme });
@@ -129,7 +94,8 @@ export const Movie: React.FC = memo(() => {
         message: "投稿内容が更新されました",
         theme,
       });
-      fetchPosts();
+      const nextPosts = await fetchPosts(paramMovieId, setIsLoading, theme);
+      setPosts(nextPosts);
     } catch (error: any) {
       console.error(error.message);
       showAlert({ type: "error", message: "保存に失敗しました", theme });
@@ -145,16 +111,21 @@ export const Movie: React.FC = memo(() => {
   };
 
   useEffect(() => {
-    fetchPosts();
+    const fetchCurrentPosts = async (movieId: string) => {
+      const posts = await fetchPosts(movieId, setIsLoading, theme);
+      setPosts(posts);
+    };
+
+    fetchCurrentPosts(paramMovieId);
   }, [paramMovieId]);
 
   useEffect(() => {
-    const fetchMovieInfos = async (movieId:string) => {
+    const fetchCurrentMovieInfo = async (movieId: string) => {
       const movieInfos = await fetchMovieInfo(movieId, setIsLoading, theme);
       setMovieInfos(movieInfos);
     };
 
-    fetchMovieInfos(paramMovieId);
+    fetchCurrentMovieInfo(paramMovieId);
   }, [paramMovieId]);
 
   useEffect(() => {
@@ -218,11 +189,7 @@ export const Movie: React.FC = memo(() => {
               placeholder="コメントを入力"
             />
             {!currentUserPost && (
-              <PrimaryButton
-                type="submit"
-                key="post"
-                disabled={!comment}
-              >
+              <PrimaryButton type="submit" key="post" disabled={!comment}>
                 投稿
               </PrimaryButton>
             )}
@@ -239,10 +206,7 @@ export const Movie: React.FC = memo(() => {
             )}
             {isEditMode && (
               <>
-                <PrimaryButton
-                  type="submit"
-                  key="save"
-                >
+                <PrimaryButton type="submit" key="save">
                   保存
                 </PrimaryButton>
                 <InvertedButton
