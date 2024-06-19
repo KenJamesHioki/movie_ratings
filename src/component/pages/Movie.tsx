@@ -71,8 +71,17 @@ export const Movie: React.FC = memo(() => {
         movieId: paramMovieId,
       });
       showAlert({ type: "success", message: "投稿されました", theme });
-      const nextPosts = await fetchPosts(paramMovieId, setIsLoading, theme);
-      setPosts(nextPosts);
+
+      fetchPosts(paramMovieId)
+        .then((response) => setPosts(response))
+        .catch((error: any) => {
+          showAlert({
+            type: "error",
+            message: error.message,
+            theme,
+          });
+          setPosts([]);
+        });
     } catch (error: any) {
       console.error(error.message);
       showAlert({ type: "error", message: "投稿に失敗しました", theme });
@@ -95,8 +104,17 @@ export const Movie: React.FC = memo(() => {
         message: "投稿内容が更新されました",
         theme,
       });
-      const nextPosts = await fetchPosts(paramMovieId, setIsLoading, theme);
-      setPosts(nextPosts);
+
+      fetchPosts(paramMovieId)
+        .then((response) => setPosts(response))
+        .catch((error: any) => {
+          showAlert({
+            type: "error",
+            message: error.message,
+            theme,
+          });
+          setPosts([]);
+        });
     } catch (error: any) {
       console.error(error.message);
       showAlert({ type: "error", message: "保存に失敗しました", theme });
@@ -114,15 +132,24 @@ export const Movie: React.FC = memo(() => {
   const handleDelete = async () => {
     setIsLoading(true);
     try {
-      if (confirm("本当に削除してもよろしいですか？")) {        
+      if (confirm("本当に削除してもよろしいですか？")) {
         await deleteDoc(doc(db, "posts", currentUserPost!.postId));
         showAlert({
           type: "success",
           message: "投稿内容が削除されました",
           theme,
         });
-        const nextPosts = await fetchPosts(paramMovieId, setIsLoading, theme);
-        setPosts(nextPosts);
+
+        fetchPosts(paramMovieId)
+          .then((response) => setPosts(response))
+          .catch((error: any) => {
+            showAlert({
+              type: "error",
+              message: error.message,
+              theme,
+            });
+            setPosts([]);
+          });
       } else {
         return;
       }
@@ -139,15 +166,35 @@ export const Movie: React.FC = memo(() => {
   };
 
   useEffect(() => {
-    fetchPosts(paramMovieId, setIsLoading, theme).then((response) =>
-      setPosts(response)
-    );
+    setIsLoading(true);
+    fetchPosts(paramMovieId)
+      .then((response) => setPosts(response))
+      .catch((error: any) => {
+        showAlert({
+          type: "error",
+          message: error.message,
+          theme,
+        });
+        setPosts([]);
+      })
+      .finally(() => setIsLoading(false));
   }, [paramMovieId]);
 
   useEffect(() => {
-    fetchMovieInfo(paramMovieId, setIsLoading, theme).then((response) =>
-      setMovieInfos(response)
-    );
+    setIsLoading(true);
+    fetchMovieInfo(paramMovieId)
+      .then((response) => setMovieInfos(response))
+      .catch((error: any) => {
+        showAlert(error.message);
+        setMovieInfos({
+          movieId: "",
+          title: "",
+          releaseYear: "",
+          overview: "",
+          posterPath: "",
+        });
+      })
+      .finally(() => setIsLoading(false));
   }, [paramMovieId]);
 
   useEffect(() => {

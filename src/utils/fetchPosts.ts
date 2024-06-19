@@ -1,10 +1,8 @@
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { RatingPost } from "../types/types";
-import { showAlert } from "../lib/showAlert";
 import { db } from "../lib/firebase";
 
-export const fetchPosts = async (movieId: string, setIsLoading: (isLoading:boolean)=>void,theme:string) => {
-  setIsLoading(true);
+export const fetchPosts = async (movieId: string) => {
   try {
     const q = query(
       collection(db, "posts"),
@@ -25,14 +23,7 @@ export const fetchPosts = async (movieId: string, setIsLoading: (isLoading:boole
     });
     return fetchedPosts;
   } catch (error: any) {
-    showAlert({
-      type: "error",
-      message: "投稿の読み込みに失敗しました",
-      theme,
-    });
     console.error(error.message);
-    return [];
-  } finally {
-    setIsLoading(false);
+    throw new Error("投稿の読み込みに失敗しました")
   }
 };

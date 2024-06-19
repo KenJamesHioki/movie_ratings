@@ -60,41 +60,40 @@ export const MyPage: React.FC = memo(() => {
   };
 
   useEffect(() => {
-    fetchWatchedMovieIds(
-      paramUserId || currentUser.userId,
-      setIsLoading,
-      theme
-    ).then((response) => setWatchedMovieIds(response));
+    setIsLoading(true);
+    fetchWatchedMovieIds(paramUserId || currentUser.userId)
+      .then((response) => setWatchedMovieIds(response))
+      .catch((error: any) => {
+        showAlert({ type: "error", message: error.message, theme });
+        setWatchedMovieIds([]);
+      })
+      .finally(() => setIsLoading(false));
   }, [paramUserId, currentUser]);
 
   useEffect(() => {
-    const fetchWatchedMovieInfos = async (movieIds: Array<string>) => {
-      const watchedMovieInfos = await Promise.all(
-        movieIds.map(
-          async (movieId) => await fetchMovieInfo(movieId, setIsLoading, theme)
-        )
-      );
-      return watchedMovieInfos;
-    };
-
-    fetchWatchedMovieInfos(watchedMovieIds).then((response) =>
-      setWatchedMovieInfos(response)
-    );
+    setIsLoading(true);
+    Promise.all(
+      watchedMovieIds.map(async (movieId) => await fetchMovieInfo(movieId))
+    )
+      .then((response) => setWatchedMovieInfos(response))
+      .catch((error: any) => {
+        showAlert({ type: "error", message: error.message, theme });
+        setWatchedMovieInfos([]);
+      })
+      .finally(() => setIsLoading(false));
   }, [watchedMovieIds]);
 
   useEffect(() => {
-    const fetchWantToWatchMovieInfos = async (movieIds: Array<string>) => {
-      const wantToWatchMovieInfos = await Promise.all(
-        movieIds.map(
-          async (movieId) => await fetchMovieInfo(movieId, setIsLoading, theme)
-        )
-      );
-      return wantToWatchMovieInfos;
-    };
-
-    fetchWantToWatchMovieInfos(wantToWatchMovieIds).then((response) =>
-      setWantToWatchMovieInfos(response)
-    );
+    setIsLoading(true);
+    Promise.all(
+      wantToWatchMovieIds.map(async (movieId) => await fetchMovieInfo(movieId))
+    )
+      .then((response) => setWantToWatchMovieInfos(response))
+      .catch((error: any) => {
+        showAlert({ type: "error", message: error.message, theme });
+        setWantToWatchMovieInfos([]);
+      })
+      .finally(() => setIsLoading(false));
   }, [wantToWatchMovieIds]);
 
   useEffect(() => {
@@ -158,7 +157,7 @@ export const MyPage: React.FC = memo(() => {
     );
   }
 
-  if (profileInfo.userId==="") {
+  if (profileInfo.userId === "") {
     return (
       <PageWithHeader>
         <NoResultMessage>

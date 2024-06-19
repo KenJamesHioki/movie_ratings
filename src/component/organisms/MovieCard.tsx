@@ -7,6 +7,7 @@ import { useToggleWantToWatch } from "../../hooks/useToggleWantToWatch";
 import "../../styles/organisms/movieCard.css";
 import { fetchPosts } from "../../utils/fetchPosts";
 import { Loader } from "../atoms/Loader";
+import { showAlert } from "../../lib/showAlert";
 
 type Props = {
   movieId: string;
@@ -27,9 +28,21 @@ export const MovieCard: React.FC<Props> = memo(
 
     //NOTE:Firebaseは、フィールドのaverageを取得するクエリが有料のため、全てのpostsを取得しクライアントサイドで計算するものとする
     useEffect(() => {
-      fetchPosts(movieId, setIsLoading, theme).then((response) =>
-        setScores(response)
-      );
+      setIsLoading(true);
+      fetchPosts(movieId)
+        .then((response) => {
+          const postScores = response.map(post=> ({score: post.score}));
+          setScores(postScores);
+        })
+        .catch((error: any) => {
+          showAlert({
+            type: "error",
+            message: error.message,
+            theme,
+          });
+          return [];
+        })
+        .finally(() => setIsLoading(false));
     }, [movieId]);
 
     return (
@@ -37,7 +50,10 @@ export const MovieCard: React.FC<Props> = memo(
         <Link to={`/movie/${movieId}`}>
           <div className="movieCard_cover">
             <div className="movieCard_thumbnail">
-              <img src={`${BASE_POSTER_URL}${posterPath}`} alt="moviename" />
+              <img
+                src={`${BASE_POSTER_URL}${posterPath}`}
+                alt="moviename"
+              />
               <div className="movieCard_overlay"></div>
             </div>
             <p className="movieCard_title">{title}</p>
@@ -62,7 +78,7 @@ export const MovieCard: React.FC<Props> = memo(
             )}
           </div>
         </div>
-        {isLoading && <Loader size={40} />}
+        {isLoading && <Loader size={40}/>}
       </div>
     );
   }
