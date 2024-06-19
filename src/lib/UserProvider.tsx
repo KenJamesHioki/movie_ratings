@@ -20,7 +20,7 @@ type User = {
 type UserContext = {
   currentUser: User;
   logout: () => void;
-  update: (iconUrl: string, displayName: string, introduction: string) => void;
+  updateProfile: (iconUrl: string, displayName: string, introduction: string) => void;
   isAuthChecked: boolean;
 };
 
@@ -32,7 +32,7 @@ const UserContext = createContext<UserContext>({
     introduction: "",
   },
   logout: () => {},
-  update: () => {},
+  updateProfile: () => {},
   isAuthChecked: false,
 });
 
@@ -86,7 +86,7 @@ export const UserProvider: React.FC<Props> = ({ children }) => {
     signOut(auth);
   };
 
-  const update = (
+  const updateProfile = (
     iconUrl: string,
     displayName: string,
     introduction: string
@@ -96,7 +96,7 @@ export const UserProvider: React.FC<Props> = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ currentUser, logout, update, isAuthChecked }}
+      value={{ currentUser, logout, updateProfile, isAuthChecked }}
     >
       {children}
     </UserContext.Provider>

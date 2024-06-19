@@ -15,7 +15,7 @@ import { useTheme } from "../../lib/ThemeProvider";
 import "../../styles/pages/editProfile.css";
 
 export const EditProfile: React.FC = memo(() => {
-  const { currentUser, update } = useUser();
+  const { currentUser, updateProfile } = useUser();
   const { theme } = useTheme();
   const navigate = useNavigate();
   const [displayName, setDisplayName] = useState("");
@@ -49,7 +49,7 @@ export const EditProfile: React.FC = memo(() => {
         displayName,
         introduction,
       });
-      update(iconUrl, displayName, introduction);
+      updateProfile(iconUrl, displayName, introduction);
       navigate("/mypage", {
         state: {
           type: "success",
