@@ -40,7 +40,7 @@ https://movie-ra.web.app/
 
 ### ライブラリ・パッケージ・外部API
 - **TMDB:** 映画情報取得API
-- **React Router:** ルーティングライブラリ
+- **react-router-dom:** ルーティングライブラリ
 - **Axios:** API通信ライブラリ
 - **MUI Icons:** アイコンライブラリ
 - **React-Toastify:** 通知/アラートライブラリ
