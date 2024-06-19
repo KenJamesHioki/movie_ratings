@@ -20,7 +20,11 @@ type User = {
 type UserContext = {
   currentUser: User;
   logout: () => void;
-  updateProfile: (iconUrl: string, displayName: string, introduction: string) => void;
+  updateProfile: (
+    iconUrl: string,
+    displayName: string,
+    introduction: string
+  ) => void;
   isAuthChecked: boolean;
 };
 
@@ -49,17 +53,21 @@ export const UserProvider: React.FC<Props> = ({ children }) => {
   });
   const [isAuthChecked, setIsAuthChecked] = useState(false);
 
-  useEffect(() => {    
-    const unSub = onAuthStateChanged(auth, async (user) => {
-      if (user) {        
-        const docSnap = await getDoc(doc(db, "users", user.uid));
-        if (docSnap.exists()) {
-          setCurrentUser({
-            userId: user.uid,
-            iconUrl: docSnap.data().iconUrl,
-            displayName: docSnap.data().displayName,
-            introduction: docSnap.data().introduction,
-          });
+  useEffect(() => {
+    const unSub = onAuthStateChanged(
+      auth,
+      async (user) => {
+        if (user) {
+          const docSnap = await getDoc(doc(db, "users", user.uid));
+          if (docSnap.exists()) {
+            setCurrentUser({
+              userId: user.uid,
+              iconUrl: docSnap.data().iconUrl,
+              displayName: docSnap.data().displayName,
+              introduction: docSnap.data().introduction,
+            });
+          }
+          setIsAuthChecked(true);
         } else {
           setCurrentUser({
             userId: "",
@@ -67,17 +75,20 @@ export const UserProvider: React.FC<Props> = ({ children }) => {
             displayName: "",
             introduction: "",
           });
+          setIsAuthChecked(true);
         }
-      } else {
+      },
+      (error: any) => {
+        console.error(error.message);
         setCurrentUser({
           userId: "",
           iconUrl: "",
           displayName: "",
           introduction: "",
         });
+        setIsAuthChecked(true);
       }
-      setIsAuthChecked(true);
-    });
+    );
 
     return () => unSub();
   }, []);
