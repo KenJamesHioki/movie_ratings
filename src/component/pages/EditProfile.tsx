@@ -66,14 +66,16 @@ export const EditProfile: React.FC = memo(() => {
   };
 
   useEffect(() => {
-    const fetchProfile = async () => {
+    const fetchProfile = async (userId: string) => {
       setIsLoading(true);
       try {
-        const docSnap = await getDoc(doc(db, "users", currentUser.userId));
+        const docSnap = await getDoc(doc(db, "users", userId));
         if (docSnap.exists()) {
-          setDisplayName(docSnap.data().displayName);
-          setIntroduction(docSnap.data().introduction);
-          setIconUrl(docSnap.data().iconUrl);
+          return {
+            displayName: docSnap.data().displayName,
+            introduction: docSnap.data().introduction,
+            iconUrl: docSnap.data().iconUrl,
+          }
         } else {
           console.error("指定のドキュメントが見つかりませんでした");
           showAlert({
@@ -81,6 +83,11 @@ export const EditProfile: React.FC = memo(() => {
             message: "予期せぬエラーが発生しました",
             theme,
           });
+          return {
+            displayName: "",
+            introduction: "",
+            iconUrl: "",
+          }
         }
       } catch (error: any) {
         console.error(error.message);
@@ -89,12 +96,21 @@ export const EditProfile: React.FC = memo(() => {
           message: "データの読み込みに失敗しました",
           theme,
         });
+        return {
+          displayName: "",
+          introduction: "",
+          iconUrl: "",
+        }
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchProfile();
+    fetchProfile(currentUser.userId).then(response=> {
+      setDisplayName(response.displayName);
+      setIntroduction(response.introduction);
+      setIconUrl(response.iconUrl);
+    })
   }, [currentUser]);
 
   return (

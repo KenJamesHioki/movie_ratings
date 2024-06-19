@@ -63,22 +63,22 @@ export const Home: React.FC = memo(() => {
             posterPath: result.poster_path,
           })
         );
-
-        setMovies(fetchedMovies);
+        return fetchedMovies;
       } catch (error: any) {
         console.error(error.message);
         setMovies([]);
         showAlert({
           type: "error",
-          message: "映画の読み込みに失敗しました",
+          message: "映画情報の読み込みに失敗しました",
           theme,
         });
+        return [];
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchMovieInfos(apiUrl);
+    fetchMovieInfos(apiUrl).then((response) => setMovies(response));
   }, [paramMovieTitle]);
 
   return (

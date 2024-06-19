@@ -48,7 +48,7 @@ export const MyPage: React.FC = memo(() => {
   const [isLoading, setIsLoading] = useState(false);
 
   //currentUserではないユーザーのMyPageを表示する場合にのみ必要なステート
-  const [profileInfo, setProfileInfo] = useState<ProfileInfo | null>({
+  const [profileInfo, setProfileInfo] = useState<ProfileInfo>({
     userId: "",
     displayName: "",
     introduction: "",
@@ -74,10 +74,12 @@ export const MyPage: React.FC = memo(() => {
           async (movieId) => await fetchMovieInfo(movieId, setIsLoading, theme)
         )
       );
-      setWatchedMovieInfos(watchedMovieInfos);
+      return watchedMovieInfos;
     };
 
-    fetchWatchedMovieInfos(watchedMovieIds);
+    fetchWatchedMovieInfos(watchedMovieIds).then((response) =>
+      setWatchedMovieInfos(response)
+    );
   }, [watchedMovieIds]);
 
   useEffect(() => {
@@ -87,10 +89,12 @@ export const MyPage: React.FC = memo(() => {
           async (movieId) => await fetchMovieInfo(movieId, setIsLoading, theme)
         )
       );
-      setWantToWatchMovieInfos(wantToWatchMovieInfos);
+      return wantToWatchMovieInfos;
     };
 
-    fetchWantToWatchMovieInfos(wantToWatchMovieIds);
+    fetchWantToWatchMovieInfos(wantToWatchMovieIds).then((response) =>
+      setWantToWatchMovieInfos(response)
+    );
   }, [wantToWatchMovieIds]);
 
   useEffect(() => {
@@ -99,24 +103,37 @@ export const MyPage: React.FC = memo(() => {
         setIsLoading(true);
         const docSnap = await getDoc(doc(db, "users", id));
         if (docSnap.exists()) {
-          setProfileInfo({
+          return {
             userId: id,
             displayName: docSnap.data().displayName,
             introduction: docSnap.data().introduction,
             iconUrl: docSnap.data().iconUrl,
-          });
+          };
         } else {
-          setProfileInfo(null);
+          return {
+            userId: "",
+            displayName: "",
+            introduction: "",
+            iconUrl: "",
+          };
         }
       } catch (error: any) {
         console.error(error.message);
+        return {
+          userId: "",
+          displayName: "",
+          introduction: "",
+          iconUrl: "",
+        };
       } finally {
         setIsLoading(false);
       }
     };
 
     if (paramUserId) {
-      fetchOtherUserProfile(paramUserId);
+      fetchOtherUserProfile(paramUserId).then((response) =>
+        setProfileInfo(response)
+      );
     } else {
       setProfileInfo({
         userId: currentUser.userId,
@@ -133,11 +150,7 @@ export const MyPage: React.FC = memo(() => {
     }
   }, [location]);
 
-  if (
-    isLoading ||
-    wantToWatchIdsIsLoading ||
-    myWantToWatchIsLoading
-  ) {
+  if (isLoading || wantToWatchIdsIsLoading || myWantToWatchIsLoading) {
     return (
       <PageWithHeader>
         <Loader size={60} />
@@ -145,7 +158,7 @@ export const MyPage: React.FC = memo(() => {
     );
   }
 
-  if (!profileInfo) {
+  if (profileInfo.userId==="") {
     return (
       <PageWithHeader>
         <NoResultMessage>
