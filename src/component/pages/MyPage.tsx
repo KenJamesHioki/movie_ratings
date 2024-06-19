@@ -97,13 +97,13 @@ export const MyPage: React.FC = memo(() => {
   }, [wantToWatchMovieIds]);
 
   useEffect(() => {
-    const fetchOtherUserProfile = async (id: string) => {
+    const fetchOtherUserProfile = async () => {
       try {
         setIsLoading(true);
-        const docSnap = await getDoc(doc(db, "users", id));
+        const docSnap = await getDoc(doc(db, "users", paramUserId!));
         if (docSnap.exists()) {
           return {
-            userId: id,
+            userId: paramUserId!,
             displayName: docSnap.data().displayName,
             introduction: docSnap.data().introduction,
             iconUrl: docSnap.data().iconUrl,
@@ -130,7 +130,7 @@ export const MyPage: React.FC = memo(() => {
     };
 
     if (paramUserId) {
-      fetchOtherUserProfile(paramUserId).then((response) =>
+      fetchOtherUserProfile().then((response) =>
         setProfileInfo(response)
       );
     } else {

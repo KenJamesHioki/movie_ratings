@@ -66,10 +66,10 @@ export const EditProfile: React.FC = memo(() => {
   };
 
   useEffect(() => {
-    const fetchProfile = async (userId: string) => {
+    const fetchProfile = async () => {
       setIsLoading(true);
       try {
-        const docSnap = await getDoc(doc(db, "users", userId));
+        const docSnap = await getDoc(doc(db, "users", currentUser.userId));
         if (docSnap.exists()) {
           return {
             displayName: docSnap.data().displayName,
@@ -106,7 +106,7 @@ export const EditProfile: React.FC = memo(() => {
       }
     };
 
-    fetchProfile(currentUser.userId).then(response=> {
+    fetchProfile().then(response=> {
       setDisplayName(response.displayName);
       setIntroduction(response.introduction);
       setIconUrl(response.iconUrl);

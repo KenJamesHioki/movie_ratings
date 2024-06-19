@@ -52,10 +52,10 @@ export const Home: React.FC = memo(() => {
       setSearchTitle("");
     }
 
-    const fetchMovieInfos = async (url: string) => {
+    const fetchMovieInfos = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get(url);
+        const response = await axios.get(apiUrl);
         const fetchedMovies: Array<Movie> = response.data.results.map(
           (result: TMDBMovie) => ({
             movieId: String(result.id),
@@ -78,7 +78,7 @@ export const Home: React.FC = memo(() => {
       }
     };
 
-    fetchMovieInfos(apiUrl).then((response) => setMovies(response));
+    fetchMovieInfos().then((response) => setMovies(response));
   }, [paramMovieTitle]);
 
   return (
