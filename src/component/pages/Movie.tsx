@@ -8,6 +8,7 @@ import { useUser } from "../../lib/UserProvider";
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   serverTimestamp,
   updateDoc,
@@ -110,6 +111,33 @@ export const Movie: React.FC = memo(() => {
     setIsEditMode(false);
   };
 
+  const handleDelete = async () => {
+    setIsLoading(true);
+    try {
+      if (confirm("本当に削除してもよろしいですか？")) {        
+        await deleteDoc(doc(db, "posts", currentUserPost!.postId));
+        showAlert({
+          type: "success",
+          message: "投稿内容が削除されました",
+          theme,
+        });
+        const nextPosts = await fetchPosts(paramMovieId, setIsLoading, theme);
+        setPosts(nextPosts);
+      } else {
+        return;
+      }
+    } catch (error: any) {
+      console.error(error.message);
+      showAlert({
+        type: "error",
+        message: "予期せぬエラーが発生しました",
+        theme,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchPosts(paramMovieId, setIsLoading, theme).then((response) =>
       setPosts(response)
@@ -188,15 +216,25 @@ export const Movie: React.FC = memo(() => {
               </PrimaryButton>
             )}
             {currentUserPost && !isEditMode && (
-              <PrimaryButton
-                type="button"
-                key="edit"
-                onClick={() => {
-                  setIsEditMode(true);
-                }}
-              >
-                編集
-              </PrimaryButton>
+              <>
+                <PrimaryButton
+                  type="button"
+                  key="edit"
+                  onClick={() => {
+                    setIsEditMode(true);
+                  }}
+                >
+                  編集
+                </PrimaryButton>
+                <InvertedButton
+                  type="button"
+                  key="delete"
+                  style={{ color: "red", borderColor: "red" }}
+                  onClick={handleDelete}
+                >
+                  削除
+                </InvertedButton>
+              </>
             )}
             {isEditMode && (
               <>
