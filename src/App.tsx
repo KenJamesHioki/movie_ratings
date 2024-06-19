@@ -13,7 +13,7 @@ function App() {
   const { currentUser, isAuthChecked } = useUser();
 
   if (!isAuthChecked) {
-    return <Loader />;
+    return <Loader size={60} />;
   }
 
   return (
