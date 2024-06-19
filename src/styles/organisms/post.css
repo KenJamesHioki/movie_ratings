@@ -20,6 +20,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  text-decoration: none;
 }
 .post_icon {
   width: 40px;

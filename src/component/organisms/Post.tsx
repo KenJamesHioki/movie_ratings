@@ -23,7 +23,7 @@ type PostUserInfo = {
 
 export const Post: React.FC<Props> = memo(({ userId, score, comment }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const {theme} = useTheme();
+  const { theme } = useTheme();
   const [user, setUser] = useState<PostUserInfo>({
     displayName: "",
     introduction: "",
@@ -32,7 +32,7 @@ export const Post: React.FC<Props> = memo(({ userId, score, comment }) => {
 
   useEffect(() => {
     const updateUser = async () => {
-      setIsLoading(true)
+      setIsLoading(true);
       try {
         const docSnap = await getDoc(doc(db, "users", userId));
         if (docSnap.exists()) {
@@ -46,9 +46,13 @@ export const Post: React.FC<Props> = memo(({ userId, score, comment }) => {
         }
       } catch (error) {
         console.error("ドキュメントの取得に失敗しました");
-        showAlert({type:"error", message:"コメントの読み込みに失敗しました", theme})
+        showAlert({
+          type: "error",
+          message: "コメントの読み込みに失敗しました",
+          theme,
+        });
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
     };
 
@@ -57,14 +61,12 @@ export const Post: React.FC<Props> = memo(({ userId, score, comment }) => {
 
   return (
     <div className="post">
-      <div className="post_icon-and-display-name">
-        <Link to={`/mypage/${userId}`}>
+        <Link className="post_icon-and-display-name" to={`/mypage/${userId}`}>
           <div className="post_icon">
             <img src={user.iconUrl} alt="" />
           </div>
+          <div className="post_display-name">{user.displayName}</div>
         </Link>
-        <div className="post_display-name">{user.displayName}</div>
-      </div>
       <Rating
         className="post_score"
         value={Number(score)}
@@ -77,7 +79,7 @@ export const Post: React.FC<Props> = memo(({ userId, score, comment }) => {
         readOnly
       />
       <p className="post_comment">{comment}</p>
-      {isLoading && <Loader size={30}/>}
+      {isLoading && <Loader size={30} />}
     </div>
   );
 });
