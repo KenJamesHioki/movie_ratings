@@ -1,6 +1,6 @@
 import React, { ChangeEvent, memo, useEffect, useState } from "react";
 import { PageWithHeader } from "../templates/PageWithHeader";
-import { Post } from "../organisms/Post";
+import { Post } from "../molecules/Post";
 import { PrimaryButton } from "../atoms/button/PrimaryButton";
 import { Textarea } from "../atoms/input/Textarea";
 import { useParams } from "react-router-dom";
@@ -14,12 +14,12 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../../lib/firebase";
-import { Loader } from "../atoms/Loader";
+import { Loader } from "../molecules/Loader";
 import { MovieInfo, RatingPost } from "../../types/types";
 import { NoResultMessage } from "../atoms/NoResultMessage";
 import { InvertedButton } from "../atoms/button/InvertedButton";
-import { PostContainer } from "../templates/PostContainer";
-import { MovieInfoContainer } from "../organisms/MovieInfoContainer";
+import { Posts } from "../organisms/Posts";
+import { MovieDetail } from "../organisms/MovieDetail";
 import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { showAlert } from "../../lib/showAlert";
@@ -226,10 +226,7 @@ export const Movie: React.FC = memo(() => {
   return (
     <PageWithHeader>
       <div className="rating_wrapper">
-        <MovieInfoContainer
-          movieInfo={movieInfos}
-          averageScore={averageScore}
-        />
+        <MovieDetail movieInfo={movieInfos} averageScore={averageScore} />
         <form className="rating_post-form" onSubmit={handleSubmit}>
           <div className="rating_set-score">
             {hoverScore === null || hoverScore === -1 ? score : hoverScore}
@@ -299,7 +296,7 @@ export const Movie: React.FC = memo(() => {
             )}
           </div>
         </form>
-        <PostContainer>
+        <Posts>
           {posts.length === 0 ? (
             <NoResultMessage>まだ投稿がありません</NoResultMessage>
           ) : (
@@ -320,7 +317,7 @@ export const Movie: React.FC = memo(() => {
               })}
             </>
           )}
-        </PostContainer>
+        </Posts>
       </div>
     </PageWithHeader>
   );

@@ -5,7 +5,7 @@ import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { Link } from "react-router-dom";
 import "../../styles/organisms/post.css";
-import { Loader } from "../atoms/Loader";
+import { Loader } from "./Loader";
 import { showAlert } from "../../lib/showAlert";
 import { useTheme } from "../../lib/ThemeProvider";
 
@@ -61,12 +61,12 @@ export const Post: React.FC<Props> = memo(({ userId, score, comment }) => {
 
   return (
     <div className="post">
-        <Link className="post_icon-and-display-name" to={`/mypage/${userId}`}>
-          <div className="post_icon">
-            <img src={user.iconUrl} alt="" />
-          </div>
-          <div className="post_display-name">{user.displayName}</div>
-        </Link>
+      <Link className="post_icon-and-display-name" to={`/mypage/${userId}`}>
+        <div className="post_icon">
+          <img src={user.iconUrl} alt="" />
+        </div>
+        <div className="post_display-name">{user.displayName}</div>
+      </Link>
       <Rating
         className="post_score"
         value={Number(score)}

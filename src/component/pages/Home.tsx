@@ -1,10 +1,10 @@
 import React, { ChangeEvent, memo, useEffect, useState } from "react";
-import { MovieCard } from "../organisms/MovieCard";
+import { MovieCard } from "../molecules/MovieCard";
 import axios from "axios";
 import { PageWithHeader } from "../templates/PageWithHeader";
 import { Input } from "../atoms/input/Input";
-import { MovieContainer } from "../templates/MovieCardContainer";
-import { Loader } from "../atoms/Loader";
+import { MovieCardGrid } from "../organisms/MovieCardGrid";
+import { Loader } from "../molecules/Loader";
 import { NoResultMessage } from "../atoms/NoResultMessage";
 import { SectionTitle } from "../atoms/SectionTitle";
 import { useNavigate, useParams } from "react-router-dom";
@@ -116,7 +116,7 @@ export const Home: React.FC = memo(() => {
           {movies.length === 0 ? (
             <NoResultMessage>該当する映画がありません</NoResultMessage>
           ) : (
-            <MovieContainer>
+            <MovieCardGrid>
               {movies[0] && (
                 <>
                   {movies.map((movie) => (
@@ -132,7 +132,7 @@ export const Home: React.FC = memo(() => {
                   ))}
                 </>
               )}
-            </MovieContainer>
+            </MovieCardGrid>
           )}
         </div>
       </PageWithHeader>

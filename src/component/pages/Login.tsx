@@ -18,7 +18,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../lib/UserProvider";
-import { Loader } from "../atoms/Loader";
+import { Loader } from "../molecules/Loader";
 
 export const Login: React.FC = memo(() => {
   const { currentUser, logout } = useUser();
@@ -176,7 +176,7 @@ export const Login: React.FC = memo(() => {
   };
 
   const handlePasswordReset = async () => {
-    setIsPasswordResetMode(false)
+    setIsPasswordResetMode(false);
     auth.languageCode = "ja";
     try {
       await sendPasswordResetEmail(auth, passwordResetEmail);
@@ -330,7 +330,11 @@ export const Login: React.FC = memo(() => {
             }
             placeholder="メールアドレス"
           />
-          <PrimaryButton type="button" onClick={handlePasswordReset} disabled={!passwordResetEmail} >
+          <PrimaryButton
+            type="button"
+            onClick={handlePasswordReset}
+            disabled={!passwordResetEmail}
+          >
             送信
           </PrimaryButton>
         </div>

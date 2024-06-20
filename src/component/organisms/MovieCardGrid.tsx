@@ -5,6 +5,6 @@ type Props = {
   children: ReactNode;
 };
 
-export const MovieContainer: React.FC<Props> = memo(({ children }) => {
+export const MovieCardGrid: React.FC<Props> = memo(({ children }) => {
   return <div className="movie-container">{children}</div>;
 });

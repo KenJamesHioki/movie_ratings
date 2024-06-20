@@ -6,7 +6,7 @@ import { clacAverageScore } from "../../utils/calcAverageScore";
 import { useToggleWantToWatch } from "../../hooks/useToggleWantToWatch";
 import "../../styles/organisms/movieCard.css";
 import { fetchPosts } from "../../utils/fetchPosts";
-import { Loader } from "../atoms/Loader";
+import { Loader } from "./Loader";
 import { showAlert } from "../../lib/showAlert";
 
 type Props = {
@@ -31,7 +31,7 @@ export const MovieCard: React.FC<Props> = memo(
       setIsLoading(true);
       fetchPosts(movieId)
         .then((response) => {
-          const postScores = response.map(post=> ({score: post.score}));
+          const postScores = response.map((post) => ({ score: post.score }));
           setScores(postScores);
         })
         .catch((error: any) => {
@@ -50,10 +50,7 @@ export const MovieCard: React.FC<Props> = memo(
         <Link to={`/movie/${movieId}`}>
           <div className="movieCard_cover">
             <div className="movieCard_thumbnail">
-              <img
-                src={`${BASE_POSTER_URL}${posterPath}`}
-                alt="moviename"
-              />
+              <img src={`${BASE_POSTER_URL}${posterPath}`} alt="moviename" />
               <div className="movieCard_overlay"></div>
             </div>
             <p className="movieCard_title">{title}</p>
@@ -78,7 +75,7 @@ export const MovieCard: React.FC<Props> = memo(
             )}
           </div>
         </div>
-        {isLoading && <Loader size={40}/>}
+        {isLoading && <Loader size={40} />}
       </div>
     );
   }

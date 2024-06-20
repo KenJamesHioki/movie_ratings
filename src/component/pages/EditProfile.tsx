@@ -9,7 +9,7 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db, storage } from "../../lib/firebase";
 import { useNavigate } from "react-router-dom";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { Loader } from "../atoms/Loader";
+import { Loader } from "../molecules/Loader";
 import { showAlert } from "../../lib/showAlert";
 import { useTheme } from "../../lib/ThemeProvider";
 import "../../styles/pages/editProfile.css";
@@ -75,7 +75,7 @@ export const EditProfile: React.FC = memo(() => {
             displayName: docSnap.data().displayName,
             introduction: docSnap.data().introduction,
             iconUrl: docSnap.data().iconUrl,
-          }
+          };
         } else {
           console.error("指定のドキュメントが見つかりませんでした");
           showAlert({
@@ -87,7 +87,7 @@ export const EditProfile: React.FC = memo(() => {
             displayName: "",
             introduction: "",
             iconUrl: "",
-          }
+          };
         }
       } catch (error: any) {
         console.error(error.message);
@@ -100,17 +100,17 @@ export const EditProfile: React.FC = memo(() => {
           displayName: "",
           introduction: "",
           iconUrl: "",
-        }
+        };
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchProfile().then(response=> {
+    fetchProfile().then((response) => {
       setDisplayName(response.displayName);
       setIntroduction(response.introduction);
       setIconUrl(response.iconUrl);
-    })
+    });
   }, [currentUser]);
 
   return (
@@ -174,7 +174,7 @@ export const EditProfile: React.FC = memo(() => {
           </InvertedButton>
         </div>
       </PageWithHeader>
-      {isLoading && <Loader size={60}/>}
+      {isLoading && <Loader size={60} />}
     </>
   );
 });

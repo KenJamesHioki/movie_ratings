@@ -1,14 +1,14 @@
 import React, { memo, useEffect, useState } from "react";
 import { PageWithHeader } from "../templates/PageWithHeader";
 import { useUser } from "../../lib/UserProvider";
-import { MovieCard } from "../organisms/MovieCard";
+import { MovieCard } from "../molecules/MovieCard";
 import { useLocation, useParams } from "react-router-dom";
-import { MovieContainer } from "../templates/MovieCardContainer";
+import { MovieCardGrid } from "../organisms/MovieCardGrid";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
-import { Loader } from "../atoms/Loader";
+import { Loader } from "../molecules/Loader";
 import { NoResultMessage } from "../atoms/NoResultMessage";
-import { ProfileContainer } from "../organisms/ProfileContainer";
+import { UserProfileInfo } from "../organisms/UserProfileInfo";
 import { showAlert } from "../../lib/showAlert";
 import { PlaylistAddCheckCircle, Visibility } from "@mui/icons-material";
 import { useWantToWatchMovieIds } from "../../hooks/useWantToWatchMovieIds";
@@ -130,9 +130,7 @@ export const MyPage: React.FC = memo(() => {
     };
 
     if (paramUserId) {
-      fetchOtherUserProfile().then((response) =>
-        setProfileInfo(response)
-      );
+      fetchOtherUserProfile().then((response) => setProfileInfo(response));
     } else {
       setProfileInfo({
         userId: currentUser.userId,
@@ -171,7 +169,7 @@ export const MyPage: React.FC = memo(() => {
     <>
       <PageWithHeader>
         <div className="myPage_wrapper">
-          <ProfileContainer
+          <UserProfileInfo
             numWatched={watchedMovieIds.length}
             profileInfo={profileInfo}
           />
@@ -208,7 +206,7 @@ export const MyPage: React.FC = memo(() => {
           ) : (
             <></>
           )}
-          <MovieContainer>
+          <MovieCardGrid>
             {(selectedButton === "watched"
               ? watchedMovieInfos
               : wantToWatchMovieInfos
@@ -221,7 +219,7 @@ export const MyPage: React.FC = memo(() => {
                 posterPath={movie.posterPath}
               />
             ))}
-          </MovieContainer>
+          </MovieCardGrid>
         </div>
       </PageWithHeader>
     </>

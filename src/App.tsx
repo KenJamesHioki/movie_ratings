@@ -5,7 +5,7 @@ import { Home } from "./component/pages/Home";
 import { Movie } from "./component/pages/Movie";
 import { Route, Routes } from "react-router-dom";
 import { MyPage } from "./component/pages/MyPage";
-import { Loader } from "./component/atoms/Loader";
+import { Loader } from "./component/molecules/Loader";
 import { EditProfile } from "./component/pages/EditProfile";
 import { Page404 } from "./component/pages/Page404";
 
@@ -40,10 +40,7 @@ function App() {
           path="/movie/:paramMovieId"
           element={currentUser.userId ? <Movie /> : <Login />}
         />
-        <Route
-          path="*"
-          element={<Page404/>}
-        />
+        <Route path="*" element={<Page404 />} />
       </Routes>
     </div>
   );
