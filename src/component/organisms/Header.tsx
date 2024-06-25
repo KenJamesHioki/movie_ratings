@@ -11,23 +11,23 @@ export const Header: React.FC = memo(() => {
 
   return (
     <header className="header">
-      <Link to="/">
-        <img className="header_logo" src="/images/logo.png" />
+      <Link className="header__logo-link" to="/">
+        <img className="header__logo" src="/images/logo.png" />
       </Link>
-      <div className="header_theme-and-icon">
-        <div className="header_toggle-theme" onClick={toggleTheme}>
+      <div className="header_icon-container">
+        <div className="header__toggle-theme" onClick={toggleTheme}>
           {theme === "dark" ? (
             <>
-              <LightMode />{" "}
+              <LightMode className="header__theme-icon" />{" "}
             </>
           ) : (
             <>
-              <DarkMode />
+              <DarkMode className="header__theme-icon" />
             </>
           )}
         </div>
-        <Link to="/mypage" className={`header_icon ${currentUser.userId==="" && "hide"}`}>
-          <img src={currentUser.iconUrl} alt="" />
+        <Link to="/mypage" className={`header__user-icon-link ${currentUser.userId==="" && "header__user-icon-link_hide"}`}>
+          <img src={currentUser.iconUrl} className="header__user-icon" alt="" />
         </Link>
       </div>
     </header>

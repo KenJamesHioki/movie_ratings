@@ -5,12 +5,16 @@
   display: inline-block;
   height: fit-content;
 
-  &_cover {
+  &__link {
+    user-select: none;
+  }
+
+  &__cover {
     position: relative;
     cursor: pointer;
   }
 
-  &_thumbnail {
+  &__thumbnail-container {
     width: 100%;
     height: auto;
     aspect-ratio: 2/3;
@@ -19,21 +23,21 @@
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 
-    &:hover>img {
+    &:hover .movieCard__thumbnail {
       transform: scale(1.1);
-    }
-
-    &>img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
-      transition: transform 0.5s;
     }
   }
 
-  &_overlay {
+  &__thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    transition: transform 0.5s;
+  }
+
+  &__overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -44,7 +48,7 @@
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
   }
 
-  &_title {
+  &__title {
     position: absolute;
     left: 10px;
     bottom: 12px;
@@ -56,11 +60,11 @@
     word-wrap: break-word;
   }
 
-  &_button-container {
+  &__button-container {
     display: flex;
   }
 
-  &_button {
+  &__button {
     flex: 1;
     text-align: center;
     background-color: $cFadedBlackLight;
@@ -78,26 +82,28 @@
       opacity: 0.8;
     }
 
-    &.rating {
+    &_rating {
       border-bottom-left-radius: 8px;
       color: $cYellow;
-
-      >svg {
-        font-size: 1rem;
-      }
     }
 
-    &.want-to-watch-list {
+    &__want-to-watch {
       border-bottom-right-radius: 8px;
     }
   }
 
-  &_want-to-watch-icon {
-    color: $cBlue;
+  &__rating-icon {
+    font-size: 1rem !important;
   }
 
-  &_not-want-to-watch-icon {
-    color: $cLightGray;
+  &__want-to-watch-icon {
+    &_registered {
+      color: $cBlue;
+    }
+
+    &_unregistered {
+      color: $cLightGray;
+    }
   }
 
   &_average-score {

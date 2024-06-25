@@ -4,11 +4,16 @@
   height: -moz-fit-content;
   height: fit-content;
 }
-.movieCard_cover {
+.movieCard__link {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+.movieCard__cover {
   position: relative;
   cursor: pointer;
 }
-.movieCard_thumbnail {
+.movieCard__thumbnail-container {
   width: 100%;
   height: auto;
   aspect-ratio: 2/3;
@@ -17,10 +22,10 @@
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }
-.movieCard_thumbnail:hover > img {
+.movieCard__thumbnail-container:hover .movieCard__thumbnail {
   transform: scale(1.1);
 }
-.movieCard_thumbnail > img {
+.movieCard__thumbnail {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
@@ -29,7 +34,7 @@
   border-top-right-radius: 8px;
   transition: transform 0.5s;
 }
-.movieCard_overlay {
+.movieCard__overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -39,7 +44,7 @@
   border-top-right-radius: 8px;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
 }
-.movieCard_title {
+.movieCard__title {
   position: absolute;
   left: 10px;
   bottom: 12px;
@@ -50,10 +55,10 @@
   white-space: normal;
   word-wrap: break-word;
 }
-.movieCard_button-container {
+.movieCard__button-container {
   display: flex;
 }
-.movieCard_button {
+.movieCard__button {
   flex: 1;
   text-align: center;
   background-color: rgba(17, 25, 40, 0.6);
@@ -63,26 +68,26 @@
   padding: 8px 0;
   cursor: pointer;
 }
-.light .movieCard_button {
+.light .movieCard__button {
   background-color: rgba(17, 25, 40, 0.9);
 }
-.movieCard_button:hover {
+.movieCard__button:hover {
   opacity: 0.8;
 }
-.movieCard_button.rating {
+.movieCard__button_rating {
   border-bottom-left-radius: 8px;
   color: #faaf00;
 }
-.movieCard_button.rating > svg {
-  font-size: 1rem;
-}
-.movieCard_button.want-to-watch-list {
+.movieCard__button__want-to-watch {
   border-bottom-right-radius: 8px;
 }
-.movieCard_want-to-watch-icon {
+.movieCard__rating-icon {
+  font-size: 1rem !important;
+}
+.movieCard__want-to-watch-icon_registered {
   color: #1f8ef1;
 }
-.movieCard_not-want-to-watch-icon {
+.movieCard__want-to-watch-icon_unregistered {
   color: rgb(191, 191, 191);
 }
 .movieCard_average-score {

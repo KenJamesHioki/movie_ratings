@@ -15,29 +15,15 @@
   box-shadow: 0px 12px 24px -13px #161616;
 
   @include mq(lg) {
-    padding: 0 10px ;
+    padding: 0 10px;
     height: 60px;
   }
 
-  &_theme-and-icon{
-    display: flex;
-    align-items: center;
-    gap: 12px;
+  &__logo-link {
+    user-select: none;
   }
 
-  &_toggle-theme {
-    background-color: $cFadedBlackLight;
-    padding: 10px;
-    border-radius: 60px;
-    cursor: pointer;
-
-    &:hover{
-      opacity: 0.8;
-    }
-  }
-
-
-  &_logo {
+  &__logo {
     height: 50px;
 
     @include mq(md) {
@@ -45,24 +31,42 @@
     }
   }
 
-  &_icon {
-    height: 40px;
-    width: 40px;
+  &_icon-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__toggle-theme {
+    background-color: $cFadedBlackLight;
+    padding: 10px;
+    border-radius: 60px;
     cursor: pointer;
 
-    &.hide {
-      display: none;
-    }
-    
-    &>img{
-      height: 100%;
-      width: 100%;
-      border-radius: 50%;
-      object-fit: cover;
+    &:hover {
+      opacity: 0.8;
     }
   }
 
-  & div {
+  &__theme-icon {
     color: white;
+  }
+
+  &__user-icon-link {
+    height: 40px;
+    width: 40px;
+    cursor: pointer;
+    user-select: none;
+
+    &_hide {
+      display: none;
+    }
+  }
+
+  &__user-icon {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    object-fit: cover;
   }
 }

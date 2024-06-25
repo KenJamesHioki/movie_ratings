@@ -16,43 +16,40 @@
     padding: 20px;
   }
 }
-.post_icon-and-display-name {
+.post__user-info-container {
   display: flex;
   align-items: center;
   gap: 8px;
   text-decoration: none;
 }
-.post_icon {
+.post__user-icon-container {
   width: 40px;
   height: 40px;
 }
-.post_icon > img {
+.post__user-icon {
   width: 100%;
   height: 100%;
   border-radius: 50%;
   -o-object-fit: cover;
      object-fit: cover;
 }
-.post_display-name {
+.post__display-name {
   color: white;
   font-weight: 600;
   font-size: 0.8rem;
 }
-.light .post_display-name {
+.light .post__display-name {
   color: rgb(39, 37, 54);
 }
-.post_score {
-  color: white;
-}
-.post_comment {
+.post__comment {
   color: white;
   line-height: 1.2rem;
 }
 @media screen and (max-width: 599px) {
-  .post_comment {
+  .post__comment {
     font-size: 0.8rem;
   }
 }
-.light .post_comment {
+.light .post__comment {
   color: rgb(39, 37, 54);
 }/*# sourceMappingURL=post.css.map */

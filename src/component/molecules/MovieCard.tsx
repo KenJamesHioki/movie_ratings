@@ -4,10 +4,10 @@ import { PlaylistAdd, PlaylistAddCheckCircle, Star } from "@mui/icons-material";
 import { useTheme } from "../../lib/ThemeProvider";
 import { clacAverageScore } from "../../utils/calcAverageScore";
 import { useToggleWantToWatch } from "../../hooks/useToggleWantToWatch";
-import "../../styles/organisms/movieCard.css";
 import { fetchPosts } from "../../utils/fetchPosts";
 import { Loader } from "../atoms/Loader";
 import { showAlert } from "../../lib/showAlert";
+import "../../styles/molecules/movieCard.css";
 
 type Props = {
   movieId: string;
@@ -47,31 +47,31 @@ export const MovieCard: React.FC<Props> = memo(
 
     return (
       <div className="movieCard">
-        <Link to={`/movie/${movieId}`}>
-          <div className="movieCard_cover">
-            <div className="movieCard_thumbnail">
-              <img src={`${BASE_POSTER_URL}${posterPath}`} alt="moviename" />
-              <div className="movieCard_overlay"></div>
+        <Link className="movieCard__link" to={`/movie/${movieId}`}>
+          <div className="movieCard__cover">
+            <div className="movieCard__thumbnail-container">
+              <img className="movieCard__thumbnail" src={`${BASE_POSTER_URL}${posterPath}`} alt="moviename" />
+              <div className="movieCard__overlay"></div>
             </div>
-            <p className="movieCard_title">{title}</p>
+            <p className="movieCard__title">{title}</p>
           </div>
         </Link>
-        <div className="movieCard_button-container">
+        <div className="movieCard__button-container">
           <div
-            className="movieCard_button rating"
+            className="movieCard__button movieCard__button_rating"
             onClick={() => navigate(`/movie/${movieId}`)}
           >
-            <Star />
+            <Star className="movieCard__rating-icon" />
             <p className="movieCard_average-score">{averageScore}</p>
           </div>
           <div
-            className="movieCard_button want-to-watch-list"
+            className="movieCard__button movieCard__button_want-to-watch"
             onClick={() => toggleWantToWatch(movieId)}
           >
             {isWantToWatch ? (
-              <PlaylistAddCheckCircle className="movieCard_want-to-watch-icon" />
+              <PlaylistAddCheckCircle className="movieCard__want-to-watch-icon_registered" />
             ) : (
-              <PlaylistAdd className="movieCard_not-want-to-watch-icon" />
+              <PlaylistAdd className="movieCard__want-to-watch-icon_unregistered" />
             )}
           </div>
         </div>

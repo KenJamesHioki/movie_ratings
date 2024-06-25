@@ -19,26 +19,26 @@
     padding: 20px;
   }
 
-  &_icon-and-display-name {
+  &__user-info-container {
     display: flex;
     align-items: center;
     gap: 8px;
     text-decoration: none;
   }
 
-  &_icon {
+  &__user-icon-container {
     width: 40px;
     height: 40px;
-
-    &>img {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      object-fit: cover;
-    }
   }
 
-  &_display-name {
+  &__user-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  &__display-name {
     color: $cWhite;
     font-weight: 600;
     font-size: 0.8rem;
@@ -48,11 +48,7 @@
     }
   }
 
-  &_score {
-    color: $cWhite;
-  }
-
-  &_comment {
+  &__comment {
     color: $cWhite;
     line-height: 1.2rem;
     

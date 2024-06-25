@@ -4,10 +4,10 @@ import { db } from "../../lib/firebase";
 import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { Link } from "react-router-dom";
-import "../../styles/organisms/post.css";
 import { Loader } from "../atoms/Loader";
 import { showAlert } from "../../lib/showAlert";
 import { useTheme } from "../../lib/ThemeProvider";
+import "../../styles/molecules/post.css";
 
 type Props = {
   userId: string;
@@ -61,14 +61,13 @@ export const Post: React.FC<Props> = memo(({ userId, score, comment }) => {
 
   return (
     <div className="post">
-      <Link className="post_icon-and-display-name" to={`/mypage/${userId}`}>
-        <div className="post_icon">
-          <img src={user.iconUrl} alt="" />
+      <Link className="post__user-info-container" to={`/mypage/${userId}`}>
+        <div className="post__user-icon-container">
+          <img className="post__user-icon" src={user.iconUrl} alt="" />
         </div>
-        <div className="post_display-name">{user.displayName}</div>
+        <div className="post__display-name">{user.displayName}</div>
       </Link>
       <Rating
-        className="post_score"
         value={Number(score)}
         emptyIcon={
           <StarIcon
@@ -78,7 +77,7 @@ export const Post: React.FC<Props> = memo(({ userId, score, comment }) => {
         }
         readOnly
       />
-      <p className="post_comment">{comment}</p>
+      <p className="post__comment">{comment}</p>
       {isLoading && <Loader size={30} />}
     </div>
   );
