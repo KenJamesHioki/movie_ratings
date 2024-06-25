@@ -18,7 +18,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../lib/UserProvider";
-import { Loader } from "../molecules/Loader";
+import { Loader } from "../atoms/Loader";
 
 export const Login: React.FC = memo(() => {
   const { currentUser, logout } = useUser();

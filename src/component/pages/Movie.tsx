@@ -14,7 +14,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../../lib/firebase";
-import { Loader } from "../molecules/Loader";
+import { Loader } from "../atoms/Loader";
 import { MovieInfo, RatingPost } from "../../types/types";
 import { NoResultMessage } from "../atoms/NoResultMessage";
 import { InvertedButton } from "../atoms/button/InvertedButton";

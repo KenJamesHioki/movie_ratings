@@ -1,5 +1,5 @@
-@use '../global/colors' as *;
-@use '../global/mq' as *;
+@use '../../global/colors' as *;
+@use '../../global/mq' as *;
 
 @mixin base-button-styles {
   border: none;

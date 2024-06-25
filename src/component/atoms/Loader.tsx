@@ -8,7 +8,7 @@ type Props = {
 
 export const Loader:React.FC<Props> = ({size=60}) => {
   return (
-    <div className='loader_wrapper'>
+    <div className='loader__wrapper'>
       <CircularProgress size={size}/>
     </div>
   )

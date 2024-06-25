@@ -1,6 +1,5 @@
-@use '../global/index' as *;
-@use './input' as *;
+@use './base-input-styles' as *;
 
 .textarea {
-  @extend .input;
+  @include base-input-styles;
 }

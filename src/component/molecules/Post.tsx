@@ -5,7 +5,7 @@ import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { Link } from "react-router-dom";
 import "../../styles/organisms/post.css";
-import { Loader } from "./Loader";
+import { Loader } from "../atoms/Loader";
 import { showAlert } from "../../lib/showAlert";
 import { useTheme } from "../../lib/ThemeProvider";
 

@@ -1,24 +1,5 @@
-@use '../global/index' as *;
+@use './base-input-styles' as *;
 
 .input {
-  background-color: $cFadedBlackLight;
-  border: 1px rgba(128, 128, 128, 0.345) solid;
-  padding: 20px;
-  border-radius: 4px;
-  outline: none;
-  color: $cWhite;
-  font-size: 1rem;
-
-  @include mq(md) {
-    font-size: 0.8rem;
-  }
-
-  .light & {
-    color: $cNavy;
-    background-color: $cLightModeCardBg;
-  }
-
-  .light .login_wrapper & {
-    color: $cWhite;
-  }
+  @include base-input-styles;
 }

@@ -8,6 +8,6 @@ type Props = {
 
 export const NoResultMessage:React.FC<Props> = ({children, style}) => {
   return (
-    <p className='no-result' style={style}>{children}</p>
+    <p className='message-no-result' style={style}>{children}</p>
   )
 }

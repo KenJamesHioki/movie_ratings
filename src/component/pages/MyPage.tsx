@@ -6,7 +6,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { MovieCardGrid } from "../organisms/MovieCardGrid";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
-import { Loader } from "../molecules/Loader";
+import { Loader } from "../atoms/Loader";
 import { NoResultMessage } from "../atoms/NoResultMessage";
 import { UserProfileInfo } from "../organisms/UserProfileInfo";
 import { showAlert } from "../../lib/showAlert";

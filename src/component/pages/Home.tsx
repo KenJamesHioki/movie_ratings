@@ -4,7 +4,7 @@ import axios from "axios";
 import { PageWithHeader } from "../templates/PageWithHeader";
 import { Input } from "../atoms/input/Input";
 import { MovieCardGrid } from "../organisms/MovieCardGrid";
-import { Loader } from "../molecules/Loader";
+import { Loader } from "../atoms/Loader";
 import { NoResultMessage } from "../atoms/NoResultMessage";
 import { SectionTitle } from "../atoms/SectionTitle";
 import { useNavigate, useParams } from "react-router-dom";

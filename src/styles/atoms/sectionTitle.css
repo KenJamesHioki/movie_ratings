@@ -1,13 +1,13 @@
-.section-title {
+.heading-section {
   color: white;
   font-weight: 700;
   font-size: 2rem;
 }
-.light .section-title {
+.light .heading-section {
   color: rgb(39, 37, 54);
 }
 @media screen and (max-width: 599px) {
-  .section-title {
+  .heading-section {
     font-size: 1.6rem;
   }
 }/*# sourceMappingURL=sectionTitle.css.map */

@@ -1,7 +1,7 @@
 @use '../global/index' as *;
 
 .loader {
-  &_wrapper{
+  &__wrapper{
     background-color: rgba(0, 0, 0, 0.2);
     display: flex;
     justify-content: center;

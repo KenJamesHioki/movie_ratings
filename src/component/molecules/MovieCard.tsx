@@ -6,7 +6,7 @@ import { clacAverageScore } from "../../utils/calcAverageScore";
 import { useToggleWantToWatch } from "../../hooks/useToggleWantToWatch";
 import "../../styles/organisms/movieCard.css";
 import { fetchPosts } from "../../utils/fetchPosts";
-import { Loader } from "./Loader";
+import { Loader } from "../atoms/Loader";
 import { showAlert } from "../../lib/showAlert";
 
 type Props = {

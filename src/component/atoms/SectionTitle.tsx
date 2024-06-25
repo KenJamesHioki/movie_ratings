@@ -8,6 +8,6 @@ type Props = {
 
 export const SectionTitle:React.FC<Props> = ({children, style={}}) => {
   return (
-    <h2 style={style} className='section-title'>{children}</h2>
+    <h2 style={style} className='heading-section'>{children}</h2>
   )
 }

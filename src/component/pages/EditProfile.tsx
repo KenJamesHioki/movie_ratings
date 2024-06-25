@@ -9,7 +9,7 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db, storage } from "../../lib/firebase";
 import { useNavigate } from "react-router-dom";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { Loader } from "../molecules/Loader";
+import { Loader } from "../atoms/Loader";
 import { showAlert } from "../../lib/showAlert";
 import { useTheme } from "../../lib/ThemeProvider";
 import "../../styles/pages/editProfile.css";

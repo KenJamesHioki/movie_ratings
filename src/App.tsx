@@ -5,7 +5,7 @@ import { Home } from "./component/pages/Home";
 import { Movie } from "./component/pages/Movie";
 import { Route, Routes } from "react-router-dom";
 import { MyPage } from "./component/pages/MyPage";
-import { Loader } from "./component/molecules/Loader";
+import { Loader } from "./component/atoms/Loader";
 import { EditProfile } from "./component/pages/EditProfile";
 import { Page404 } from "./component/pages/Page404";
 
