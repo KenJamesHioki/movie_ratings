@@ -14,7 +14,7 @@ export const Header: React.FC = memo(() => {
       <Link className="header__logo-link" to="/">
         <img className="header__logo" src="/images/logo.png" />
       </Link>
-      <div className="header_icon-container">
+      <div className="header__icon-container">
         <div className="header__toggle-theme" onClick={toggleTheme}>
           {theme === "dark" ? (
             <>

@@ -1,10 +1,10 @@
 import React, { ReactNode, memo } from "react";
-import "../../styles/templates/movieContainer.css";
+import "../../styles/organisms/movieCardGrid.css";
 
 type Props = {
   children: ReactNode;
 };
 
 export const MovieCardGrid: React.FC<Props> = memo(({ children }) => {
-  return <div className="movie-container">{children}</div>;
+  return <div className="movieCardGrid">{children}</div>;
 });

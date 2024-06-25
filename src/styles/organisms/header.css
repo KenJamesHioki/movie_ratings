@@ -31,7 +31,7 @@
     height: 45px;
   }
 }
-.header_icon-container {
+.header__icon-container {
   display: flex;
   align-items: center;
   gap: 12px;

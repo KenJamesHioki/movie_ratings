@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { InvertedButton } from "../atoms/button/InvertedButton";
 import { useUser } from "../../lib/UserProvider";
 import { useNavigate } from "react-router-dom";
-import "../../styles/organisms/profileContainer.css";
+import "../../styles/organisms/userProfileInfo.css";
 
 type ProfileInfo = {
   userId: string;
@@ -22,23 +22,23 @@ export const UserProfileInfo: React.FC<Props> = memo(
     const navigate = useNavigate();
 
     return (
-      <div className="profileContainer">
-        <div className="profileContainer_icon">
-          <img src={profileInfo.iconUrl} alt="" />
+      <div className="userProfileInfo">
+        <div className="userProfileInfo__icon-container">
+          <img className="userProfileInfo__icon" src={profileInfo.iconUrl} alt="" />
         </div>
-        <div className="profileContainer_other-infos">
-          <p className="profileContainer_display-name">
+        <div className="userProfileInfo__info-container">
+          <p className="userProfileInfo__display-name">
             {profileInfo.displayName}
           </p>
-          <p className="profileContainer_movies-watched">
+          <p className="userProfileInfo__movies-watched">
             視聴映画数：{numWatched || 0}本
           </p>
-          <p className="profileContainer_introduction">
+          <p className="userProfileInfo__introduction">
             {profileInfo.introduction}
           </p>
           {(profileInfo.userId === null ||
             profileInfo.userId === currentUser.userId) && (
-            <div className="profileContainer_button-container">
+            <div className="userProfileInfo__button-container">
               <InvertedButton
                 type="button"
                 onClick={() => {

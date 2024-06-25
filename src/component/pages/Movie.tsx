@@ -18,7 +18,7 @@ import { Loader } from "../atoms/Loader";
 import { MovieInfo, RatingPost } from "../../types/types";
 import { NoResultMessage } from "../atoms/NoResultMessage";
 import { InvertedButton } from "../atoms/button/InvertedButton";
-import { Posts } from "../organisms/Posts";
+import { PostList } from "../organisms/PostList";
 import { MovieDetail } from "../organisms/MovieDetail";
 import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
@@ -296,7 +296,7 @@ export const Movie: React.FC = memo(() => {
             )}
           </div>
         </form>
-        <Posts>
+        <PostList>
           {posts.length === 0 ? (
             <NoResultMessage>まだ投稿がありません</NoResultMessage>
           ) : (
@@ -317,7 +317,7 @@ export const Movie: React.FC = memo(() => {
               })}
             </>
           )}
-        </Posts>
+        </PostList>
       </div>
     </PageWithHeader>
   );

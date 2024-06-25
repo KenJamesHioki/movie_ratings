@@ -1,4 +1,4 @@
-.movie-container {
+.movieCardGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   -moz-column-gap: 12px;
@@ -6,4 +6,4 @@
   row-gap: 28px;
   width: 100%;
   padding-bottom: 120px;
-}/*# sourceMappingURL=movieContainer.css.map */
+}/*# sourceMappingURL=movieCardGrid.css.map */

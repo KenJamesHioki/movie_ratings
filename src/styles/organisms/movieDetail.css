@@ -1,22 +1,22 @@
-.movieInfoCotainer {
+.movieDetail {
   display: flex;
   flex-direction: row;
   gap: 40px;
   align-items: flex-start;
   width: 100%;
 }
-.movieInfoCotainer_poster-and-button {
+.movieDetail__poster-button-container {
   max-width: 500px;
   height: auto;
   aspect-ratio: 2/3;
   flex: 1;
 }
 @media screen and (max-width: 599px) {
-  .movieInfoCotainer_poster-and-button {
+  .movieDetail__poster-button-container {
     flex: 2;
   }
 }
-.movieInfoCotainer_poster-and-button > img {
+.movieDetail__poster {
   border-radius: 8px;
   width: 100%;
   height: 100%;
@@ -24,7 +24,7 @@
      object-fit: cover;
   margin-bottom: 4px;
 }
-.movieInfoCotainer_want-to-watch-list-button {
+.movieDetail__want-to-watch-button {
   flex: 1;
   text-align: center;
   background-color: rgba(17, 25, 40, 0.6);
@@ -33,46 +33,46 @@
   border-radius: 8px;
   cursor: pointer;
 }
-.light .movieInfoCotainer_want-to-watch-list-button {
+.light .movieDetail__want-to-watch-button {
   background-color: rgba(17, 25, 40, 0.9);
 }
-.movieInfoCotainer_want-to-watch-list-button:hover {
+.movieDetail__want-to-watch-button:hover {
   opacity: 0.8;
 }
-.movieInfoCotainer_want-to-watch-icon {
+.movieDetail__want-to-watch-icon_registered {
   color: #1f8ef1;
 }
-.movieInfoCotainer_not-want-to-watch-icon {
+.movieDetail__want-to-watch-icon_unregistered {
   color: rgb(191, 191, 191);
 }
-.movieInfoCotainer_infos {
+.movieDetail__infos {
   padding-top: 16px;
   flex: 4;
 }
 @media screen and (max-width: 599px) {
-  .movieInfoCotainer_infos {
+  .movieDetail__infos {
     flex: 3;
   }
 }
-.movieInfoCotainer_title {
+.movieDetail__title {
   font-size: 2rem;
   color: white;
   font-weight: 700;
   margin-bottom: 8px;
 }
-.light .movieInfoCotainer_title {
+.light .movieDetail__title {
   color: rgb(39, 37, 54);
 }
 @media screen and (max-width: 599px) {
-  .movieInfoCotainer_title {
+  .movieDetail__title {
     font-size: 1.5rem;
   }
 }
-.movieInfoCotainer_title > span {
+.movieDetail__release-year {
   font-size: 0.8rem;
   font-weight: 400;
 }
-.movieInfoCotainer_score {
+.movieDetail__score {
   display: flex;
   gap: 4px;
   align-items: center;
@@ -81,18 +81,18 @@
   font-weight: 700;
   margin-bottom: 16px;
 }
-.light .movieInfoCotainer_score {
+.light .movieDetail__score {
   color: rgb(39, 37, 54);
 }
-.movieInfoCotainer_overview {
+.movieDetail__overview {
   color: white;
   line-height: 1.4rem;
 }
-.light .movieInfoCotainer_overview {
+.light .movieDetail__overview {
   color: rgb(39, 37, 54);
 }
 @media screen and (max-width: 599px) {
-  .movieInfoCotainer_overview {
+  .movieDetail__overview {
     font-size: 0.8rem;
   }
-}/*# sourceMappingURL=movieInfoContainer.css.map */
+}/*# sourceMappingURL=movieDetail.css.map */

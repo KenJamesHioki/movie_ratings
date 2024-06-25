@@ -1,32 +1,32 @@
 @use '../global/index' as *;
 
-.movieInfoCotainer {
+.movieDetail {
   display: flex;
   flex-direction: row;
   gap: 40px;
   align-items: flex-start;
   width: 100%;
 
-  &_poster-and-button {
+  &__poster-button-container {
     max-width: 500px;
     height: auto;
     aspect-ratio: 2/3;
     flex: 1;
-  
+
     @include mq(md) {
       flex: 2;
     }
-  
-    &>img {
-      border-radius: 8px;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      margin-bottom: 4px;
-    }
   }
 
-  &_want-to-watch-list-button {
+  &__poster {
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    margin-bottom: 4px;
+  }
+
+  &__want-to-watch-button {
     flex: 1;
     text-align: center;
     background-color: $cFadedBlackLight;
@@ -44,24 +44,26 @@
     }
   }
 
-  &_want-to-watch-icon {
-    color: $cBlue;
+  &__want-to-watch-icon {
+    &_registered {
+      color: $cBlue;
+    }
+
+    &_unregistered {
+      color: $cLightGray;
+    }
   }
 
-  &_not-want-to-watch-icon {
-    color: $cLightGray;
-  }
-  
-  &_infos {
+  &__infos {
     padding-top: 16px;
     flex: 4;
-  
+
     @include mq(md) {
       flex: 3;
     }
   }
-  
-  &_title {
+
+  &__title {
     font-size: 2rem;
     color: $cWhite;
     font-weight: 700;
@@ -70,18 +72,18 @@
     .light & {
       color: $cNavy;
     }
-  
+
     @include mq(md) {
       font-size: 1.5rem;
     }
-  
-    &>span {
-      font-size: 0.8rem;
-      font-weight: 400;
-    }
   }
-  
-  &_score {
+
+  &__release-year {
+    font-size: 0.8rem;
+    font-weight: 400;
+  }
+
+  &__score {
     display: flex;
     gap: 4px;
     align-items: center;
@@ -94,15 +96,15 @@
       color: $cNavy;
     }
   }
-  
-  &_overview {
+
+  &__overview {
     color: $cWhite;
     line-height: 1.4rem;
 
     .light & {
       color: $cNavy;
     }
-  
+
     @include mq(md) {
       font-size: 0.8rem;
     }

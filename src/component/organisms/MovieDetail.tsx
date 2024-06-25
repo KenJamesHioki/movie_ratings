@@ -6,7 +6,7 @@ import { PlaylistAdd, PlaylistAddCheckCircle } from "@mui/icons-material";
 import { useWantToWatchMovieIds } from "../../hooks/useWantToWatchMovieIds";
 import { useUser } from "../../lib/UserProvider";
 import { useToggleWantToWatch } from "../../hooks/useToggleWantToWatch";
-import "../../styles/organisms/movieInfoContainer.css";
+import "../../styles/organisms/movieDetail.css";
 
 type Props = {
   movieInfo: MovieInfo;
@@ -21,30 +21,34 @@ export const MovieDetail: React.FC<Props> = memo(
     const { wantToWatchMovieIds } = useWantToWatchMovieIds(currentUser.userId);
 
     return (
-      <div className="movieInfoCotainer">
-        <div className="movieInfoCotainer_poster-and-button">
+      <div className="movieDetail">
+        <div className="movieDetail__poster-button-container">
           <img
+            className="movieDetail__poster"
             src={`${BASE_POSTER_URL}${movieInfo.posterPath}`}
             alt={movieInfo.title}
           />
           <div
-            className="movieInfoCotainer_want-to-watch-list-button"
+            className="movieDetail__want-to-watch-button"
             onClick={() => {
               toggleWantToWatch(movieInfo.movieId);
             }}
           >
             {wantToWatchMovieIds.includes(movieInfo.movieId) ? (
-              <PlaylistAddCheckCircle className="movieInfoCotainer_want-to-watch-icon" />
+              <PlaylistAddCheckCircle className="movieDetail__want-to-watch-icon_registered" />
             ) : (
-              <PlaylistAdd className="movieInfoCotainer_not-want-to-watch-icon" />
+              <PlaylistAdd className="movieDetail__want-to-watch-icon_unregistered" />
             )}
           </div>
         </div>
-        <div className="movieInfoCotainer_infos">
-          <h2 className="movieInfoCotainer_title">
-            {movieInfo.title} <span>({movieInfo.releaseYear})</span>
+        <div className="movieDetail__infos">
+          <h2 className="movieDetail__title">
+            {movieInfo.title}{" "}
+            <span className="movieDetail__release-year">
+              ({movieInfo.releaseYear})
+            </span>
           </h2>
-          <p className="movieInfoCotainer_score">
+          <p className="movieDetail__score">
             {averageScore}{" "}
             <Rating
               precision={0.1}
@@ -58,7 +62,7 @@ export const MovieDetail: React.FC<Props> = memo(
               readOnly
             />
           </p>
-          <p className="movieInfoCotainer_overview">{movieInfo.overview}</p>
+          <p className="movieDetail__overview">{movieInfo.overview}</p>
         </div>
       </div>
     );

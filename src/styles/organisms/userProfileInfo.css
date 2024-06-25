@@ -1,4 +1,4 @@
-.profileContainer {
+.userProfileInfo {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -6,53 +6,53 @@
   align-items: flex-start;
   gap: 20px;
 }
-.profileContainer_icon {
+.userProfileInfo__icon-container {
   width: 120px;
   height: 120px;
   margin-bottom: 8px;
 }
 @media screen and (max-width: 599px) {
-  .profileContainer_icon {
+  .userProfileInfo__icon-container {
     width: 80px;
     height: 80px;
   }
 }
-.profileContainer_icon > img {
+.userProfileInfo__icon {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 50%;
 }
-.profileContainer_other-infos {
+.userProfileInfo__info-container {
   display: flex;
   flex-direction: column;
   gap: 8px;
   flex: 1;
 }
-.profileContainer_display-name {
+.userProfileInfo__display-name {
   color: white;
   font-weight: 700;
   font-size: 1.4rem;
 }
-.light .profileContainer_display-name {
+.light .userProfileInfo__display-name {
   color: rgb(39, 37, 54);
 }
-.profileContainer_introduction {
+.userProfileInfo__introduction {
   color: white;
   margin-bottom: 8px;
 }
-.light .profileContainer_introduction {
+.light .userProfileInfo__introduction {
   color: rgb(39, 37, 54);
 }
-.profileContainer_button-container {
+.userProfileInfo__button-container {
   display: flex;
   gap: 8px;
 }
-.profileContainer_movies-watched {
+.userProfileInfo__movies-watched {
   color: white;
   margin-bottom: 8px;
 }
-.light .profileContainer_movies-watched {
+.light .userProfileInfo__movies-watched {
   color: rgb(39, 37, 54);
-}/*# sourceMappingURL=profileContainer.css.map */
+}/*# sourceMappingURL=userProfileInfo.css.map */
