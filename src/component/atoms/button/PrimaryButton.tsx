@@ -12,7 +12,7 @@ type Props = {
 export const PrimaryButton: React.FC<Props> = memo(
   ({ type, children, disabled = false, onClick, style={} }) => {
     return (
-      <button type={type} className="primary-button" disabled={disabled} onClick={onClick} style={style}>
+      <button type={type} className="button-primary" disabled={disabled} onClick={onClick} style={style}>
         {children}
       </button>
     );

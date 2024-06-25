@@ -1,19 +1,12 @@
-@use '../global/index' as *;
-@use './primaryButton' as *;
+@use '../../global/index' as *;
 
-.inverted-button {
-  @extend .primary-button;
+.button-inverted {
+  @include base-button-styles;
   background-color: transparent;
   border: $cBlue solid 1px;
   color: $cBlue;
 
-  @include mq(md) {
-    font-size: 0.6rem;
-    padding: 12px 16px;
-  }
-
   &:disabled {
-    cursor: not-allowed;
     border: $cDisabledGray solid 1px;
     color: $cDisabledGray;
   }

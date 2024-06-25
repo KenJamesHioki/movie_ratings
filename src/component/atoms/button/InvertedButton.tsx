@@ -12,7 +12,7 @@ type Props = {
 export const InvertedButton: React.FC<Props> = memo(
   ({ type, children, disabled = false, onClick, style={} }) => {
     return (
-      <button type={type} className="inverted-button" style={style} disabled={disabled} onClick={onClick}>
+      <button type={type} className="button-inverted" style={style} disabled={disabled} onClick={onClick}>
         {children}
       </button>
     );
