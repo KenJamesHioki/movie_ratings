@@ -1,7 +1,7 @@
 @use '../global/index' as *;
 
 .login {
-  &_wrapper {
+  &__wrapper {
     width: 100vw;
     height: 100vh;
     position: relative;
@@ -11,7 +11,7 @@
     background-position: center;
   }
 
-  &_container {
+  &__container {
     background-color: rgba(17, 25, 40, 0.75);
     backdrop-filter: blur(19px) saturate(180%);
     width: 400px;
@@ -33,69 +33,66 @@
     }
   }
 
-  &_logo {
-    width: 80%;
-  }
-
-  &_user-icon-label {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    margin-bottom: 4px;
-
-    &>p {
-      color: $cBlue;
-      text-decoration: underline;
-      font-size: 0.8rem;
-      padding-top: 4px;
-    }
-
-    &>img {
-      width: 52px;
-      height: 52px;
-      padding: 5px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-  }
-
-  &_upload-icon {
-    display: none;
-  }
-
-  &_user-icon {
-    color: $cWhite;
-    font-size: 2rem;
-  }
-
-  &_form {
+  &__form {
     display: flex;
     flex-direction: column;
     gap: 16px;
     width: 100%;
   }
 
-  &_signin {
-    background-color: #1f8ef1;
-    border: none;
-    border-radius: 4px;
-    padding: 20px;
-    color: $cWhite;
-    cursor: pointer;
+  &__logo {
+    width: 80%;
+  }
 
-    &:hover {
-      opacity: 0.8;
+  &__user-icon {
+    &-label {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      margin-bottom: 4px;
     }
 
-    &:disabled {
-      cursor: not-allowed;
-      background-color: rgb(149, 149, 149);
+    &-upload {
+      display: none;
+    }
+
+    &-image {
+      width: 52px;
+      height: 52px;
+      padding: 5px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    &-placeholder {
+      color: $cBlue;
+      text-decoration: underline;
+      font-size: 0.8rem;
+      padding-top: 4px;
     }
   }
 
-  &_validation {
+  // &__signin {
+  //   background-color: #1f8ef1;
+  //   border: none;
+  //   border-radius: 4px;
+  //   padding: 20px;
+  //   color: $cWhite;
+  //   cursor: pointer;
+
+  //   &:hover {
+  //     opacity: 0.8;
+  //   }
+
+  //   &:disabled {
+  //     cursor: not-allowed;
+  //     background-color: rgb(149, 149, 149);
+  //   }
+  // }
+
+  &__validation {
     opacity: 0;
     color: red;
     font-size: 0.8rem;
@@ -114,19 +111,20 @@
     border: 1px solid red;
   }
 
-  &_signin:hover+&_validation {
+  //OPTIMIZE:書き方が改善できる気がする
+  button:hover+&__validation {
     opacity: 1;
     background-color: pink;
   }
 
-  &_separator {
+  &__separator {
     height: 1px;
     width: 100%;
     background-color: rgba(164, 164, 164, 0.598);
     margin: 4px 0;
   }
 
-  &_google-signin {
+  &__google-signin {
     width: 100%;
     background-color: $cWhite;
     border: none;
@@ -140,13 +138,15 @@
     }
   }
 
-  &_password-and-account {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  &__action {
+    &-container {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-    &>p {
+    &-button {
       font-size: 12px;
       text-decoration: underline;
       color: $cWhite;
@@ -154,7 +154,7 @@
     }
   }
 
-  &_password-reset-modal {
+  &__password-reset-modal {
     background-color: rgba(17, 25, 40, 1);
     position: fixed;
     top: 50%;
@@ -166,7 +166,7 @@
     gap: 8px;
   }
 
-  &_modal-close {
+  &__modal-close-button {
     color: $cWhite;
     position: absolute;
     top: 20px;

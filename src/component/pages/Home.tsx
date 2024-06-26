@@ -84,8 +84,8 @@ export const Home: React.FC = memo(() => {
   return (
     <>
       <PageWithHeader>
-        <div className="home_wrapper">
-          <form className="home_search" onSubmit={handleSearch}>
+        <div className="home__wrapper">
+          <form className="home__search" onSubmit={handleSearch}>
             <Input
               type="text"
               placeholder="映画名で検索…"

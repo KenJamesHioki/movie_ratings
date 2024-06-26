@@ -1,4 +1,4 @@
-.editProfile_wrapper {
+.editProfile__wrapper {
   max-width: 1000px;
   width: 90%;
   margin: 0 auto;
@@ -7,33 +7,33 @@
   align-items: center;
   gap: 20px;
 }
-.editProfile_upload-icon {
-  display: none;
-}
-.editProfile_icon {
+.editProfile__icon-container {
   width: 120px;
   height: 120px;
   margin-bottom: 8px;
   position: relative;
   cursor: pointer;
 }
-.editProfile_icon:hover {
+.editProfile__icon-container:hover {
   opacity: 0.8;
 }
 @media screen and (max-width: 599px) {
-  .editProfile_icon {
+  .editProfile__icon-container {
     width: 80px;
     height: 80px;
   }
 }
-.editProfile_icon > img {
+.editProfile__icon-input {
+  display: none;
+}
+.editProfile__icon-image {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 50%;
 }
-.editProfile_change-icon {
+.editProfile__icon-change {
   background-color: rgb(191, 191, 191);
   border-radius: 4px;
   text-align: center;
@@ -45,16 +45,16 @@
   left: 50%;
   transform: translateX(-50%);
 }
-.editProfile_label {
+.editProfile__display-name-container {
+  width: 100%;
+}
+.editProfile__label {
   color: white;
   margin-bottom: 8px;
 }
-.light .editProfile_label {
+.light .editProfile__label {
   color: rgb(39, 37, 54);
 }
-.editProfile_display-name {
-  width: 100%;
-}
-.editProfile_introduction {
+.editProfile__introduction-container {
   width: 100%;
 }/*# sourceMappingURL=editProfile.css.map */

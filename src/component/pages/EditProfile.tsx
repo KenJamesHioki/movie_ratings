@@ -116,19 +116,19 @@ export const EditProfile: React.FC = memo(() => {
   return (
     <>
       <PageWithHeader>
-        <div className="editProfile_wrapper">
-          <label className="editProfile_icon" htmlFor="file">
+        <div className="editProfile__wrapper">
+          <label className="editProfile__icon-container" htmlFor="file">
             <input
               id="file"
               type="file"
-              className="editProfile_upload-icon"
+              className="editProfile__icon-input"
               onChange={handleImageSelect}
             />
-            <img src={iconUrl} alt="" />
-            <p className="editProfile_change-icon">変更</p>
+            <img className="editProfile__icon-image" src={iconUrl} alt="" />
+            <p className="editProfile__icon-change">変更</p>
           </label>
-          <div className="editProfile_display-name">
-            <p className="editProfile_label">ニックネーム（30文字まで）</p>
+          <div className="editProfile__display-name-container">
+            <p className="editProfile__label">ニックネーム（30文字まで）</p>
             <Input
               type="text"
               value={displayName}
@@ -141,8 +141,8 @@ export const EditProfile: React.FC = memo(() => {
               style={{ width: "100%", boxSizing: "border-box" }}
             />
           </div>
-          <div className="editProfile_introduction">
-            <p className="editProfile_label">紹介文（200文字まで）</p>
+          <div className="editProfile__introduction-container">
+            <p className="editProfile__label">紹介文（200文字まで）</p>
             <Textarea
               value={introduction}
               onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {

@@ -198,14 +198,17 @@ export const Login: React.FC = memo(() => {
   };
 
   return (
-    <div className="login_wrapper">
-      <div className="login_container">
+    <div
+      className="login__wrapper"
+      onClick={() => setIsPasswordResetMode(false)}
+    >
+      <div className="login__container">
         {isLoading ? (
           <Loader size={60} />
         ) : (
           <>
-            <img className="login_logo" src="/images/logo.png" />
-            <form className="login_form" onSubmit={handleSubmit}>
+            <img className="login__logo" src="/images/logo.png" />
+            <form className="login__form" onSubmit={handleSubmit}>
               {!isLoginMode && (
                 <>
                   <Input
@@ -216,15 +219,19 @@ export const Login: React.FC = memo(() => {
                     }}
                     placeholder="ニックネーム *"
                   />
-                  <label className="login_user-icon-label" htmlFor="file">
+                  <label className="login__user-icon-label" htmlFor="file">
                     <input
                       id="file"
                       type="file"
-                      className="login_upload-icon"
+                      className="login__user-icon-upload"
                       onChange={handleImageSelect}
                     />
                     {icon ? (
-                      <img src={iconUrl} alt="" />
+                      <img
+                        className="login__user-icon-image"
+                        src={iconUrl}
+                        alt=""
+                      />
                     ) : (
                       <>
                         <AccountCircleIcon
@@ -238,7 +245,9 @@ export const Login: React.FC = memo(() => {
                             },
                           }}
                         />
-                        <p>アイコンをアップロード *</p>
+                        <p className="login__user-icon-placeholder">
+                          アイコンをアップロード *
+                        </p>
                       </>
                     )}
                   </label>
@@ -264,8 +273,8 @@ export const Login: React.FC = memo(() => {
                   setPassword(e.target.value);
                 }}
               />
-              <button
-                className="login_signin"
+              <PrimaryButton
+                type="submit"
                 disabled={
                   isLoginMode
                     ? !email || password.length < 6
@@ -273,10 +282,10 @@ export const Login: React.FC = memo(() => {
                 }
               >
                 {isLoginMode ? "サインイン" : "新規登録"}
-              </button>
+              </PrimaryButton>
               {!isLoginMode &&
                 (!email || password.length < 6 || !icon || !displayName) && (
-                  <div className="login_validation">
+                  <div className="login__validation">
                     <ul>
                       {!displayName && (
                         <li>・ニックネームを入力してください。</li>
@@ -291,35 +300,41 @@ export const Login: React.FC = memo(() => {
                 )}
             </form>
             <div
-              className="login_password-and-account"
+              className="login__action-container"
               style={!isLoginMode ? { justifyContent: "flex-end" } : {}}
             >
               {isLoginMode && (
                 <p
-                  className="login_password-reset"
-                  onClick={() => setIsPasswordResetMode(true)}
+                  className="login__action-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsPasswordResetMode(true);
+                  }}
                 >
                   パスワードをリセット
                 </p>
               )}
               <p
-                className="login_new-account"
+                className="login__action-button"
                 onClick={() => setIsLoginMode(!isLoginMode)}
               >
                 {isLoginMode ? "アカウントの新規登録" : "ログイン画面に戻る"}
               </p>
             </div>
-            <div className="login_separator"></div>
-            <button className="login_google-signin" onClick={handleGoogleAuth}>
+            <div className="login__separator"></div>
+            <button className="login__google-signin" onClick={handleGoogleAuth}>
               {isLoginMode ? "Googleでサインイン" : "Googleで登録"}
             </button>
           </>
         )}
       </div>
       {isPasswordResetMode && (
-        <div className="login_password-reset-modal">
+        <div
+          className="login__password-reset-modal"
+          onClick={(e) => e.stopPropagation()}
+        >
           <Close
-            className="login_modal-close"
+            className="login__modal-close-button"
             onClick={() => setIsPasswordResetMode(false)}
           />
           <Input

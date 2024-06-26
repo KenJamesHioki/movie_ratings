@@ -1,4 +1,4 @@
-.login_wrapper {
+.login__wrapper {
   width: 100vw;
   height: 100vh;
   position: relative;
@@ -7,7 +7,7 @@
   background-size: cover;
   background-position: center;
 }
-.login_container {
+.login__container {
   background-color: rgba(17, 25, 40, 0.75);
   -webkit-backdrop-filter: blur(19px) saturate(180%);
           backdrop-filter: blur(19px) saturate(180%);
@@ -25,15 +25,21 @@
   transform: translate(-50%, -50%);
 }
 @media screen and (max-width: 599px) {
-  .login_container {
+  .login__container {
     width: 90%;
     padding: 80px 20px;
   }
 }
-.login_logo {
+.login__form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+.login__logo {
   width: 80%;
 }
-.login_user-icon-label {
+.login__user-icon-label {
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -41,13 +47,10 @@
   cursor: pointer;
   margin-bottom: 4px;
 }
-.login_user-icon-label > p {
-  color: #1f8ef1;
-  text-decoration: underline;
-  font-size: 0.8rem;
-  padding-top: 4px;
+.login__user-icon-upload {
+  display: none;
 }
-.login_user-icon-label > img {
+.login__user-icon-image {
   width: 52px;
   height: 52px;
   padding: 5px;
@@ -55,35 +58,13 @@
   -o-object-fit: cover;
      object-fit: cover;
 }
-.login_upload-icon {
-  display: none;
+.login__user-icon-placeholder {
+  color: #1f8ef1;
+  text-decoration: underline;
+  font-size: 0.8rem;
+  padding-top: 4px;
 }
-.login_user-icon {
-  color: white;
-  font-size: 2rem;
-}
-.login_form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  width: 100%;
-}
-.login_signin {
-  background-color: #1f8ef1;
-  border: none;
-  border-radius: 4px;
-  padding: 20px;
-  color: white;
-  cursor: pointer;
-}
-.login_signin:hover {
-  opacity: 0.8;
-}
-.login_signin:disabled {
-  cursor: not-allowed;
-  background-color: rgb(149, 149, 149);
-}
-.login_validation {
+.login__validation {
   opacity: 0;
   color: red;
   font-size: 0.8rem;
@@ -101,17 +82,17 @@
   background-color: rgb(224, 195, 200);
   border: 1px solid red;
 }
-.login_signin:hover + .login_validation {
+button:hover + .login__validation {
   opacity: 1;
   background-color: pink;
 }
-.login_separator {
+.login__separator {
   height: 1px;
   width: 100%;
   background-color: rgba(164, 164, 164, 0.598);
   margin: 4px 0;
 }
-.login_google-signin {
+.login__google-signin {
   width: 100%;
   background-color: white;
   border: none;
@@ -120,22 +101,22 @@
   color: black;
   cursor: pointer;
 }
-.login_google-signin:hover {
+.login__google-signin:hover {
   opacity: 0.8;
 }
-.login_password-and-account {
+.login__action-container {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.login_password-and-account > p {
+.login__action-button {
   font-size: 12px;
   text-decoration: underline;
   color: white;
   cursor: pointer;
 }
-.login_password-reset-modal {
+.login__password-reset-modal {
   background-color: rgb(17, 25, 40);
   position: fixed;
   top: 50%;
@@ -146,7 +127,7 @@
   display: flex;
   gap: 8px;
 }
-.login_modal-close {
+.login__modal-close-button {
   color: white;
   position: absolute;
   top: 20px;
