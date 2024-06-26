@@ -111,8 +111,7 @@
     border: 1px solid red;
   }
 
-  //OPTIMIZE:書き方が改善できる気がする
-  button:hover+&__validation {
+  &__button-submit:hover + &__validation {
     opacity: 1;
     background-color: pink;
   }

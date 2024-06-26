@@ -275,6 +275,7 @@ export const Login: React.FC = memo(() => {
                 }}
               />
               <PrimaryButton
+                className="login__button-submit"
                 type="submit"
                 disabled={
                   isLoginMode
