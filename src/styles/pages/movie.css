@@ -46,7 +46,7 @@
     gap: 16px;
   }
 }
-.movie__comment-button-container > textarea {
+.movie__textarea {
   width: 516px;
   height: 120px;
   resize: none;
@@ -54,15 +54,15 @@
   flex: 1;
 }
 @media screen and (max-width: 959px) {
-  .movie__comment-button-container > textarea {
+  .movie__textarea {
     width: 100%;
   }
 }
-.movie__comment-button-container > button {
+.movie__button {
   align-self: flex-end;
 }
 @media screen and (max-width: 959px) {
-  .movie__comment-button-container > button {
+  .movie__button {
     width: 100%;
   }
 }/*# sourceMappingURL=movie.css.map */

@@ -1,3 +1,5 @@
+import { CSSProperties } from "react";
+
 export type RatingPost = {
   postId: string;
   comment: string;
@@ -13,4 +15,13 @@ export type MovieInfo = {
   releaseYear: string;
   overview: string;
   posterPath: string;
+};
+
+export type ButtonProps = {
+  type: "button" | "reset" | "submit" | undefined;
+  children: string;
+  disabled?: boolean;
+  onClick?: () => void;
+  style?: CSSProperties;
+  className?: string;
 };

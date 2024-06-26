@@ -49,27 +49,25 @@
       flex-direction: column;
       gap: 16px;
     }
+  }
 
-    //OPTIMIZE: BEMに沿った書き方ができないかを検討
-    &>textarea {
-      width: 516px;
-      height: 120px;
-      resize: none;
-      box-sizing: border-box;
-      flex: 1;
+  &__textarea {
+    width: 516px;
+    height: 120px;
+    resize: none;
+    box-sizing: border-box;
+    flex: 1;
 
-      @include mq(lg) {
-        width: 100%;
-      }
+    @include mq(lg) {
+      width: 100%;
     }
+  }
 
-    //OPTIMIZE: BEMに沿った書き方ができないかを検討
-    &>button {
-      align-self: flex-end;
+  &__button {
+    align-self: flex-end;
 
-      @include mq(lg) {
-        width: 100%;
-      }
+    @include mq(lg) {
+      width: 100%;
     }
   }
 }

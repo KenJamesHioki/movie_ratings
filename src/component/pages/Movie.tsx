@@ -247,6 +247,7 @@ export const Movie: React.FC = memo(() => {
           </div>
           <div className="movie__comment-button-container">
             <Textarea
+              className="movie__textarea"
               value={comment}
               disabled={currentUserPost && !isEditMode}
               onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
@@ -255,13 +256,19 @@ export const Movie: React.FC = memo(() => {
               placeholder="コメントを入力"
             />
             {!currentUserPost && (
-              <PrimaryButton type="submit" key="post" disabled={!comment}>
+              <PrimaryButton
+                className="movie__button"
+                type="submit"
+                key="post"
+                disabled={!comment}
+              >
                 投稿
               </PrimaryButton>
             )}
             {currentUserPost && !isEditMode && (
               <>
                 <PrimaryButton
+                  className="movie__button"
                   type="button"
                   key="edit"
                   onClick={() => {
@@ -271,6 +278,7 @@ export const Movie: React.FC = memo(() => {
                   編集
                 </PrimaryButton>
                 <InvertedButton
+                  className="movie__button"
                   type="button"
                   key="delete"
                   style={{ color: "red", borderColor: "red" }}
@@ -282,10 +290,15 @@ export const Movie: React.FC = memo(() => {
             )}
             {isEditMode && (
               <>
-                <PrimaryButton type="submit" key="save">
+                <PrimaryButton
+                  className="movie__button"
+                  type="submit"
+                  key="save"
+                >
                   保存
                 </PrimaryButton>
                 <InvertedButton
+                  className="movie__button"
                   type="button"
                   key="cancel"
                   onClick={handleCancelEdit}

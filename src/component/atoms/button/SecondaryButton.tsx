@@ -1,18 +1,24 @@
-import React, { CSSProperties, memo } from "react";
+import React, { memo } from "react";
 import "../../../styles/atoms/button/secondaryButton.css";
+import { ButtonProps } from "../../../types/types";
 
-type Props = {
-  type: "button" | "reset" | "submit" | undefined;
-  children: string;
-  disabled?: boolean;
-  onClick?: () => void;
-  style?: CSSProperties;
-};
-
-export const SecondaryButton: React.FC<Props> = memo(
-  ({ type, children, disabled = false, onClick, style={} }) => {
+export const SecondaryButton: React.FC<ButtonProps> = memo(
+  ({
+    type,
+    children,
+    disabled = false,
+    onClick,
+    style = {},
+    className = "",
+  }) => {
     return (
-      <button type={type} className="button-secondary" disabled={disabled} onClick={onClick} style={style}>
+      <button
+        type={type}
+        className={`button-secondary ${className}`}
+        disabled={disabled}
+        onClick={onClick}
+        style={style}
+      >
         {children}
       </button>
     );

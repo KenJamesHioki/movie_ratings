@@ -7,13 +7,14 @@ type Props = {
   placeholder?: string;
   disabled?: boolean;
   style?:CSSProperties;
+  className?: string;
 };
 
 export const Textarea: React.FC<Props> = memo(
-  ({ value, onChange, placeholder = "文字を入力", disabled = false, style={} }) => {
+  ({ value, onChange, placeholder = "文字を入力", disabled = false, style={}, className="" }) => {
     return (
       <textarea
-        className="textarea"
+        className={`textarea ${className}`}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
