@@ -1,7 +1,7 @@
 @use '../global/index' as *;
 
-.rating {
-  &_wrapper{
+.movie {
+  &__wrapper{
     max-width: 1000px;
     width: 90%;
     margin: 0 auto;
@@ -11,7 +11,7 @@
     gap: 40px;
   }
 
-  &_post-form {
+  &__post-form {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -21,29 +21,25 @@
     @include mq(lg) {
       width: 100%;
     }
-  }
 
-  &_set-score {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: $cWhite;
-    width: 500px;
-
-    .light & {
-      color: $cNavy;
-    }
-
-    @include mq(lg) {
-      width: 100%;
-    }
-
-    &>input {
-      flex: 1;
+    &-score {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: $cWhite;
+      width: 500px;
+  
+      .light & {
+        color: $cNavy;
+      }
+  
+      @include mq(lg) {
+        width: 100%;
+      }
     }
   }
 
-  &_comment-and-button {
+  &__comment-button-container {
     display: flex;
     gap: 8px;
     width: 100%;
@@ -54,6 +50,7 @@
       gap: 16px;
     }
 
+    //OPTIMIZE: BEMに沿った書き方ができないかを検討
     &>textarea {
       width: 516px;
       height: 120px;
@@ -66,6 +63,7 @@
       }
     }
 
+    //OPTIMIZE: BEMに沿った書き方ができないかを検討
     &>button {
       align-self: flex-end;
 
@@ -74,18 +72,4 @@
       }
     }
   }
-
-  &_no-comments {
-    padding-top: 80px;
-    color: $cLightGray;
-    text-align: center;
-  }
-
-  &_comments {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    width: 100%;
-  }
-
 }

@@ -225,10 +225,10 @@ export const Movie: React.FC = memo(() => {
 
   return (
     <PageWithHeader>
-      <div className="rating_wrapper">
+      <div className="movie__wrapper">
         <MovieDetail movieInfo={movieInfos} averageScore={averageScore} />
-        <form className="rating_post-form" onSubmit={handleSubmit}>
-          <div className="rating_set-score">
+        <form className="movie__post-form" onSubmit={handleSubmit}>
+          <div className="movie__post-form-score">
             {hoverScore === null || hoverScore === -1 ? score : hoverScore}
             <Rating
               name="score"
@@ -245,7 +245,7 @@ export const Movie: React.FC = memo(() => {
               }
             />
           </div>
-          <div className="rating_comment-and-button">
+          <div className="movie__comment-button-container">
             <Textarea
               value={comment}
               disabled={currentUserPost && !isEditMode}

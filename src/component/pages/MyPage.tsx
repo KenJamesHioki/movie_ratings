@@ -168,17 +168,17 @@ export const MyPage: React.FC = memo(() => {
   return (
     <>
       <PageWithHeader>
-        <div className="myPage_wrapper">
+        <div className="myPage__wrapper">
           <UserProfileInfo
             numWatched={watchedMovieIds.length}
             profileInfo={profileInfo}
           />
         </div>
-        <div className="myPage_button-container">
+        <div className="myPage__button-container">
           <div
             onClick={() => handleSwitchMovieList("watched")}
-            className={`myPage_watched-movies button ${
-              selectedButton === "watched" && "selected"
+            className={`myPage__button ${
+              selectedButton === "watched" ? "myPage__button_selected" : ""
             }`}
           >
             <Visibility />
@@ -186,15 +186,15 @@ export const MyPage: React.FC = memo(() => {
           </div>
           <div
             onClick={() => handleSwitchMovieList("wantToWatch")}
-            className={`myPage_watched-movies button ${
-              selectedButton === "wantToWatch" && "selected"
+            className={`myPage__button ${
+              selectedButton === "wantToWatch" ? "myPage__button_selected" : ""
             }`}
           >
             <PlaylistAddCheckCircle />
             <p>{wantToWatchMovieIds.length}</p>
           </div>
         </div>
-        <div className="myPage_wrapper">
+        <div className="myPage__wrapper">
           {selectedButton === "watched" && watchedMovieIds.length === 0 ? (
             <NoResultMessage>視聴した映画がありません</NoResultMessage>
           ) : (

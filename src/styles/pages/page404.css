@@ -1,4 +1,4 @@
-.page404_wrapper {
+.page404__wrapper {
   max-width: 1000px;
   width: 90%;
   margin: 0 auto;
@@ -7,17 +7,17 @@
   align-items: center;
   gap: 20px;
 }
-.page404_code {
+.page404__code {
   color: white;
   font-weight: 700;
   font-size: 2rem;
 }
-.light .page404_code {
+.light .page404__code {
   color: rgb(39, 37, 54);
 }
-.page404_message {
+.page404__message {
   color: white;
 }
-.light .page404_message {
+.light .page404__message {
   color: rgb(39, 37, 54);
 }/*# sourceMappingURL=page404.css.map */

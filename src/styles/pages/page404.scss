@@ -1,7 +1,7 @@
 @use '../global/index' as *;
 
 .page404 {
-  &_wrapper {
+  &__wrapper {
     max-width: 1000px;
     width: 90%;
     margin: 0 auto;
@@ -10,7 +10,8 @@
     align-items: center;
     gap: 20px;
   }
-  &_code {
+
+  &__code {
     color: $cWhite;
     font-weight: 700;
     font-size: 2rem;
@@ -19,11 +20,11 @@
       color: $cNavy;
     }
   }
-  &_message {
+
+  &__message {
     color: $cWhite;
     .light & {
       color: $cNavy;
     }
   }
-
 }

@@ -1,4 +1,4 @@
-.rating_wrapper {
+.movie__wrapper {
   max-width: 1000px;
   width: 90%;
   margin: 0 auto;
@@ -7,7 +7,7 @@
   align-items: center;
   gap: 40px;
 }
-.rating_post-form {
+.movie__post-form {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -15,41 +15,38 @@
   width: 640px;
 }
 @media screen and (max-width: 959px) {
-  .rating_post-form {
+  .movie__post-form {
     width: 100%;
   }
 }
-.rating_set-score {
+.movie__post-form-score {
   display: flex;
   align-items: center;
   gap: 8px;
   color: white;
   width: 500px;
 }
-.light .rating_set-score {
+.light .movie__post-form-score {
   color: rgb(39, 37, 54);
 }
 @media screen and (max-width: 959px) {
-  .rating_set-score {
+  .movie__post-form-score {
     width: 100%;
   }
 }
-.rating_set-score > input {
-  flex: 1;
-}
-.rating_comment-and-button {
+.movie__comment-button-container {
   display: flex;
   gap: 8px;
   width: 100%;
   justify-content: space-between;
 }
 @media screen and (max-width: 959px) {
-  .rating_comment-and-button {
+  .movie__comment-button-container {
     flex-direction: column;
     gap: 16px;
   }
 }
-.rating_comment-and-button > textarea {
+.movie__comment-button-container > textarea {
   width: 516px;
   height: 120px;
   resize: none;
@@ -57,26 +54,15 @@
   flex: 1;
 }
 @media screen and (max-width: 959px) {
-  .rating_comment-and-button > textarea {
+  .movie__comment-button-container > textarea {
     width: 100%;
   }
 }
-.rating_comment-and-button > button {
+.movie__comment-button-container > button {
   align-self: flex-end;
 }
 @media screen and (max-width: 959px) {
-  .rating_comment-and-button > button {
+  .movie__comment-button-container > button {
     width: 100%;
   }
-}
-.rating_no-comments {
-  padding-top: 80px;
-  color: rgb(191, 191, 191);
-  text-align: center;
-}
-.rating_comments {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  width: 100%;
 }/*# sourceMappingURL=movie.css.map */

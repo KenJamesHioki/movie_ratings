@@ -9,9 +9,9 @@ export const Page404: React.FC = memo(() => {
 
   return (
     <PageWithHeader>
-      <div className="page404_wrapper">
-        <div className="page404_code">404</div>
-        <div className="page404_message">お探しのページが見つかりません</div>
+      <div className="page404__wrapper">
+        <div className="page404__code">404</div>
+        <div className="page404__message">お探しのページが見つかりません</div>
         <PrimaryButton type="button" onClick={() => navigate("/")}>
           ホームに遷移する
         </PrimaryButton>
