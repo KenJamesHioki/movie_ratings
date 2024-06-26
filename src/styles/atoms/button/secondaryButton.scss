@@ -1,12 +1,13 @@
 @use './base-button-styles' as *;
 @use '../../global/colors' as *;
 
-.button-primary {
+.button-secondary {
   @include base-button-styles;
-  background-color: $cBlue;
-  color: $cWhite;
+  background-color: $cWhite;
+  color: $cNavy;
 
   &:disabled {
     background-color: $cDisabledGray;
+    color: $cWhite;
   }
 }

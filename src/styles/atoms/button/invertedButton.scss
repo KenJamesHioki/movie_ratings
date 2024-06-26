@@ -1,4 +1,5 @@
 @use './base-button-styles' as *;
+@use '../../global/colors' as *;
 
 .button-inverted {
   @include base-button-styles;

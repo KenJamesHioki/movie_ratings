@@ -19,6 +19,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../lib/UserProvider";
 import { Loader } from "../atoms/Loader";
+import { SecondaryButton } from "../atoms/button/SecondaryButton";
 
 export const Login: React.FC = memo(() => {
   const { currentUser, logout } = useUser();
@@ -322,9 +323,13 @@ export const Login: React.FC = memo(() => {
               </p>
             </div>
             <div className="login__separator"></div>
-            <button className="login__google-signin" onClick={handleGoogleAuth}>
+            <SecondaryButton
+              type="button"
+              onClick={handleGoogleAuth}
+              style={{ width: "100%" }}
+            >
               {isLoginMode ? "Googleでサインイン" : "Googleで登録"}
-            </button>
+            </SecondaryButton>
           </>
         )}
       </div>

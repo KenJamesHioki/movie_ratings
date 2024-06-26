@@ -1,0 +1,25 @@
+.button-secondary {
+  border: none;
+  border-radius: 4px;
+  padding: 14px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  background-color: white;
+  color: rgb(39, 37, 54);
+}
+@media screen and (max-width: 599px) {
+  .button-secondary {
+    font-size: 0.6rem;
+    padding: 12px 16px;
+  }
+}
+.button-secondary:hover {
+  opacity: 0.8;
+}
+.button-secondary:disabled {
+  cursor: not-allowed;
+}
+.button-secondary:disabled {
+  background-color: rgb(149, 149, 149);
+  color: white;
+}/*# sourceMappingURL=secondaryButton.css.map */
