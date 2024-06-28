@@ -12,7 +12,6 @@ export const useWantToWatchMovieIds = (userId: string) => {
   const { theme } = useTheme();
 
   useEffect(() => {
-    const listenWantToWatchMovieIds = () => {
       setIsLoading(true);
       const unSub = onSnapshot(
         doc(db, "wantToWatch", userId),
@@ -36,9 +35,6 @@ export const useWantToWatchMovieIds = (userId: string) => {
       );
 
       return () => unSub();
-    };
-
-    listenWantToWatchMovieIds();
   }, [userId]);
 
   return { wantToWatchMovieIds, isLoading };
