@@ -219,6 +219,7 @@ export const Login: React.FC = memo(() => {
                       setDisplayName(e.target.value);
                     }}
                     placeholder="ニックネーム *"
+                    style={{color:"white"}}
                   />
                   <label className="login__user-icon-label" htmlFor="file">
                     <input
@@ -263,6 +264,7 @@ export const Login: React.FC = memo(() => {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setEmail(e.target.value);
                 }}
+                style={{color:"white"}}
               />
               <Input
                 type="password"
@@ -273,6 +275,7 @@ export const Login: React.FC = memo(() => {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setPassword(e.target.value);
                 }}
+                style={{color:"white"}}
               />
               <PrimaryButton
                 className="login__button-submit"
@@ -350,6 +353,7 @@ export const Login: React.FC = memo(() => {
               setPasswordResetEmail(e.target.value)
             }
             placeholder="メールアドレス"
+            style={{color:"white"}}
           />
           <PrimaryButton
             type="button"
