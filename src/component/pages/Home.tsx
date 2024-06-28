@@ -38,6 +38,12 @@ export const Home: React.FC = memo(() => {
     navigate(`/${searchTitle}`);
   };
 
+  useEffect(()=> {
+    if(!paramMovieTitle) {
+      setSearchTitle("");
+    }
+  },[paramMovieTitle])
+
   useEffect(() => {
     let apiUrl = "";
 
@@ -49,7 +55,6 @@ export const Home: React.FC = memo(() => {
       apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${
         import.meta.env.VITE_TMDB_API_KEY
       }&language=ja-JP&page=1&region=JP`;
-      setSearchTitle("");
     }
 
     const fetchMovieInfos = async () => {
