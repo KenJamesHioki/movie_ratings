@@ -163,7 +163,6 @@ export const Login: React.FC = memo(() => {
           });
         }
       }
-      // navigate("/");
     } catch (error: any) {
       console.error(error.message);
       showAlert({
