@@ -8,6 +8,7 @@ import { Loader } from "../atoms/Loader";
 import { showAlert } from "../../lib/showAlert";
 import { useTheme } from "../../lib/ThemeProvider";
 import "../../styles/molecules/post.css";
+import { UserIcon } from "../atoms/UserIcon";
 
 type Props = {
   userId: string;
@@ -62,9 +63,7 @@ export const Post: React.FC<Props> = memo(({ userId, score, comment }) => {
   return (
     <div className="post">
       <Link className="post__user-info-container" to={`/mypage/${userId}`}>
-        <div className="post__user-icon-container">
-          <img className="post__user-icon" src={user.iconUrl} alt="" />
-        </div>
+        <UserIcon src={user.iconUrl} size="sm" navigateTo="" isPointer={false}/>
         <div className="post__display-name">{user.displayName}</div>
       </Link>
       <Rating

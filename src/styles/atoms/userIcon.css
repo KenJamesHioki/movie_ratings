@@ -1,0 +1,31 @@
+.userIcon__container.pointer {
+  cursor: pointer;
+}
+.userIcon__container.sm {
+  width: 40px;
+  height: 40px;
+}
+.userIcon__container.md {
+  width: 80px;
+  height: 80px;
+}
+.userIcon__container.lg {
+  width: 120px;
+  height: 120px;
+}
+@media screen and (max-width: 599px) {
+  .userIcon__container.lg {
+    width: 80px;
+    height: 80px;
+  }
+}
+.userIcon__container_hide {
+  display: none;
+}
+.userIcon__image {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}/*# sourceMappingURL=userIcon.css.map */

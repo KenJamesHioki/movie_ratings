@@ -1,0 +1,40 @@
+@use '../global/index' as *;
+
+.userIcon {
+  &__container {
+    &.pointer {
+      cursor: pointer;
+    }
+
+    &.sm {
+      width: 40px;
+      height: 40px;
+    }
+
+    &.md {
+      width: 80px;
+      height: 80px;
+    }
+
+    &.lg {
+      width: 120px;
+      height: 120px;
+
+      @include mq(md) {
+        width: 80px;
+        height: 80px;
+      }
+    }
+
+    &_hide {
+      display: none;
+    }
+  }
+
+  &__image {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+}

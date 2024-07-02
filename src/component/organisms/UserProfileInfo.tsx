@@ -3,6 +3,7 @@ import { InvertedButton } from "../atoms/button/InvertedButton";
 import { useUser } from "../../lib/UserProvider";
 import { useNavigate } from "react-router-dom";
 import "../../styles/organisms/userProfileInfo.css";
+import { UserIcon } from "../atoms/UserIcon";
 
 type ProfileInfo = {
   userId: string;
@@ -23,9 +24,7 @@ export const UserProfileInfo: React.FC<Props> = memo(
 
     return (
       <div className="userProfileInfo">
-        <div className="userProfileInfo__icon-container">
-          <img className="userProfileInfo__icon" src={profileInfo.iconUrl} alt="" />
-        </div>
+        <UserIcon navigateTo="" size="lg" src={profileInfo.iconUrl} isPointer={false} isHide={!currentUser.userId ? true : false}/>
         <div className="userProfileInfo__info-container">
           <p className="userProfileInfo__display-name">
             {profileInfo.displayName}

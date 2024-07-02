@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "../../lib/UserProvider";
 import { Loader } from "../atoms/Loader";
 import { SecondaryButton } from "../atoms/button/SecondaryButton";
+import { UserIcon } from "../atoms/UserIcon";
 
 export const Login: React.FC = memo(() => {
   const { currentUser, logout } = useUser();
@@ -228,11 +229,7 @@ export const Login: React.FC = memo(() => {
                       onChange={handleImageSelect}
                     />
                     {icon ? (
-                      <img
-                        className="login__user-icon-image"
-                        src={iconUrl}
-                        alt=""
-                      />
+                      <UserIcon size="sm" src={iconUrl} navigateTo="" isPointer={true} />
                     ) : (
                       <>
                         <AccountCircleIcon

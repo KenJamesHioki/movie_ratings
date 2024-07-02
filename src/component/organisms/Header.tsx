@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useTheme } from "../../lib/ThemeProvider";
 import { DarkMode, LightMode } from "@mui/icons-material";
 import "../../styles/organisms/header.css";
+import { UserIcon } from "../atoms/UserIcon";
 
 export const Header: React.FC = memo(() => {
   const { currentUser } = useUser();
@@ -26,9 +27,7 @@ export const Header: React.FC = memo(() => {
             </>
           )}
         </div>
-        <Link to="/mypage" className={`header__user-icon-link ${currentUser.userId==="" && "header__user-icon-link_hide"}`}>
-          <img src={currentUser.iconUrl} className="header__user-icon" alt="" />
-        </Link>
+        <UserIcon navigateTo="/mypage" size="sm" src={currentUser.iconUrl} isPointer={true} isHide={!currentUser.userId ? true : false}/>
       </div>
     </header>
   );
